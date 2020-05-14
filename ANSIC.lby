@@ -7,4 +7,7 @@
     <File Description="Exported functions and function blocks">PathKin.fun</File>
     <File>get_acc.c</File>
   </Files>
+  <Dependencies>
+    <Dependency ObjectName="MathTools" FromVersion="0.01.1" />
+  </Dependencies>
 </Library>

@@ -8,4 +8,7 @@ FUNCTION Kin_GetAcc : BOOL
 		vmin : REAL;
 		vmax : REAL;
 	END_VAR
+	VAR_IN_OUT
+		soln : KinGetAccSoln_typ;
+	END_VAR
 END_FUNCTION
