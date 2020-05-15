@@ -74,5 +74,7 @@ plcbit Kin_GetTimespan(float dx, float v0, float vf, float vmin, float vmax, flo
 	
 	}
 	
+	soln->tspan = soln->tVmin - soln->tVmax;
+	
 	return 1;
 }
