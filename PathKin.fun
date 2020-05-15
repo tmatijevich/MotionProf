@@ -12,3 +12,17 @@ FUNCTION Kin_GetAcc : BOOL
 		soln : KinGetAccSoln_typ;
 	END_VAR
 END_FUNCTION
+
+FUNCTION Kin_GetAccInTimespanPlus : BOOL
+	VAR_INPUT
+		tdiff : REAL;
+		dx : REAL;
+		v1 : REAL;
+		vf : REAL;
+		vmin : REAL;
+		vmax : REAL;
+	END_VAR
+	VAR_IN_OUT
+		soln : KinGetAccInTimespanSoln_typ;
+	END_VAR
+END_FUNCTION
