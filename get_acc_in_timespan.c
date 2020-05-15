@@ -61,6 +61,65 @@ plcbit Kin_GetAccInTimespanPlus(float tdiff, float dx, float v1, float vf, float
 		t12min = (dx - (2.0 * sqf(v1) + sqf(vf) - 2.0 * sqf(vmin)) / (2.0 * aVmaxInflection)) / vmin;
 		tVminAtVmaxInflection = (2.0 * v1 + vf - 2.0 * vmin) / aVmaxInflection + t12min;
 	}
+	/* Under condition #3 (tdiff > 0.0) ==> (tVminAtVmaxInflection > tVmaxInflection) && (tVminInflection > tVmaxAtVminInflection) */
+	float tdiffVmaxInflection = tVminAtVmaxInflection - tVmaxInflection;
+	float tdiffVminInflection = tVminInflection - tVmaxAtVminInflection;
+	
+	/* Simplifying constants */
+	float cVmax_dt, cVmax_dx, cVmin_dt, cVmin_dx;
+	cVmax_dt = 2.0 * vmax - vf;
+	cVmax_dx = (2.0 * sqf(vmax) - sqf(vf)) / (2.0 * vmax);
+	cVmin_dt = 2.0 * v1 + vf - 2.0 * vmin;
+	cVmin_dx = (2.0 * sqf(v1) + sqf(vf) - 2.0 * sqf(vmin)) / (2.0 * vmin);
+	
+	float c1, c2, c3, p0, p1, p2;
+	
+	if((tdiff >= tdiffVmaxInflection) && (tdiff >= tdiffVminInflection)) {
+		soln->cs = 22;
+		soln->a = (cVmin_dx - cVmin_dt - (cVmax_dx - cVmax_dt)) / ((dx / vmin - dx / vmax) - tdiff);
+		
+	} else if(tdiff > tdiffVminInflection) { /* Exceeds tdiffVmaxInflection only */
+		soln->cs = 12;
+		c1 = sqf(vf) / 2.0;
+		c2 = cVmin_dt - cVmin_dx + vf;
+		c3 = tdiff - (dx / vmin);
+		p2 = sqf(c3);
+		p1 = -4.0 * dx - 2.0 * c2 * c3;
+		p0 = sqf(c2) - 4.0 * c1;
+	
+	} else if(tdiff > tdiffVmaxInflection) { /* Exceeds tdiffVminInflection only */
+		soln->cs = 21;
+		c1 = sqf(v1) + sqf(vf) / 2.0;
+		c2 = 2.0 * v1 + vf - (cVmax_dt = cVmax_dx);
+		p2 = sqf(c3);
+		p1 = 4.0 * dx - 2.0 * c2 * c3;
+		p0 = sqf(c2) - 3.0 * c1;
+	
+	} else {
+		/* Requires higher order solver, use sufficient acceleration value (not the minimum) */
+		soln->cs = 11;
+		if(tdiffVmaxInflection < tdiffVminInflection)
+			soln->a = aVmaxInflection;
+		else
+			soln->a = aVminInflection;
+		return 1;
+	
+	}
+	
+	if((soln->cs == 12) || (soln->cs == 21)) {
+		struct Math2ndOrderRootsSoln_typ solnRoots;
+		
+		if(Math_2ndOrderRoots(p2, p1, p0, &solnRoots)) {
+		
+			if(fmaxf(solnRoots.r1, solnRoots.r2) > 0.0)
+				soln->a = fmaxf(solnRoots.r1, solnRoots.r2);
+			
+			else
+				return 0;
+			
+		} else
+			return 0;
+	}
 	
 	return 1;
 }
