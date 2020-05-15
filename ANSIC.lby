@@ -8,6 +8,7 @@
     <File>get_acc.c</File>
     <File>get_acc_in_timespan.c</File>
     <File>get_timespan.c</File>
+    <File>get_vel_prof_point.c</File>
   </Files>
   <Dependencies>
     <Dependency ObjectName="MathTools" FromVersion="0.01.1" />

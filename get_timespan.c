@@ -1,6 +1,6 @@
 /*********************************************************************************
  * Copyright: B&R Industrial Automation GmbH 
- * Author:    matijevict 
+ * Author:    Tyler Matijevich
  * Created:   May 15, 2020/10:01 AM 
  *********************************************************************************/ 
 #include "PathKin.h"
@@ -51,7 +51,6 @@ plcbit Kin_GetTimespan(float dx, float v0, float vf, float vmin, float vmax, flo
 		soln->tVmax2 = soln->tVmax1 + tVmax12;
 		soln->tVmax = soln->tVmax2 + (vmax - vf) / a;
 		soln->cs = 20;
-	
 	}
 	
 	/* Determine the time maximizing, velocity minimizing profile */
@@ -71,7 +70,6 @@ plcbit Kin_GetTimespan(float dx, float v0, float vf, float vmin, float vmax, flo
 		soln->tVmin2 = soln->tVmin1 + tVmin12;
 		soln->tVmin = soln->tVmin2 + (vf - vmin) / a;
 		soln->cs = soln->cs + 2;
-	
 	}
 	
 	soln->tspan = soln->tVmin - soln->tVmax;

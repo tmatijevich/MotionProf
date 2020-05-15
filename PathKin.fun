@@ -40,3 +40,16 @@ FUNCTION Kin_GetTimespan : BOOL
 		soln : KinGetTimespanSoln_typ;
 	END_VAR
 END_FUNCTION
+
+FUNCTION Kin_GetVelProfPoint : BOOL
+	VAR_INPUT
+		x0 : REAL;
+		timePoints : ARRAY[0..KIN_MAX_PROF_POINTS] OF REAL;
+		velPoints : ARRAY[0..KIN_MAX_PROF_POINTS] OF REAL;
+		n : USINT;
+		t : REAL;
+	END_VAR
+	VAR_IN_OUT
+		soln : KinGetVelProfPointSoln_typ;
+	END_VAR
+END_FUNCTION

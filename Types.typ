@@ -26,4 +26,10 @@ TYPE
 		cs : USINT;
 		sMessage : STRING[KIN_LENGTH_MESSAGE];
 	END_STRUCT;
+	KinGetVelProfPointSoln_typ : 	STRUCT 
+		x : REAL;
+		v : REAL;
+		a : REAL;
+		segment : USINT;
+	END_STRUCT;
 END_TYPE
