@@ -6,12 +6,10 @@ TYPE
 		t1 : REAL;
 		t2 : REAL;
 		cs : USINT;
-		sMessage : STRING[KIN_LENGTH_MESSAGE];
 	END_STRUCT;
 	KinGetAccInTimespanSoln_typ : 	STRUCT 
 		a : REAL;
 		cs : USINT;
-		sMessage : STRING[KIN_LENGTH_MESSAGE];
 	END_STRUCT;
 	KinGetTimespanSoln_typ : 	STRUCT 
 		tspan : REAL;
@@ -24,7 +22,6 @@ TYPE
 		tVmin : REAL;
 		v1min : REAL;
 		cs : USINT;
-		sMessage : STRING[KIN_LENGTH_MESSAGE];
 	END_STRUCT;
 	KinGetVelProfPointSoln_typ : 	STRUCT 
 		x : REAL;
