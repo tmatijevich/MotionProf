@@ -35,7 +35,10 @@ plcbit Kin_GetVelProfPoint(float x0, float timePoints[KIN_MAX_PROF_POINTS + 1], 
 	posPoints[1] = x0;
 	for(i = 2; i <= n; i++) {
 		posPoints[i] = posPoints[i - 1] + 0.5 * (velPoints[i] + velPoints[i - 1]) * (timePoints[i] - timePoints[i - 1]);
-		accPoints[i - 1] = (velPoints[i] - velPoints[i - 1]) / (timePoints[i] - timePoints[i - 1]);
+		if(timePoints[i] == timePoints[i - 1])
+			accPoints[i - 1] = 0.0;
+		else
+			accPoints[i - 1] = (velPoints[i] - velPoints[i - 1]) / (timePoints[i] - timePoints[i - 1]);
 		/*
 		 * posPoints[n] is never used since seg is within [1,n-1]
 		 * accPoints[n] is undefined, because it is never used
