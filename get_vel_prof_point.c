@@ -15,18 +15,18 @@ plcbit Kin_GetVelProfPoint(float x0, float timePoints[KIN_MAX_PROF_POINTS + 1], 
 	
 	/* Condition #1: Number of points */
 	if((n < 2) || (n > KIN_MAX_PROF_POINTS))
-		return 0;
+		return 11;
 	
 	/* Condition #2: Sequential times */
 	unsigned char i;
 	for(i = 2; i <= n; i++) {
 		if(timePoints[i] < timePoints[i - 1]) 
-			return 0;
+			return 12;
 	}
 	
 	/* Condition #3: Request time */
 	if((t < timePoints[1]) || (t > timePoints[n]))
-		return 0;
+		return 13;
 	
 	float posPoints[KIN_MAX_PROF_POINTS + 1];
 	float accPoints[KIN_MAX_PROF_POINTS + 1];
@@ -64,5 +64,5 @@ plcbit Kin_GetVelProfPoint(float x0, float timePoints[KIN_MAX_PROF_POINTS + 1], 
 	soln->v = velPoints[seg] + accPoints[seg] * (t - timePoints[seg]);
 	soln->x = posPoints[seg] + velPoints[seg] * (t - timePoints[seg]) + 0.5 * accPoints[seg] * pow(t - timePoints[seg], 2.0);
 	
-	return 1;
+	return 0;
 }

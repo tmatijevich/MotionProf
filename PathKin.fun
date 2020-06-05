@@ -41,7 +41,7 @@ FUNCTION Kin_GetTimespan : BOOL
 	END_VAR
 END_FUNCTION
 
-FUNCTION Kin_GetVelProfPoint : BOOL
+FUNCTION Kin_GetVelProfPoint : USINT
 	VAR_INPUT
 		x0 : REAL;
 		timePoints : ARRAY[0..KIN_MAX_PROF_POINTS] OF REAL;
