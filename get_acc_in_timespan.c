@@ -108,8 +108,8 @@ unsigned char Kin_GetAccInTimespanPlus(float tdiff, float dx, float v1, float vf
 	
 	if((soln->cs == 12) || (soln->cs == 21)) {
 		struct Math2ndOrderRootsSoln_typ solnRoots;
-		
-		if(Math_2ndOrderRoots(p2, p1, p0, &solnRoots)) {
+		unsigned char statusRoots = Math_2ndOrderRoots(p2, p1, p0, &solnRoots);
+		if(statusRoots == 0) {
 		
 			if(fmaxf(solnRoots.r1, solnRoots.r2) > 0.0)
 				soln->a = fmaxf(solnRoots.r1, solnRoots.r2);

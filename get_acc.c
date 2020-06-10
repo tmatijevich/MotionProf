@@ -67,7 +67,8 @@ unsigned char Kin_GetAcc(float dt, float dx, float v0, float vf, float vmin, flo
 	/* Use the quadratic formula to determine the intermediate velocity of the triangle profile */
 	if((soln->cs == 10) || (soln->cs == 1)) {
 		struct Math2ndOrderRootsSoln_typ solnRoots;
-		if(Math_2ndOrderRoots(2.0 * dt, -4.0 * dx, 2.0 * dx * (v0 + vf) - dt * (pow(v0, 2.0) + pow(vf, 2.0)), &solnRoots)) {
+		unsigned char statusRoots = Math_2ndOrderRoots(2.0 * dt, -4.0 * dx, 2.0 * dx * (v0 + vf) - dt * (pow(v0, 2.0) + pow(vf, 2.0)), &solnRoots);
+		if(statusRoots == 0) {
 			if(soln->cs == 10)
 				soln->v12 = fmaxf(solnRoots.r1, solnRoots.r2);
 			else
