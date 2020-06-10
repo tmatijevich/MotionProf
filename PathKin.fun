@@ -27,7 +27,7 @@ FUNCTION Kin_GetAccInTimespanPlus : USINT
 	END_VAR
 END_FUNCTION
 
-FUNCTION Kin_GetTimespan : BOOL
+FUNCTION Kin_GetTimespan : USINT
 	VAR_INPUT
 		dx : REAL;
 		v0 : REAL;

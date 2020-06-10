@@ -9,7 +9,7 @@
 /* Internal function - return the input squared */
 static float sqf(float x) {return pow(x, 2.0);}
 
-plcbit Kin_GetTimespan(float dx, float v0, float vf, float vmin, float vmax, float a, struct KinGetTimespanSoln_typ* soln) {
+unsigned char Kin_GetTimespan(float dx, float v0, float vf, float vmin, float vmax, float a, struct KinGetTimespanSoln_typ* soln) {
 	/* Determine the window of time between the time minimizing and time maximizing velocity profiles */
 	/* This function assumes positive kinematic values and infinite jerk */
 	/* Date 2020-03-25 */
@@ -20,17 +20,17 @@ plcbit Kin_GetTimespan(float dx, float v0, float vf, float vmin, float vmax, flo
 	soln->tVmax1 = 0.0; soln->tVmax2 = 0.0; soln->tVmax = 0.0; soln->v1max = 0.0;
 	soln->tVmin1 = 0.0; soln->tVmin2 = 0.0; soln->tVmin = 0.0; soln->v1min = 0.0;
 	
-	/* Condition #1: Plausible velocity limits */
+	/* Condition #1: Plausible velocity limits (Status Code 11) */
 	if((vmin < 0.0) || (vmax <= vmin)) 
-		return 0;
+		return 11;
 	
-	/* Condition #2: Endpoint velocities within limits */
+	/* Condition #2: Endpoint velocities within limits (Status Code 12) */
 	else if((v0 < vmin) || (v0 > vmax) || (vf < vmin) || (vf > vmax))
-		return 0;
+		return 12;
 	
-	/* Condition #3: Positive distance and acceleration */
+	/* Condition #3: Positive distance and acceleration (Status Code 13) */
 	else if((dx <= 0.0) || (a <= 0.0))
-		return 0;
+		return 13;
 	
 	float v1;
 		
@@ -74,5 +74,5 @@ plcbit Kin_GetTimespan(float dx, float v0, float vf, float vmin, float vmax, flo
 	
 	soln->tspan = soln->tVmin - soln->tVmax;
 	
-	return 1;
+	return 0;
 }
