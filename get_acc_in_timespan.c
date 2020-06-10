@@ -9,7 +9,7 @@
 /* Internal function - return the input squared */
 static float sqf(float x) {return pow(x, 2.0);}
 
-plcbit Kin_GetAccInTimespanPlus(float tdiff, float dx, float v1, float vf, float vmin, float vmax, struct KinGetAccInTimespanSoln_typ* soln) {
+unsigned char Kin_GetAccInTimespanPlus(float tdiff, float dx, float v1, float vf, float vmin, float vmax, struct KinGetAccInTimespanSoln_typ* soln) {
 	/* Determine the minimum acceleration required to achieve movement extremes within the specified timespan */
 	/* This function assumes positive kinematic values and infinite jerk */
 	/* Date: 2020-04-01 */
@@ -17,21 +17,21 @@ plcbit Kin_GetAccInTimespanPlus(float tdiff, float dx, float v1, float vf, float
 	
 	soln->a = 0.0; soln->cs = 0.0; /* Fallback/invalid result */
 	
-	/* Condition #1: Plausible velocity limits */
+	/* Condition #1: Plausible velocity limits (Status Code 11) */
 	if((vmin < 0.0) || (vmax <= vmin)) 
-		return 0;
+		return 11;
 	
-	/* Condition #2: Endpoint velocities within limits */
+	/* Condition #2: Endpoint velocities within limits (Status Code 12) */
 	else if((v1 < vmin) || (v1 > vmax) || (vf < vmin) || (vf > vmax))
-		return 0;
+		return 12;
 	
-	/* Condition #3: Positive time and distance */
+	/* Condition #3: Positive time and distance (Status Code 13) */
 	else if((tdiff <= 0.0) || (dx <= 0.0))
-		return 0;
+		return 13;
 	
-	/* Condition #4: Valid distance given velocity limits */
+	/* Condition #4: Valid distance given velocity limits (Status Code 14) */
 	else if(tdiff >= (dx / vmin - dx / vmax))
-		return 0;
+		return 14;
 	
 	/* Inflection calculations - given dx, what timespans exceeds the inflection points? */
 	float aVmaxInflection, aVminInflection, tVmaxInflection, tVminInflection;
@@ -102,7 +102,7 @@ plcbit Kin_GetAccInTimespanPlus(float tdiff, float dx, float v1, float vf, float
 			soln->a = aVmaxInflection;
 		else
 			soln->a = aVminInflection;
-		return 1;
+		return 0;
 	
 	}
 	
@@ -115,11 +115,11 @@ plcbit Kin_GetAccInTimespanPlus(float tdiff, float dx, float v1, float vf, float
 				soln->a = fmaxf(solnRoots.r1, solnRoots.r2);
 			
 			else
-				return 0;
+				return 21; // (Status Code 21: No positive real roots)
 			
 		} else
-			return 0;
+			return 22; // (Status Code 22: No real roots)
 	}
 	
-	return 1;
+	return 0;
 }

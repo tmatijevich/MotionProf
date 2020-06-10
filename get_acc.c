@@ -6,7 +6,7 @@
 #include "PathKin.h"
 #include <math.h>
  
-plcbit Kin_GetAcc(float dt, float dx, float v0, float vf, float vmin, float vmax, struct KinGetAccSoln_typ* soln) {
+unsigned char Kin_GetAcc(float dt, float dx, float v0, float vf, float vmin, float vmax, struct KinGetAccSoln_typ* soln) {
 	/* Determine the minimum acceleration to change velocity in time over a distance */
 	/* This function assumes positive kinematic values and infinite jerk */
 	/* Date: 2020-04-10 */

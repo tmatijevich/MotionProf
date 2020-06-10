@@ -13,7 +13,7 @@ FUNCTION Kin_GetAcc : USINT
 	END_VAR
 END_FUNCTION
 
-FUNCTION Kin_GetAccInTimespanPlus : BOOL
+FUNCTION Kin_GetAccInTimespanPlus : USINT
 	VAR_INPUT
 		tdiff : REAL;
 		dx : REAL;

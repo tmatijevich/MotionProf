@@ -6,7 +6,7 @@
 #include "PathKin.h"
 #include <math.h>
 
-plcbit Kin_GetVelProfPoint(float x0, float timePoints[KIN_MAX_PROF_POINTS + 1], float velPoints[KIN_MAX_PROF_POINTS + 1], unsigned char n, float t, struct KinGetVelProfPointSoln_typ* soln) {
+unsigned char Kin_GetVelProfPoint(float x0, float timePoints[KIN_MAX_PROF_POINTS + 1], float velPoints[KIN_MAX_PROF_POINTS + 1], unsigned char n, float t, struct KinGetVelProfPointSoln_typ* soln) {
 	/* Determine the point on a piecewise linear velocity profile */
 	/* Date: 2020-04-01 */
 	/* Created by: Tyler Matijevich */
