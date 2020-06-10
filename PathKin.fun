@@ -1,5 +1,5 @@
 
-FUNCTION Kin_GetAcc : BOOL
+FUNCTION Kin_GetAcc : USINT
 	VAR_INPUT
 		dt : REAL;
 		dx : REAL;

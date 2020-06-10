@@ -14,21 +14,21 @@ plcbit Kin_GetAcc(float dt, float dx, float v0, float vf, float vmin, float vmax
 	
 	soln->a = 0.0; soln->v12 = 0.0; soln->t1 = 0.0; soln->t2 = 0.0; /* Fallback/invalid result */
 	
-	/* Condition #1: Plausible velocity limits */
+	/* Condition #1: Plausible velocity limits (Status Code 11) */
 	if((vmin < 0.0) || (vmax <= vmin)) 
-		return 0;
+		return 11;
 	
-	/* Condition #2: Endpoint velocities within limits */
+	/* Condition #2: Endpoint velocities within limits (Status Code 12) */
 	else if((v0 < vmin) || (v0 > vmax) || (vf < vmin) || (vf > vmax))
-		return 0;
+		return 12;
 	
-	/* Condition #3: Positive time and distance */
+	/* Condition #3: Positive time and distance (Status Code 13) */
 	else if((dt <= 0.0) || (dx <= 0.0))
-		return 0;
+		return 13;
 	
-	/* Condition #4: Valid distance given velocity limits */
+	/* Condition #4: Valid distance given velocity limits (Status Code 14) */
 	else if((dx <= (dt * vmin)) || (dx >= (dt * vmax)))
-		return 0;
+		return 14;
 
 	/* Inflection distance */
 	float dxInflection = 0.5 * dt * (v0 + vf);
@@ -77,8 +77,8 @@ plcbit Kin_GetAcc(float dt, float dx, float v0, float vf, float vmin, float vmax
 			soln->t1 = soln->t2 = fabsf(soln->v12 - v0) / soln->a;
 			
 		} else 
-			return 0;
+			return 21; // (Status Code 21: Invalid 2nd order roots)
 	}
 		
-	return 1;
+	return 0;
 }
