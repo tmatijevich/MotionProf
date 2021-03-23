@@ -23,7 +23,8 @@ TYPE
 		PATH_ERROR_2ND_ORDER_NO_SOLN, (*The 2nd order equation's solution results in imaginary roots*)
 		PATH_ERROR_1ST_ORDER_NO_SOLN, (*The 1st order equation has no solution (constant)*)
 		PATH_ERROR_POINT_LIMIT,
-		PATH_ERROR_SEQ_POINTS
+		PATH_ERROR_SEQ_POINTS,
+		PATH_ERROR_TIME_POINT (*The requested time value exceeds the provided velocity profile*)
 		);
 	PathPlanBaseSolutionType : 	STRUCT 
 		t : ARRAY[0..3]OF REAL;
