@@ -13,6 +13,17 @@ FUNCTION GetAcc : DINT (*Determine the minimum acceleration to change velocity i
 	END_VAR
 END_FUNCTION
 
+FUNCTION SecondOrderRoots : DINT (*Return the real roots of a second order polynomial*)
+	VAR_INPUT
+		p2 : REAL; (*2nd order coefficient*)
+		p1 : REAL; (*1st order coefficient*)
+		p0 : REAL; (*0th order coefficient*)
+	END_VAR
+	VAR_IN_OUT
+		Solution : PathPlanRootsSolutionType; (*Solution reference*)
+	END_VAR
+END_FUNCTION
+
 FUNCTION GetPoint : DINT (*Determine the point on a piecewise linear velocity profile*)
 	VAR_INPUT
 		InitialPosition : REAL; (*Initial position of the velocity profile*)

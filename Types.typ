@@ -33,6 +33,10 @@ TYPE
 		a : REAL;
 		Move : PathPlanMoveEnum;
 	END_STRUCT;
+	PathPlanRootsSolutionType : 	STRUCT  (*Solution structure to a second order equation*)
+		r1 : REAL; (*First real root of second order polynomial*)
+		r2 : REAL; (*Second real root of second order polynomial*)
+	END_STRUCT;
 	PathPlanTimeDiffSolutionType : 	STRUCT 
 		tA : ARRAY[0..3]OF REAL;
 		vA : ARRAY[0..3]OF REAL;
