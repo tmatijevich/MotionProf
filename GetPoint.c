@@ -67,6 +67,8 @@ DINT GetPoint(REAL InitialPosition, REAL TimePoints[PATH_MAX_INDEX_POINTS + 1], 
 	USINT seg;
 	if(Time == t[NumberOfPoints - 1]) {
 		seg = NumberOfPoints - 1; // Set as the final segment
+	} else if(Time == t[0]) {
+		seg = 0; // Will not be strictly less that a time point
 	} else {
 		for(i = 1; i < NumberOfPoints; i++) {
 			if(Time < t[i]) { // i looks ahead at the endpoint of the segment
