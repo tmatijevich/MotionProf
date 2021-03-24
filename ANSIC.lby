@@ -6,6 +6,7 @@
     <File Description="Exported constants">Constants.var</File>
     <File Description="Exported functions and function blocks">PathPlan.fun</File>
     <File Description="Internal functions">PathPlanMain.h</File>
+    <File Description="Minimum acceleration">GetAcc.c</File>
     <File Description="Point on velocity profile">GetPoint.c</File>
   </Files>
 </Library>
