@@ -131,6 +131,12 @@ DINT GetAcc(REAL dt, REAL dx, REAL v0, REAL vf, REAL vmin, REAL vmax, struct Pat
 		}
 	}
 	
+	/* Fill in solution */
+	Solution->t[3] 	= dt;
+	Solution->dx 	= dx;
+	Solution->v[0] 	= v0;
+	Solution->v[3] 	= vf;
+	
 	return PATH_ERROR_NONE;
 	
 } // End function definition

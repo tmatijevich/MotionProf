@@ -26,12 +26,12 @@ TYPE
 		PATH_ERROR_SEQ_POINTS,
 		PATH_ERROR_TIME_POINT (*The requested time value exceeds the provided velocity profile*)
 		);
-	PathPlanBaseSolutionType : 	STRUCT 
-		t : ARRAY[0..3]OF REAL;
-		dx : REAL;
-		v : ARRAY[0..3]OF REAL;
-		a : REAL;
-		Move : PathPlanMoveEnum;
+	PathPlanBaseSolutionType : 	STRUCT  (*Solution structure for base functions*)
+		t : ARRAY[0..3]OF REAL; (*[s] Time point array, always starting with 0.0 seconds*)
+		dx : REAL; (*Distance*)
+		v : ARRAY[0..3]OF REAL; (*Velocity point array, starting with v0 and ending with vf*)
+		a : REAL; (*Acceleration*)
+		Move : PathPlanMoveEnum; (*Movement type*)
 	END_STRUCT;
 	PathPlanRootsSolutionType : 	STRUCT  (*Solution structure to a second order equation*)
 		r1 : REAL; (*First real root of second order polynomial*)
