@@ -81,7 +81,7 @@ DINT GetPoint(REAL InitialPosition, REAL TimePoints[PATH_MAX_INDEX_POINTS + 1], 
 	/* Set solution */
 	Solution->a = a[seg];
 	Solution->v = v[seg] + a[seg] * (Time - t[seg]);
-	Solution->x = x[seg] + v[seg] * (Time - t[seg]) + 0.5 * a[seg] * pow2f(Time - t[seg]);
+	Solution->x = x[seg] + v[seg] * (Time - t[seg]) + 0.5 * a[seg] * pow2(Time - t[seg]);
 	
 	return PATH_ERROR_NONE;
 

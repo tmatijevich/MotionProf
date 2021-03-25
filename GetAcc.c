@@ -50,7 +50,7 @@ DINT GetAcc(REAL dt, REAL dx, REAL v0, REAL vf, REAL vmin, REAL vmax, struct Pat
 	
 	if(dx >= NominalDistance) { // 1. ACC 2. DEC
 		// Determine if saturated
-		VmaxDistance = (2.0 * pow2f(vmax) - pow2f(v0) - pow2f(vf)) / (2.0 * ((2.0 * vmax - v0 - vf) / dt));
+		VmaxDistance = (2.0 * pow2(vmax) - pow2(v0) - pow2(vf)) / (2.0 * ((2.0 * vmax - v0 - vf) / dt));
 		// NOTE: There is no dx >= NominalDistance when v0 = vf = vmax that also passes requirement #4. This protects against divide by zero.
 		
 		if(dx < VmaxDistance) { // Acc/dec profile with peak
@@ -58,7 +58,7 @@ DINT GetAcc(REAL dt, REAL dx, REAL v0, REAL vf, REAL vmin, REAL vmax, struct Pat
 			
 		} else { // Acc/dec profile saturated at vmax
 			Solution->Move 	= PATH_ACC_DEC_SATURATED;
-			Solution->a		= ((2.0 * pow2f(vmax) - pow2f(v0) - pow2f(vf)) / 2.0 - (2.0 * vmax - v0 - vf) * vmax) / (dx - dt * vmax); // Protected by requirement #4
+			Solution->a		= ((2.0 * pow2(vmax) - pow2(v0) - pow2(vf)) / 2.0 - (2.0 * vmax - v0 - vf) * vmax) / (dx - dt * vmax); // Protected by requirement #4
 			if(Solution->a > 0.0) { // Protect against divide by zero
 				Solution->v[1] = vmax;
 				Solution->v[2] = vmax;
@@ -74,7 +74,7 @@ DINT GetAcc(REAL dt, REAL dx, REAL v0, REAL vf, REAL vmin, REAL vmax, struct Pat
 		
 	} else { // 1. DEC 2. ACC
 		// Determine if saturated
-		VminDistance = (pow2f(v0) + pow2f(vf) - 2.0 * pow2f(vmin)) / (2.0 * ((v0 + vf - 2.0 * vmin) / dt));
+		VminDistance = (pow2(v0) + pow2(vf) - 2.0 * pow2(vmin)) / (2.0 * ((v0 + vf - 2.0 * vmin) / dt));
 		// NOTE: There is no dx < NominalDistance when v0 = vf = vmin that also passes requirement #4. This protects against divide by zero.
 		
 		if(dx > VminDistance) { // Dec/acc profile with dip
@@ -82,7 +82,7 @@ DINT GetAcc(REAL dt, REAL dx, REAL v0, REAL vf, REAL vmin, REAL vmax, struct Pat
 			
 		} else { // Dec/acc profile saturate at vmin
 			Solution->Move 	= PATH_DEC_ACC_SATURATED;
-			Solution->a 	= ((pow2f(v0) + pow2f(vf) - 2.0 * pow2f(vmin)) / 2.0 - (v0 + vf - 2.0 * vmin) * vmin) / (dx - dt * vmin); // Protected by requirement #4
+			Solution->a 	= ((pow2(v0) + pow2(vf) - 2.0 * pow2(vmin)) / 2.0 - (v0 + vf - 2.0 * vmin) * vmin) / (dx - dt * vmin); // Protected by requirement #4
 			if(Solution->a > 0.0) {
 				Solution->v[1] = vmin;
 				Solution->v[2] = vmin;
@@ -105,14 +105,14 @@ DINT GetAcc(REAL dt, REAL dx, REAL v0, REAL vf, REAL vmin, REAL vmax, struct Pat
 	if((Solution->Move == PATH_ACC_DEC_PEAK) || (Solution->Move == PATH_DEC_ACC_PEAK)) {
 		p2 = 2.0 * dt;
 		p1 = -4.0 * dx;
-		p0 = 2.0 * dx * (v0 + vf) - dt * (pow2f(v0) + pow2f(vf));
+		p0 = 2.0 * dx * (v0 + vf) - dt * (pow2(v0) + pow2(vf));
 		RootsReturn = SecondOrderRoots(p2, p1, p0, &RootsSolution);
 		if(RootsReturn == PATH_ERROR_NONE) { // Roots are valid
 			if(Solution->Move == PATH_ACC_DEC_PEAK) { // Vmax
-				Solution->v[1] = (REAL)fmax(RootsSolution.r1, RootsSolution.r2);
+				Solution->v[1] = fmax(RootsSolution.r1, RootsSolution.r2);
 				Solution->v[2] = Solution->v[1];
 			} else { // Vmin
-				Solution->v[1] = (REAL)fmin(RootsSolution.r1, RootsSolution.r2);
+				Solution->v[1] = fmin(RootsSolution.r1, RootsSolution.r2);
 				Solution->v[2] = Solution->v[1];
 			}
 			

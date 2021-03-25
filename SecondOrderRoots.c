@@ -17,7 +17,7 @@ DINT SecondOrderRoots(REAL p2, REAL p1, REAL p0, struct PathPlanRootsSolutionTyp
 	Solution->r2 = 0.0;
 	
 	// Compute the discriminant
-	LREAL Discriminant = pow2f(p1) - 4.0 * p2 * p0;
+	LREAL Discriminant = pow2(p1) - 4.0 * p2 * p0;
 	
 	// Check for two roots
 	if(p2 != 0.0) { // Protect against divide by zero
