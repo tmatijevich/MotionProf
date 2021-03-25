@@ -34,7 +34,7 @@ DINT SecondOrderRoots(REAL p2, REAL p1, REAL p0, struct PathPlanRootsSolutionTyp
 	} else { // First order
 		if(p1 != 0.0) { // Single root
 			Solution->r1 = (-p0) / p1;
-			Solution->r2 = Solution->r1;
+			Solution->r2 = Solution->r1; // This function does not distinquish between a multiple root and a single root
 		} else { // No roots
 			return PATH_ERROR_1ST_ORDER_NO_SOLN;
 		} // Single root?

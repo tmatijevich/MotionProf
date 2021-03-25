@@ -98,7 +98,38 @@ DINT GetAcc(REAL dt, REAL dx, REAL v0, REAL vf, REAL vmin, REAL vmax, struct Pat
 		
 	} // NominalDistance?
 	
-	
+	/* Find the roots of the second order peak solution */
+	REAL p2, p1, p0;
+	struct PathPlanRootsSolutionType RootsSolution;
+	DINT RootsReturn;
+	if((Solution->Move == PATH_ACC_DEC_PEAK) || (Solution->Move == PATH_DEC_ACC_PEAK)) {
+		p2 = 2.0 * dt;
+		p1 = -4.0 * dx;
+		p0 = 2.0 * dx * (v0 + vf) - dt * (pow2f(v0) + pow2f(vf));
+		RootsReturn = SecondOrderRoots(p2, p1, p0, &RootsSolution);
+		if(RootsReturn == PATH_ERROR_NONE) { // Roots are valid
+			if(Solution->Move == PATH_ACC_DEC_PEAK) { // Vmax
+				Solution->v[1] = (REAL)fmax(RootsSolution.r1, RootsSolution.r2);
+				Solution->v[2] = Solution->v[1];
+			} else { // Vmin
+				Solution->v[1] = (REAL)fmin(RootsSolution.r1, RootsSolution.r2);
+				Solution->v[2] = Solution->v[1];
+			}
+			
+			// Compute acceleration and protect against divide by zero
+			Solution->a = fabs(2.0 * Solution->v[1] - v0 - vf) / dt;
+			if(Solution->a > 0.0) {
+				Solution->t[1] = fabs(Solution->v[1] - v0) / Solution->a;
+				Solution->t[2] = Solution->t[1];
+			} else { // A flat line, dx = NominalDistance and v0 = vf
+				Solution->t[1] = 0.0;
+				Solution->t[2] = 0.0;
+			}
+			
+		} else { // Error occurred, invalid roots
+			return RootsReturn;
+		}
+	}
 	
 	return PATH_ERROR_NONE;
 	
