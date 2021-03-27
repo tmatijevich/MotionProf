@@ -7,7 +7,7 @@
     <File Description="Exported functions and function blocks">PathPlan.fun</File>
     <File Description="Internal functions">PathPlanMain.h</File>
     <File Description="Minimum acceleration">GetAcc.c</File>
-    <File Description="Minimum time duration">GetTimeDuration.c</File>
+    <File Description="Minimum time duration">GetTimeDur.c</File>
     <File Description="Quadratic equation">SecondOrderRoots.c</File>
     <File Description="Point on velocity profile">GetPoint.c</File>
   </Files>
