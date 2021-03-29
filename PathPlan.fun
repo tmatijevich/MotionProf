@@ -41,6 +41,21 @@ FUNCTION GetDist : DINT (*Determine the maximum distance when changing velocity 
 	END_VAR
 END_FUNCTION
 
+FUNCTION GetVel : DINT (*Determine the minimum intermediate velocity to change velocity with acceleration*)
+	VAR_INPUT
+		dt : REAL; (*Time duration*)
+		dx : REAL; (*Distance*)
+		v0 : REAL; (*Initial velocity*)
+		vf : REAL; (*Final velocity*)
+		vmin : REAL; (*Minimum velocity*)
+		vmax : REAL; (*Maximum velocity*)
+		a : REAL; (*Acceleration*)
+	END_VAR
+	VAR_IN_OUT
+		Solution : PathPlanBaseSolutionType; (*Solution reference*)
+	END_VAR
+END_FUNCTION
+
 FUNCTION SecondOrderRoots : DINT (*Return the real roots of a second order polynomial*)
 	VAR_INPUT
 		p2 : REAL; (*2nd order coefficient*)
