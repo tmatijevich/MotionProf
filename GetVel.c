@@ -47,7 +47,7 @@ DINT GetVel(REAL dt, REAL dx, REAL v0, REAL vf, REAL vmin, REAL vmax, REAL a, st
 	LREAL vpeak, vdip, MaxDistance, MinDistance; // Use higher precision for intermediate variables
 	
 	// First check the max distance
-	vpeak = (dt * a + v0 + vf) / 2.0; // A test variable
+	vpeak = (a * dt + v0 + vf) / 2.0; // A test variable
 	if(vpeak <= vmax) { // Acc/dec profile with peak
 		MaxDistance = (2.0 * pow2(vpeak) - pow2(v0) - pow2(vf)) / (2.0 * a);
 	} else { // Acc/dec profile saturated at vmax
@@ -58,7 +58,7 @@ DINT GetVel(REAL dt, REAL dx, REAL v0, REAL vf, REAL vmin, REAL vmax, REAL a, st
 	}
 	
 	// Next check the min distance
-	vdip = (dt * a - v0 - vf) / 2.0; // A test variable
+	vdip = (v0 + vf - a * dt) / 2.0; // A test variable
 	if(vdip >= vmin) { // Dec/acc profile with dip
 		MinDistance = (pow2(v0) + pow2(vf) - 2.0 * pow2(vdip)) / (2.0 * a);
 	} else { // Dec/acc profile saturated at vmin
@@ -100,9 +100,9 @@ DINT GetVel(REAL dt, REAL dx, REAL v0, REAL vf, REAL vmin, REAL vmax, REAL a, st
 		// Assume the move is a saturated approaching a peak profile only when dx = MaxDistance and vpeak <= vmax
 		Solution->Move = PATH_ACC_DEC_SATURATED;
 		
-		p2 = -1.0 / a;
-		p1 = dt - NominalTime + (2.0 * fmax(v0, vf)) / a;
-		p0 = NominalDistance - dx - pow2(fmax(v0, vf)) / a;
+		p2 = -1.0;
+		p1 = a * (dt - NominalTime) + 2.0 * fmax(v0, vf);
+		p0 = (-1.0) * pow2(fmax(v0, vf)) - a * (dx - NominalDistance);
 		
 	} else if(a1Sign == a2Sign) { // ACC_ACC or DEC_DEC
 		if(a1Sign == 1) {
@@ -116,10 +116,37 @@ DINT GetVel(REAL dt, REAL dx, REAL v0, REAL vf, REAL vmin, REAL vmax, REAL a, st
 	} else { // DEC_ACC
 		Solution->Move = PATH_DEC_ACC_SATURATED;
 		
-		p2 = 1.0 / a;
-		p1 = dt - NominalTime - (2.0 * fmin(v0, vf)) / a;
-		p0 = NominalDistance - dx + pow2(fmin(v0, vf)) / a;
+		p2 = 1.0;
+		p1 = a * (dt - NominalTime) - 2.0 * fmin(v0, vf);
+		p0 = pow2(fmin(v0, vf)) - a * (dx - NominalDistance);
 	}
+	
+	struct PathPlanRootsSolutionType RootsSolution;
+	DINT RootsReturn;
+	if((Solution->Move == PATH_ACC_DEC_SATURATED) || (Solution->Move == PATH_DEC_ACC_SATURATED)) {
+		RootsReturn = SecondOrderRoots(p2, p1, p0, &RootsSolution);
+		
+		if(RootsReturn == PATH_ERROR_NONE) { // Roots are valid
+			// Choose the appropriate root
+			if(Solution->Move == PATH_ACC_DEC_SATURATED) { 
+				Solution->v[1] = fmin(RootsSolution.r1, RootsSolution.r2);
+			} else {
+				Solution->v[1] = fmax(RootsSolution.r1, RootsSolution.r2);
+			}
+		} else { // Invalid roots
+			return RootsReturn;
+		} // Roots error?
+	} // Saturated move?
+	
+	/* Prepare full solution */
+	Solution->v[0] 	= v0;
+	Solution->v[2] 	= Solution->v[1];
+	Solution->v[3] 	= vf;
+	Solution->t[1] 	= fabs(v0 - Solution->v[1]) / a;
+	Solution->t[2] 	= dt - fabs(Solution->v[2] - vf) / a;
+	Solution->t[3] 	= dt;
+	Solution->dx 	= dx;
+	Solution->a 	= a;
 	
 	return PATH_ERROR_NONE;
 	
