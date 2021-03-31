@@ -37,15 +37,16 @@ TYPE
 		r1 : REAL; (*First real root of second order polynomial*)
 		r2 : REAL; (*Second real root of second order polynomial*)
 	END_STRUCT;
-	PathPlanTimeDiffSolutionType : 	STRUCT 
-		tA : ARRAY[0..3]OF REAL;
-		vA : ARRAY[0..3]OF REAL;
-		MoveA : PathPlanMoveEnum;
-		tB : ARRAY[0..3]OF REAL;
-		vB : ARRAY[0..3]OF REAL;
-		MoveB : PathPlanMoveEnum;
-		tdiff : REAL;
-		a : REAL;
+	PathPlanTimeDiffSolutionType : 	STRUCT  (*Solution structure for time difference functions*)
+		tA : ARRAY[0..3]OF REAL; (*Time points of time minimizing profile*)
+		vA : ARRAY[0..3]OF REAL; (*Velocity points of time minimizing profile*)
+		MoveA : PathPlanMoveEnum; (*Move type of time minimizing profile*)
+		tB : ARRAY[0..3]OF REAL; (*Time points of time maximizing profile*)
+		vB : ARRAY[0..3]OF REAL; (*Velocity points of time maximizing profile*)
+		MoveB : PathPlanMoveEnum; (*Move type of time maximizing profile*)
+		tdiff : REAL; (*Difference in time durations of extrema profiles*)
+		dx : USINT; (*Distance*)
+		a : REAL; (*Acceleration (symmetric)*)
 	END_STRUCT;
 	PathPlanPointSolutionType : 	STRUCT 
 		x : REAL;

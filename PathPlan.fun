@@ -56,6 +56,20 @@ FUNCTION GetVel : DINT (*Determine the minimum intermediate velocity to change v
 	END_VAR
 END_FUNCTION
 
+FUNCTION GetTimeDiff : DINT (*Determine the difference between the time minimizing and time maximizing velocity profiles*)
+	VAR_INPUT
+		dx : REAL; (*Distance*)
+		v0 : REAL; (*Initial velocity*)
+		vf : REAL; (*Final velocity*)
+		vmin : REAL; (*Minimum velocity*)
+		vmax : REAL; (*Maximum velocity*)
+		a : REAL; (*Acceleration*)
+	END_VAR
+	VAR_IN_OUT
+		Solution : PathPlanTimeDiffSolutionType; (*Solution reference*)
+	END_VAR
+END_FUNCTION
+
 FUNCTION SecondOrderRoots : DINT (*Return the real roots of a second order polynomial*)
 	VAR_INPUT
 		p2 : REAL; (*2nd order coefficient*)
