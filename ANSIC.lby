@@ -6,12 +6,8 @@
     <File Description="Exported constants">Constants.var</File>
     <File Description="Exported functions and function blocks">PathPlan.fun</File>
     <File Description="Internal functions">PathPlanMain.h</File>
-    <File Description="Minimum acceleration">GetAcc.c</File>
-    <File Description="Minimum time duration">GetTimeDur.c</File>
-    <File Description="Maximum distance">GetDist.c</File>
-    <File Description="Minimum intermediate velocity">GetVel.c</File>
-    <File Description="Time difference in extrema profiles">GetTimeDiff.c</File>
-    <File Description="Quadratic equation">SecondOrderRoots.c</File>
-    <File Description="Point on velocity profile">GetPoint.c</File>
+    <File Description="Minimum acceleration">PathAcc.c</File>
+    <File Description="Quadratic equation">PathRoots.c</File>
+    <File Description="Velocity profile point">PathPoint.c</File>
   </Files>
 </Library>
