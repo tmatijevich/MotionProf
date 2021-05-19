@@ -13,6 +13,20 @@ FUNCTION PathAcc : DINT (*Determine the minimum acceleration to change velocity 
 	END_VAR
 END_FUNCTION
 
+FUNCTION PathAccInTimeDiffWithRise : DINT (*Determine the minimum acceleration of two paths with a difference in time durations. The paths include a rise from standstill.*)
+	VAR_INPUT
+		dt_tilde : REAL; (*[s] Difference in time durations*)
+		dx : REAL; (*[Units] Distance*)
+		v_1 : REAL; (*[Units/s] Rise velocity*)
+		v_f : REAL; (*[Units/s] Final velocity*)
+		v_min : REAL; (*[Units/s] Minimum velocity limit*)
+		v_max : REAL; (*[Units/s] Maximum velocity limit*)
+	END_VAR
+	VAR_IN_OUT
+		solution : PathPlanTimeDiffSolutionType; (*Solution reference*)
+	END_VAR
+END_FUNCTION
+
 FUNCTION PathRoots : DINT (*Return the real roots of a second order polynomial*)
 	VAR_INPUT
 		p_2 : REAL; (*2nd order coefficient*)
