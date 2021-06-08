@@ -33,7 +33,7 @@ DINT PathAccInTimeDiffWithRise(REAL dt_tilde, REAL dx, REAL v_1, REAL v_f, REAL 
 	}
 	
 	// #2: Endpoint velocities within limits
-	else if((v_0 < v_min) || (v_0 > v_max) || (v_f < v_min) || (v_f > v_max)) {
+	else if((v_1 < v_min) || (v_1 > v_max) || (v_f < v_min) || (v_f > v_max)) {
 		return PATH_ERROR_VEL_ENDPT_LIMIT;
 	}
 	
@@ -68,12 +68,12 @@ DINT PathAccInTimeDiffWithRise(REAL dt_tilde, REAL dx, REAL v_1, REAL v_f, REAL 
 		dt_23 = (dx - (2.0 * pow2(v_1) + pow2(v_f) - 2.0 * pow2(v_min)) / (2.0 * a_u)) / v_min;
 		dt_l_hat = (2.0 * v_1 + v_f - 2.0 * v_min) / a_u + dt_23;
 	} 
-	else {
-		// Acc-dec is saturated at a_l
-		dt_23 = (dx - (2.0 * pow2(v_max) - pow2(v_f)) / (2.0 * a_l)) / v_max;
-		dt_l_hat = (2.0 * v_max - v_f) / a_l + dt_23;
-		
-		// Dec-acc profile is not saturated at a_u
-		v_p = sqrt((2.0
+//	else {
+//		// Acc-dec is saturated at a_l
+//		dt_23 = (dx - (2.0 * pow2(v_max) - pow2(v_f)) / (2.0 * a_l)) / v_max;
+//		dt_l_hat = (2.0 * v_max - v_f) / a_l + dt_23;
+//		
+//		// Dec-acc profile is not saturated at a_u
+//		v_p = sqrt((2.0
 	
 } // End function

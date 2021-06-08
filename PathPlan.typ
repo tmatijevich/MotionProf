@@ -40,6 +40,7 @@ TYPE
 	PathPlanTimeDiffSolutionType : 	STRUCT  (*Solution structure for time difference functions*)
 		accDec : PathPlanTimeDiffPathType; (*ACC DEC solution profile*)
 		decAcc : PathPlanTimeDiffPathType; (*DEC ACC solution profile*)
+		dt_tilde : REAL; (*[s] Difference in time duration*)
 	END_STRUCT;
 	PathPlanTimeDiffPathType : 	STRUCT  (*Solution structure of a path in a time difference function*)
 		t : ARRAY[0..4]OF REAL; (*[s] Time point array*)
