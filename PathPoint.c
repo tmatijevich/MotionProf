@@ -1,30 +1,28 @@
 /*******************************************************************************
- * File: PathPoint.c
+ * File:   PathPoint.c
  * Author: Tyler Matijevich
- * Date: 2020-04-01
+ * Date:   2020-04-01
 *******************************************************************************/
 
-// <file> - System header files
-// "file" - Program header files
 #include <PathPlan.h>
 #include "PathPlanMain.h"
 
-/* Determine the point on a piecewise linear velocity profile */
-DINT PathPoint(REAL x_0, REAL t_[PATH_POINTS_MAX_INDEX + 1], REAL v_[PATH_POINTS_MAX_INDEX + 1], USINT n, REAL t, struct PathPlanPointSolutionType* solution) {
+/* Determine the position, velocity, and acceleration at a point in time along a linear velocity profile. */
+DINT PathPoint(LREAL x_0, LREAL t_[PATH_POINTS_MAX_INDEX + 1], LREAL v_[PATH_POINTS_MAX_INDEX + 1], USINT n, LREAL t, struct PathPlanPointSolutionType* solution) {
 
-	// Reset the solution
+	/* Reset the solution */
 	solution->x = 0.0;
 	solution->v = 0.0;
 	solution->a = 0.0;
 	
 	/* Input Requirements */
-	// #1: Number of points
-	if((n < 2) || (n > PATH_POINTS_MAX_INDEX + 1)) {
+	// #1 Number of points
+	if((n < 2) || (n > PATH_POINTS_MAX_INDEX + 1)) { 
 		// Invalid number of points
 		return PATH_ERROR_POINT_LIMIT;
 	}
 	
-	// #2: Sequential times
+	// #2 Sequential times
 	USINT i; // Loop index variable
 	for(i = 1; i < n; i++) { // 1..4 if 5 points
 		// Check that the time values are non-decreasing
@@ -33,15 +31,15 @@ DINT PathPoint(REAL x_0, REAL t_[PATH_POINTS_MAX_INDEX + 1], REAL v_[PATH_POINTS
 		}
 	}
 	
-	// #3: Request time
+	// #3 Request time
 	if((t < t_[0]) || (t > t_[n - 1])) {
 		// The request time must be within the specified arrays
 		return PATH_ERROR_TIME_POINT;
 	}
 	
 	// Declare position and acceleration arrays
-	REAL x_[PATH_POINTS_MAX_INDEX + 1]; // Initial position of each segment
-	REAL a_[PATH_POINTS_MAX_INDEX + 1]; // Set acceleration along each segment (defined from 0..n-2)
+	LREAL x_[PATH_POINTS_MAX_INDEX + 1]; // Initial position of each segment
+	LREAL a_[PATH_POINTS_MAX_INDEX + 1]; // Set acceleration along each segment (defined from 0..n-2)
 	
 	/* Compute starting positions and acceleration for each segment */
 	x_[0] = x_0;

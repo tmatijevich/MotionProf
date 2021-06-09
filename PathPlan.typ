@@ -50,8 +50,8 @@ TYPE
 		move : PathPlanMoveEnum; (*Move type*)
 	END_STRUCT;
 	PathPlanPointSolutionType : 	STRUCT  (*Linear interpolation solution of a piecewise velocity profile*)
-		x : REAL; (*[Units] Position*)
-		v : REAL; (*[Units/s] Velocity*)
-		a : REAL; (*[Units/s^2] Acceleration*)
+		x : LREAL; (*[Units] Position*)
+		v : LREAL; (*[Units/s] Velocity*)
+		a : LREAL; (*[Units/s^2] Acceleration*)
 	END_STRUCT;
 END_TYPE

@@ -52,13 +52,13 @@ FUNCTION PathRoots : DINT (*Return the real roots of a second order polynomial*)
 	END_VAR
 END_FUNCTION
 
-FUNCTION PathPoint : DINT (*Determine the point on a piecewise linear velocity profile*)
+FUNCTION PathPoint : DINT (*Position, velocity, and acceleration at a point along a velocity profile.*)
 	VAR_INPUT
-		x_0 : REAL; (*[Units] Initial position*)
-		t_ : ARRAY[0..PATH_POINTS_MAX_INDEX] OF REAL; (*[s] Array of time point values*)
-		v_ : ARRAY[0..PATH_POINTS_MAX_INDEX] OF REAL; (*[Units/s] Array of velocity point values*)
+		x_0 : LREAL; (*[Units] Initial position*)
+		t_ : ARRAY[0..PATH_POINTS_MAX_INDEX] OF LREAL; (*[s] Array of time point values*)
+		v_ : ARRAY[0..PATH_POINTS_MAX_INDEX] OF LREAL; (*[Units/s] Array of velocity point values*)
 		n : USINT; (*Number of points*)
-		t : REAL; (*[s] Input time*)
+		t : LREAL; (*[s] Input time*)
 	END_VAR
 	VAR_IN_OUT
 		solution : PathPlanPointSolutionType; (*Solution reference*)
