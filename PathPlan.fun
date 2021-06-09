@@ -13,6 +13,20 @@ FUNCTION PathAcc : DINT (*Determine the minimum acceleration to change velocity 
 	END_VAR
 END_FUNCTION
 
+FUNCTION PathTime : DINT (*Minimum time to move with acceleration over a distance.*)
+	VAR_INPUT
+		dx : LREAL; (*[Units] Distance*)
+		v_0 : LREAL; (*[Units/s] Initial velocity*)
+		v_f : LREAL; (*[Units/s] Final velocity*)
+		v_min : LREAL; (*[Units/s] Minimum velocity*)
+		v_max : LREAL; (*[Units/s] Maximum velocity*)
+		a : LREAL; (*[Units/s^2] Acceleration magnitude*)
+	END_VAR
+	VAR_IN_OUT
+		solution : PathPlanBaseSolutionType; (*Solution reference*)
+	END_VAR
+END_FUNCTION
+
 FUNCTION PathAccInTimeDiffWithRise : DINT (*Determine the minimum acceleration of two paths with a difference in time durations. The paths include a rise from standstill.*)
 	VAR_INPUT
 		dt_tilde : REAL; (*[s] Difference in time durations*)
