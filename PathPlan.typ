@@ -27,15 +27,15 @@ TYPE
 		PATH_ERROR_TIME_POINT (*The requested time value exceeds the provided velocity profile*)
 		);
 	PathPlanBaseSolutionType : 	STRUCT  (*Solution structure for base functions*)
-		t : ARRAY[0..3]OF REAL; (*[s] Time point array, always starting with 0.0 seconds*)
-		dx : REAL; (*[Units] Distance*)
-		v : ARRAY[0..3]OF REAL; (*[Units/s] Velocity point array, starting with v_0 and ending with v_f*)
-		a : REAL; (*[Units/s^2] Acceleration*)
+		t : ARRAY[0..3]OF LREAL; (*[s] Time point array, always starting with 0.0 seconds*)
+		dx : LREAL; (*[Units] Distance*)
+		v : ARRAY[0..3]OF LREAL; (*[Units/s] Velocity point array, starting with v_0 and ending with v_f*)
+		a : LREAL; (*[Units/s^2] Acceleration*)
 		move : PathPlanMoveEnum; (*Movement type*)
 	END_STRUCT;
 	PathPlanRootsSolutionType : 	STRUCT  (*Solution structure to a second order equation*)
-		r_1 : REAL; (*First real root of second order polynomial*)
-		r_2 : REAL; (*Second real root of second order polynomial*)
+		r_1 : LREAL; (*First real root of second order polynomial*)
+		r_2 : LREAL; (*Second real root of second order polynomial*)
 	END_STRUCT;
 	PathPlanTimeDiffSolutionType : 	STRUCT  (*Solution structure for time difference functions*)
 		accDec : PathPlanTimeDiffPathType; (*ACC DEC solution profile*)

@@ -1,18 +1,16 @@
 /*******************************************************************************
- * File: PathAcc.c
- * Author: Tyler Matijevich
- * Date: 2020-04-10
+ * File:     PathAcc.c
+ * Author:   Tyler Matijevich
+ * Date:     2020-04-10
 *******************************************************************************/
 
-// <file> - System header files
-// "file" - Program header files
 #include <PathPlan.h>
 #include "PathPlanMain.h"
 
-/* Determine the minimum acceleration to change velocity in time over a distance */
-DINT PathAcc(REAL dt, REAL dx, REAL v_0, REAL v_f, REAL v_min, REAL v_max, struct PathPlanBaseSolutionType* solution) {
+/* Minimum acceleration to move (change velocity) in a time duration over a distance. */
+DINT PathAcc(LREAL dt, LREAL dx, LREAL v_0, LREAL v_f, LREAL v_min, LREAL v_max, struct PathPlanBaseSolutionType* solution) {
 	
-	// Reset the solution
+	/* Reset the solution */
 	USINT i;
 	for(i = 0; i <= 3; i++) {
 		solution->t[i] = 0.0;
@@ -23,32 +21,32 @@ DINT PathAcc(REAL dt, REAL dx, REAL v_0, REAL v_f, REAL v_min, REAL v_max, struc
 	solution->move 	= PATH_MOVE_NONE;
 	
 	/* Input requirements */
-	// #1: Plausible velocity limits
+	// #1 Plausible velocity limits
 	if((v_min < 0.0) || (v_max <= v_min)) {
 		return PATH_ERROR_VEL_LIMITS_INVALID;
 	}
 	
-	// #2: Endpoint velocities within limits
+	// #2 Valid endpoints velocities
 	else if((v_0 < v_min) || (v_0 > v_max) || (v_f < v_min) || (v_f > v_max)) {
 		return PATH_ERROR_VEL_ENDPT_LIMIT;
 	}
 	
-	// #3: Positive time duration and distance
+	// #3 Positive inputs
 	else if((dt <= 0.0) || (dx <= 0.0)) {
 		return PATH_ERROR_NONPOS_INPUT;
 	}
 	
-	// #4: Valid distance given velocity limits
+	// #4 Plausible move
 	else if((dx <= (v_min * dt)) || (dx >= (v_max * dt))) { // Requires infinite acceleration
 		return PATH_ERROR_ACC_LIMIT; 
 	}
 	
-	// The intermediate velocity point v12 is either >= v_0, v_f or <= v_0, v_f for a symmetric acc/dec profile
-	// Determine if 1. ACC 2. DEC or 1. DEC 2. ACC
-	REAL dx_bar = 0.5 * dt * (v_0 + v_f);
-	REAL dx_u, dx_l; // Distance at the saturation points
+	// The intermediate velocity point v_12 is either >= v_0, v_f or <= v_0, v_f for a symmetric AccDec profile
+	// Determine if AccDec or DecAcc
+	LREAL dx_bar = 0.5 * dt * (v_0 + v_f);
+	LREAL dx_u, dx_l; // Distance at the saturation points
 	
-	if(dx >= dx_bar) { // 1. ACC 2. DEC
+	if(dx >= dx_bar) { // AccDec
 		// Determine if saturated
 		dx_u = (2.0 * pow2(v_max) - pow2(v_0) - pow2(v_f)) / (2.0 * ((2.0 * v_max - v_0 - v_f) / dt));
 		// NOTE: There is no dx >= dx_bar when v_0 = v_f = v_max that also passes requirement #4. This protects against divide by zero.
@@ -72,15 +70,15 @@ DINT PathAcc(REAL dt, REAL dx, REAL v_0, REAL v_f, REAL v_min, REAL v_max, struc
 			} // a > 0.0?
 		} // dx_u?
 		
-	} else { // 1. DEC 2. ACC
+	} else { // DecAcc
 		// Determine if saturated
 		dx_l = (pow2(v_0) + pow2(v_f) - 2.0 * pow2(v_min)) / (2.0 * ((v_0 + v_f - 2.0 * v_min) / dt));
 		// NOTE: There is no dx < NominalDistance when v_0 = v_f = v_min that also passes requirement #4. This protects against divide by zero.
 		
-		if(dx > dx_l) { // Dec/acc profile with dip
+		if(dx > dx_l) { // DecAcc profile with dip
 			solution->move = PATH_DEC_ACC_PEAK;
 			
-		} else { // Dec/acc profile saturate at v_min
+		} else { // DecAcc profile saturate at v_min
 			solution->move 	= PATH_DEC_ACC_SATURATED;
 			solution->a 	= ((pow2(v_0) + pow2(v_f) - 2.0 * pow2(v_min)) / 2.0 - (v_0 + v_f - 2.0 * v_min) * v_min) / (dx - dt * v_min); // Protected by requirement #4
 			if(solution->a > 0.0) {
@@ -99,7 +97,7 @@ DINT PathAcc(REAL dt, REAL dx, REAL v_0, REAL v_f, REAL v_min, REAL v_max, struc
 	} // dx_bar?
 	
 	/* Find the roots of the second order peak solution */
-	REAL p_2, p_1, p_0;
+	LREAL p_2, p_1, p_0;
 	struct PathPlanRootsSolutionType rootsSolution;
 	DINT rootsReturn;
 	if((solution->move == PATH_ACC_DEC_PEAK) || (solution->move == PATH_DEC_ACC_PEAK)) {

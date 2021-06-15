@@ -1,12 +1,12 @@
 
 FUNCTION PathAcc : DINT (*Determine the minimum acceleration to change velocity in time over a distance*)
 	VAR_INPUT
-		dt : REAL; (*Time duration*)
-		dx : REAL; (*Distance*)
-		v_0 : REAL; (*Initial velocity*)
-		v_f : REAL; (*Final velocity*)
-		v_min : REAL; (*Minimum velocity*)
-		v_max : REAL; (*Maximum velocity*)
+		dt : LREAL; (*Time duration*)
+		dx : LREAL; (*Distance*)
+		v_0 : LREAL; (*Initial velocity*)
+		v_f : LREAL; (*Final velocity*)
+		v_min : LREAL; (*Minimum velocity*)
+		v_max : LREAL; (*Maximum velocity*)
 	END_VAR
 	VAR_IN_OUT
 		solution : PathPlanBaseSolutionType; (*Solution reference*)
@@ -43,9 +43,9 @@ END_FUNCTION
 
 FUNCTION PathRoots : DINT (*Return the real roots of a second order polynomial*)
 	VAR_INPUT
-		p_2 : REAL; (*2nd order coefficient*)
-		p_1 : REAL; (*1st order coefficient*)
-		p_0 : REAL; (*0th order coefficient*)
+		p_2 : LREAL; (*2nd order coefficient*)
+		p_1 : LREAL; (*1st order coefficient*)
+		p_0 : LREAL; (*0th order coefficient*)
 	END_VAR
 	VAR_IN_OUT
 		solution : PathPlanRootsSolutionType; (*Solution reference*)

@@ -10,7 +10,7 @@
 #include "PathPlanMain.h"
 
 /* Return the real roots of a second order polynomial */
-DINT PathRoots(REAL p_2, REAL p_1, REAL p_0, struct PathPlanRootsSolutionType* solution) {
+DINT PathRoots(LREAL p_2, LREAL p_1, LREAL p_0, struct PathPlanRootsSolutionType* solution) {
 
 	/* Reset solution */
 	solution->r_1 = 0.0;
