@@ -29,12 +29,12 @@ END_FUNCTION
 
 FUNCTION PathAccRiseInTime : DINT (*Minimum acceleration to achieve a move with rise in a window of time*)
 	VAR_INPUT
-		dt_tilde : REAL; (*[s] Difference in time durations*)
-		dx : REAL; (*[Units] Distance*)
-		v_1 : REAL; (*[Units/s] Rise velocity*)
-		v_f : REAL; (*[Units/s] Final velocity*)
-		v_min : REAL; (*[Units/s] Minimum velocity limit*)
-		v_max : REAL; (*[Units/s] Maximum velocity limit*)
+		dt_tilde : LREAL; (*[s] Difference in time durations*)
+		dx : LREAL; (*[Units] Distance*)
+		v_1 : LREAL; (*[Units/s] Rise velocity*)
+		v_f : LREAL; (*[Units/s] Final velocity*)
+		v_min : LREAL; (*[Units/s] Minimum velocity limit*)
+		v_max : LREAL; (*[Units/s] Maximum velocity limit*)
 	END_VAR
 	VAR_IN_OUT
 		solution : PathPlanTimeDiffSolutionType; (*Solution reference*)

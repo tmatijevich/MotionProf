@@ -17,7 +17,7 @@ TYPE
 		PATH_ERROR_DIST_LIMIT, (*The distance exceeds possible limits*)
 		PATH_ERROR_VEL_LIMITS_INVALID, (*Invalid velocity limits*)
 		PATH_ERROR_VEL_ENDPT_LIMIT, (*The velocity endpoint(s) exceed the velocity limits*)
-		PATH_ERROR_ACC_LIMIT, (*The input parameters require an infinite acceleration*)
+		PATH_ERROR_ACC_LIMIT, (*Function inputs suggest infinite acceleration or acceleration beyond what is specified*)
 		PATH_ERROR_NONPOS_INPUT, (*A input value is non-positive*)
 		PATH_ERROR_HIGHER_ORDER,
 		PATH_ERROR_2ND_ORDER_NO_SOLN, (*The 2nd order equation's solution results in imaginary roots*)

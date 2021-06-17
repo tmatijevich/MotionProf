@@ -8,6 +8,7 @@ Date: 2021-03-23
 #define __PATH_PLAN_MAIN_H__
 
 #include <math.h>
+#include <stdbool.h>
 
 /* Create a helper function for squared computation */
 static double pow2(double x) {return pow(x, 2.0);} // Implicit type promotion
