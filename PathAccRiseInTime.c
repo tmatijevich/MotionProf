@@ -10,7 +10,7 @@
 #include "PathPlanMain.h"
 
 /* Determine the minimum acceleration of two paths with a difference in time durations. The paths include a rise from standstill. */
-DINT PathAccInTimeDiffWithRise(REAL dt_tilde, REAL dx, REAL v_1, REAL v_f, REAL v_min, REAL v_max, struct PathPlanTimeDiffSolutionType* solution) {
+DINT PathAccRiseInTime(REAL dt_tilde, REAL dx, REAL v_1, REAL v_f, REAL v_min, REAL v_max, struct PathPlanTimeDiffSolutionType* solution) {
 	// Reset the solution
 	USINT i;
 	for(i = 0; i <= 4; i++) {

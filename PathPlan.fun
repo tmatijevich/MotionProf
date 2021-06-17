@@ -27,7 +27,7 @@ FUNCTION PathTime : DINT (*Minimum time to move with acceleration over a distanc
 	END_VAR
 END_FUNCTION
 
-FUNCTION PathAccInTimeDiffWithRise : DINT (*Determine the minimum acceleration of two paths with a difference in time durations. The paths include a rise from standstill.*)
+FUNCTION PathAccRiseInTime : DINT (*Minimum acceleration to achieve a move with rise in a window of time*)
 	VAR_INPUT
 		dt_tilde : REAL; (*[s] Difference in time durations*)
 		dx : REAL; (*[Units] Distance*)
