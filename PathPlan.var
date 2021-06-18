@@ -1,3 +1,3 @@
 VAR CONSTANT
-	PATH_POINTS_MAX_INDEX : USINT := 19;
+	PATH_POINTS_MAX_INDEX : USINT := 19; (*Max index of points in velocity-point profile arrays*)
 END_VAR

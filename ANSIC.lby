@@ -2,9 +2,9 @@
 <?AutomationStudio FileVersion="4.9"?>
 <Library Version="0.00.4" SubType="ANSIC" xmlns="http://br-automation.co.at/AS/Library">
   <Files>
-    <File Description="Exported data types">PathPlan.typ</File>
-    <File Description="Exported constants">PathPlan.var</File>
-    <File Description="Exported functions and function blocks">PathPlan.fun</File>
+    <File Description="Function list">PathPlan.fun</File>
+    <File Description="Data types">PathPlan.typ</File>
+    <File Description="Constants">PathPlan.var</File>
     <File Description="Common header">PathPlanMain.h</File>
     <File Description="Minimum acceleration">PathAcc.c</File>
     <File Description="Minimum time duration">PathTime.c</File>
