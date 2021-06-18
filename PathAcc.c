@@ -1,13 +1,13 @@
 /*******************************************************************************
- * File:     PathAcc.c
- * Author:   Tyler Matijevich
- * Date:     2020-04-10
+ * File:      PathAcc.c
+ * Author:    Tyler Matijevich
+ * Created:   2020-04-10
 *******************************************************************************/
 
 #include <PathPlan.h>
 #include "PathPlanMain.h"
 
-/* Minimum acceleration to move (change velocity) in a time duration over a distance. */
+/* Minimum acceleration to move in a time over a distance */
 DINT PathAcc(LREAL dt, LREAL dx, LREAL v_0, LREAL v_f, LREAL v_min, LREAL v_max, struct PathPlanBaseSolutionType* solution) {
 	
 	/* Reset the solution */
@@ -51,10 +51,10 @@ DINT PathAcc(LREAL dt, LREAL dx, LREAL v_0, LREAL v_f, LREAL v_min, LREAL v_max,
 		dx_u = (2.0 * pow2(v_max) - pow2(v_0) - pow2(v_f)) / (2.0 * ((2.0 * v_max - v_0 - v_f) / dt));
 		// NOTE: There is no dx >= dx_bar when v_0 = v_f = v_max that also passes requirement #4. This protects against divide by zero.
 		
-		if(dx < dx_u) { // Acc/dec profile with peak
+		if(dx < dx_u) { // AccDec profile with peak
 			solution->move = PATH_MOVE_ACCDECPEAK;
 			
-		} else { // Acc/dec profile saturated at v_max
+		} else { // AccDec profile saturated at v_max
 			solution->move 	= PATH_MOVE_ACCDECSATURATED;
 			solution->a		= ((2.0 * pow2(v_max) - pow2(v_0) - pow2(v_f)) / 2.0 - (2.0 * v_max - v_0 - v_f) * v_max) / (dx - dt * v_max); // Protected by requirement #4
 			if(solution->a > 0.0) { // Protect against divide by zero
@@ -109,7 +109,7 @@ DINT PathAcc(LREAL dt, LREAL dx, LREAL v_0, LREAL v_f, LREAL v_min, LREAL v_max,
 			if(solution->move == PATH_MOVE_ACCDECPEAK) { 
 				solution->v_[1] = fmax(rootsSolution.r_1, rootsSolution.r_2);
 				solution->v_[2] = solution->v_[1];
-			} else { //D EC_ACC
+			} else { // DecAcc
 				solution->v_[1] = fmin(rootsSolution.r_1, rootsSolution.r_2);
 				solution->v_[2] = solution->v_[1];
 			}
@@ -129,11 +129,11 @@ DINT PathAcc(LREAL dt, LREAL dx, LREAL v_0, LREAL v_f, LREAL v_min, LREAL v_max,
 		}
 	}
 	
-	/* Fill in solution */
-	solution->t_[3] 	= dt;
+	/* Set common solution values */
+	solution->t_[3] = dt;
 	solution->dx 	= dx;
-	solution->v_[0] 	= v_0;
-	solution->v_[3] 	= v_f;
+	solution->v_[0] = v_0;
+	solution->v_[3] = v_f;
 	
 	return PATH_ERROR_NONE;
 	

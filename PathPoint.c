@@ -1,13 +1,13 @@
 /*******************************************************************************
- * File:   PathPoint.c
- * Author: Tyler Matijevich
- * Date:   2020-04-01
+ * File:      PathPoint.c
+ * Author:    Tyler Matijevich
+ * Created:   2020-04-01
 *******************************************************************************/
 
 #include <PathPlan.h>
 #include "PathPlanMain.h"
 
-/* Determine the position, velocity, and acceleration at a point in time along a linear velocity profile. */
+/* Linearly-interpolated position, velocity, and acceleration along a velocity-point profile */
 DINT PathPoint(LREAL x_0, LREAL t_[PATH_POINTS_MAX_INDEX + 1], LREAL v_[PATH_POINTS_MAX_INDEX + 1], USINT n, LREAL t, struct PathPlanPointSolutionType* solution) {
 
 	/* Reset the solution */

@@ -1,15 +1,13 @@
 /*******************************************************************************
- * File: PathRoots.c
- * Author: Tyler Matijevich
- * Date: 2020-05-13
+ * File:      PathRoots.c
+ * Author:    Tyler Matijevich
+ * Created:   2020-05-13
 *******************************************************************************/
 
-// <file> - System header files
-// "file" - Program header files
 #include <PathPlan.h>
 #include "PathPlanMain.h"
 
-/* Return the real roots of a second order polynomial */
+/* Roots of second order polynomial (quadratic equation) */
 DINT PathRoots(LREAL p_2, LREAL p_1, LREAL p_0, struct PathPlanRootsSolutionType* solution) {
 
 	/* Reset solution */

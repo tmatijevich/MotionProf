@@ -7,7 +7,7 @@
 #include <PathPlan.h>
 #include "PathPlanMain.h"
 
-/* Minimum time duration to move (change velocity) with acceleration over a distance. */
+/* Minimum time duration to move with acceleration over a distance */
 DINT PathTime(LREAL dx, LREAL v_0, LREAL v_f, LREAL v_min, LREAL v_max, LREAL a, struct PathPlanBaseSolutionType* solution) {
 	
 	/* Reset the solution */
@@ -54,12 +54,12 @@ DINT PathTime(LREAL dx, LREAL v_0, LREAL v_f, LREAL v_min, LREAL v_max, LREAL a,
 		
 		// Set the solution
 		solution->t_[1] = (v_1 - v_0) / a;
-		solution->t_[2] = (v_1 - v_0) / a;
-		solution->t_[3] = (v_1 - v_0) / a + (v_1 - v_f) / a;
+		solution->t_[2] = solution->t_[1];
+		solution->t_[3] = solution->t_[2] + (v_1 - v_f) / a;
 		solution->v_[1] = v_1;
-		solution->v_[2] = v_1;
-		
-	} else { // Saturated AccDec
+		solution->v_[2] = v_1;	
+	} 
+	else { // Saturated AccDec
 		solution->move = PATH_MOVE_ACCDECSATURATED;
 		
 		// Compute the time at v_max
@@ -67,17 +67,16 @@ DINT PathTime(LREAL dx, LREAL v_0, LREAL v_f, LREAL v_min, LREAL v_max, LREAL a,
 		
 		// Set the solution
 		solution->t_[1] = (v_max - v_0) / a;
-		solution->t_[2] = (v_max - v_0) / a + t_12;
-		solution->t_[3] = (v_max - v_0) / a + t_12 + (v_max - v_f) / a;
+		solution->t_[2] = solution->t_[1] + t_12;
+		solution->t_[3] = solution->t_[2] + (v_max - v_f) / a;
 		solution->v_[1] = v_max;
 		solution->v_[2] = v_max;
-		
 	} // dx_u?
 	
 	/* Set common solution values */
 	solution->dx 	= dx;
-	solution->v_[0] 	= v_0;
-	solution->v_[3] 	= v_f;
+	solution->v_[0] = v_0;
+	solution->v_[3] = v_f;
 	solution->a 	= a;
 	
 	return PATH_ERROR_NONE;
