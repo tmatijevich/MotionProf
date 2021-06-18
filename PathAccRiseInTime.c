@@ -27,7 +27,7 @@ DINT PathAccRiseInTime(LREAL dt_tilde, LREAL dx, LREAL v_1, LREAL v_f, LREAL v_m
 	
 	/* Input requirements */
 	// #1 Plausible velocity limits
-	if((v_min < 0.0) || (v_max <= v_min)) {
+	if((v_min <= 0.0) || (v_max <= v_min)) {
 		return PATH_ERROR_VEL_LIMITS_INVALID;
 	}
 	
@@ -65,7 +65,7 @@ DINT PathAccRiseInTime(LREAL dt_tilde, LREAL dx, LREAL v_1, LREAL v_f, LREAL v_m
 		
 		// DecAcc profile is saturated at a_u
 		dt_23 = (dx - (2.0 * pow2(v_1) + pow2(v_f) - 2.0 * pow2(v_min)) / (2.0 * a_u)) / v_min;
-		dt_l_hat = (2.0 * v_1 + v_f - 2.0 * v_min) / a_u + dt_23;
+		dt_u_hat = (2.0 * v_1 + v_f - 2.0 * v_min) / a_u + dt_23;
 	} 
 	else {
 		// AccDec profile is saturated at a_l
@@ -73,7 +73,7 @@ DINT PathAccRiseInTime(LREAL dt_tilde, LREAL dx, LREAL v_1, LREAL v_f, LREAL v_m
 		dt_l_hat = (2.0 * v_max - v_f) / a_l + dt_23;
 		
 		// DecAcc profile is not saturated at a_u
-		v_p = sqrt((2.0 * pow2(v_1) + 2.0 * pow2(v_f)) / 2.0 - dx * a_u);
+		v_p = sqrt((2.0 * pow2(v_1) + pow2(v_f)) / 2.0 - dx * a_u);
 		dt_u_hat = (2.0 * v_1 + v_f - 2.0 * v_p) / a_u;
 	}
 	
