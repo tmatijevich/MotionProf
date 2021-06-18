@@ -37,7 +37,7 @@ FUNCTION PathAccRiseInTime : DINT (*Minimum acceleration to achieve a move with 
 		v_max : LREAL; (*[Units/s] Maximum velocity limit*)
 	END_VAR
 	VAR_IN_OUT
-		solution : PathPlanTimeDiffSolutionType; (*Solution reference*)
+		solution : PathPlanInTimeSolutionType; (*Solution reference*)
 	END_VAR
 END_FUNCTION
 

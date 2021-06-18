@@ -19,7 +19,7 @@ DINT PathPoint(LREAL x_0, LREAL t_[PATH_POINTS_MAX_INDEX + 1], LREAL v_[PATH_POI
 	// #1 Number of points
 	if((n < 2) || (n > PATH_POINTS_MAX_INDEX + 1)) { 
 		// Invalid number of points
-		return PATH_ERROR_POINT_LIMIT;
+		return PATH_ERROR_POINTLIMIT;
 	}
 	
 	// #2 Sequential times
@@ -27,14 +27,14 @@ DINT PathPoint(LREAL x_0, LREAL t_[PATH_POINTS_MAX_INDEX + 1], LREAL v_[PATH_POI
 	for(i = 1; i < n; i++) { // 1..4 if 5 points
 		// Check that the time values are non-decreasing
 		if(t_[i] < t_[i - 1]) {
-			return PATH_ERROR_SEQ_POINTS;
+			return PATH_ERROR_TIMESEQUENCE;
 		}
 	}
 	
 	// #3 Request time
 	if((t < t_[0]) || (t > t_[n - 1])) {
 		// The request time must be within the specified arrays
-		return PATH_ERROR_TIME_POINT;
+		return PATH_ERROR_TIMELIMIT;
 	}
 	
 	// Declare position and acceleration arrays

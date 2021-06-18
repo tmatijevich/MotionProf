@@ -25,7 +25,7 @@ DINT PathRoots(LREAL p_2, LREAL p_1, LREAL p_0, struct PathPlanRootsSolutionType
 			solution->r_1 = ((-p_1) + sqrt(discriminant)) / (2.0 * p_2);
 			solution->r_2 = ((-p_1) - sqrt(discriminant)) / (2.0 * p_2);
 		} else if(discriminant < 0.0) { // Imaginary roots
-			return PATH_ERROR_2ND_ORDER_NO_SOLN;
+			return PATH_ERROR_NOSOLUTION2ND;
 		} else { // Root multiple
 			solution->r_1 = (-p_1) / (2.0 * p_2);
 			solution->r_2 = solution->r_1;
@@ -36,7 +36,7 @@ DINT PathRoots(LREAL p_2, LREAL p_1, LREAL p_0, struct PathPlanRootsSolutionType
 			solution->r_1 = (-p_0) / p_1;
 			solution->r_2 = solution->r_1; // This function does not distinquish between a multiple root and a single root
 		} else { // No roots
-			return PATH_ERROR_1ST_ORDER_NO_SOLN;
+			return PATH_ERROR_NOSOLUTION1ST;
 		} // Single root?
 		
 	} // Two roots?

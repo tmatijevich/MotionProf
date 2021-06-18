@@ -10,7 +10,7 @@ TYPE
 		PATH_MOVE_DECDEC := 30, (*Profile decelerates, holds velocity, then decelerates*)
 		PATH_MOVE_ACCACC := 40 (*Profile accelerates, holds velocity, then accelerates*)
 		);
-	PathPlanErroreEnum : 
+	PathPlanErrorEnum : 
 		( (*Return code for all functions*)
 		PATH_ERROR_NONE, (*Successful function completion*)
 		PATH_ERROR_VELOCITYLIMIT := 10, (*Implausible velocity limits*)

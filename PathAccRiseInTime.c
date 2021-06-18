@@ -8,15 +8,15 @@
 #include "PathPlanMain.h"
 
 /* Minimum acceleration of a move with rise in a window of time */
-DINT PathAccRiseInTime(LREAL dt_tilde, LREAL dx, LREAL v_1, LREAL v_f, LREAL v_min, LREAL v_max, struct PathPlanTimeDiffSolutionType* solution) {
+DINT PathAccRiseInTime(LREAL dt_tilde, LREAL dx, LREAL v_1, LREAL v_f, LREAL v_min, LREAL v_max, struct PathPlanInTimeSolutionType* solution) {
 	
 	/* Reset the solution */
 	USINT i;
 	for(i = 0; i <= 4; i++) {
-		solution->accDec.t[i] = 0.0;
-		solution->accDec.v[i] = 0.0;
-		solution->decAcc.t[i] = 0.0;
-		solution->decAcc.v[i] = 0.0;
+		solution->accDec.t_[i] = 0.0;
+		solution->accDec.v_[i] = 0.0;
+		solution->decAcc.t_[i] = 0.0;
+		solution->decAcc.v_[i] = 0.0;
 	}
 	solution->accDec.dx 	= 0.0;
 	solution->accDec.a 		= 0.0;
@@ -28,22 +28,22 @@ DINT PathAccRiseInTime(LREAL dt_tilde, LREAL dx, LREAL v_1, LREAL v_f, LREAL v_m
 	/* Input requirements */
 	// #1 Plausible velocity limits
 	if((v_min <= 0.0) || (v_max <= v_min)) {
-		return PATH_ERROR_VEL_LIMITS_INVALID;
+		return PATH_ERROR_VELOCITYLIMIT;
 	}
 	
 	// #2 Valid endpoints velocities
 	else if((v_1 < v_min) || (v_1 > v_max) || (v_f < v_min) || (v_f > v_max)) {
-		return PATH_ERROR_VEL_ENDPT_LIMIT;
+		return PATH_ERROR_VELOCITYENDPT;
 	}
 	
 	// #3 Positive inputs
 	else if((dt_tilde <= 0.0) || (dx <= 0.0)) {
-		return PATH_ERROR_NONPOS_INPUT;
+		return PATH_ERROR_NONPOSITIVE;
 	}
 	
 	// #4 Plausible move
 	else if(dt_tilde >= (dx / v_min - dx / v_max)) {
-		return PATH_ERROR_ACC_LIMIT;
+		return PATH_ERROR_MOVELIMIT;
 	}
 	
 	/* Declare limit variables */
@@ -99,8 +99,8 @@ DINT PathAccRiseInTime(LREAL dt_tilde, LREAL dx, LREAL v_1, LREAL v_f, LREAL v_m
 	// #1 Time difference exceeds both saturation limits
 	if((dt_tilde >= dt_u_tilde) && (dt_tilde >= dt_l_tilde)) {
 		// Compute the acceleration
-		solution->accDec.move = PATH_ACC_DEC_SATURATED;
-		solution->decAcc.move = PATH_DEC_ACC_SATURATED;
+		solution->accDec.move = PATH_MOVE_ACCDECSATURATED;
+		solution->decAcc.move = PATH_MOVE_DECACCSATURATED;
 		
 		a = (c_dtl - c_dtu - (c_dxl - c_dxu)) / (dt_tilde - dx * ((1.0 / v_min) - (1.0 / v_max)));
 	}
@@ -108,8 +108,8 @@ DINT PathAccRiseInTime(LREAL dt_tilde, LREAL dx, LREAL v_1, LREAL v_f, LREAL v_m
 	// #2 Time difference below dt_u_tilde
 	else if((dt_tilde < dt_u_tilde) && (dt_tilde >= dt_l_tilde)) {
 		// Prepare for 2nd order solution
-		solution->accDec.move = PATH_ACC_DEC_PEAK;
-		solution->decAcc.move = PATH_DEC_ACC_SATURATED;
+		solution->accDec.move = PATH_MOVE_ACCDECPEAK;
+		solution->decAcc.move = PATH_MOVE_DECACCSATURATED;
 		
 		c_1 = pow2(v_f) / 2.0;
 		c_2 = c_dtl - c_dxl + v_f;
@@ -123,8 +123,8 @@ DINT PathAccRiseInTime(LREAL dt_tilde, LREAL dx, LREAL v_1, LREAL v_f, LREAL v_m
 	// #3 Time difference below dt_l_tilde
 	else if ((dt_tilde >= dt_u_tilde) && (dt_tilde < dt_l_tilde)) {
 		// Prepare for 2nd order solution
-		solution->accDec.move = PATH_ACC_DEC_SATURATED;
-		solution->decAcc.move = PATH_DEC_ACC_PEAK;
+		solution->accDec.move = PATH_MOVE_ACCDECSATURATED;
+		solution->decAcc.move = PATH_MOVE_DECACCPEAK;
 		
 		c_1 = (2.0 * pow2(v_1) + pow2(v_f)) / 2.0;
 		c_2 = 2.0 * v_1 + v_f - (c_dtu - c_dxu);
@@ -139,14 +139,14 @@ DINT PathAccRiseInTime(LREAL dt_tilde, LREAL dx, LREAL v_1, LREAL v_f, LREAL v_m
 	else {
 		// Use acceleration from the smaller of the two time differences at saturation limits
 		if(dt_u_tilde < dt_l_tilde) { // a_u < a_l
-			solution->accDec.move 	= PATH_ACC_DEC_SATURATED;
-			solution->decAcc.move 	= PATH_DEC_ACC_PEAK;
+			solution->accDec.move 	= PATH_MOVE_ACCDECSATURATED;
+			solution->decAcc.move 	= PATH_MOVE_DECACCPEAK;
 			
 			a = a_u;
 		}
 		else { // a_u >= a_l
-			solution->accDec.move 	= PATH_ACC_DEC_PEAK;
-			solution->decAcc.move 	= PATH_DEC_ACC_SATURATED;
+			solution->accDec.move 	= PATH_MOVE_ACCDECPEAK;
+			solution->decAcc.move 	= PATH_MOVE_DECACCSATURATED;
 			
 			a = a_l;
 		}
@@ -171,54 +171,54 @@ DINT PathAccRiseInTime(LREAL dt_tilde, LREAL dx, LREAL v_1, LREAL v_f, LREAL v_m
 	
 	solution->accDec.dx 	= dx;
 	solution->accDec.a 		= a;
-	//solution->accDec.t[0] = 0.0;
-	solution->accDec.t[1] 	= v_1 / a;
-	//solution->accDec.v[0] = 0.0;
-	solution->accDec.v[1] 	= v_1;
+	//solution->accDec.t_[0] = 0.0;
+	solution->accDec.t_[1] 	= v_1 / a;
+	//solution->accDec.v_[0] = 0.0;
+	solution->accDec.v_[1] 	= v_1;
 	
-	if(solution->accDec.move == PATH_ACC_DEC_SATURATED) {
-		solution->accDec.t[2] = v_max / a; // Same acceleration from 0.0 to v_1
-		solution->accDec.t[3] = solution->accDec.t[2] + (dx - ((2.0 * pow2(v_max) - pow2(v_f)) / (2.0 * a))) / v_max;
-		solution->accDec.t[4] = solution->accDec.t[3] + (v_max - v_f) / a;
-		solution->accDec.v[2] = v_max;
-		solution->accDec.v[3] = v_max;
-		solution->accDec.v[4] = v_f;
+	if(solution->accDec.move == PATH_MOVE_ACCDECSATURATED) {
+		solution->accDec.t_[2] = v_max / a; // Same acceleration from 0.0 to v_1
+		solution->accDec.t_[3] = solution->accDec.t_[2] + (dx - ((2.0 * pow2(v_max) - pow2(v_f)) / (2.0 * a))) / v_max;
+		solution->accDec.t_[4] = solution->accDec.t_[3] + (v_max - v_f) / a;
+		solution->accDec.v_[2] = v_max;
+		solution->accDec.v_[3] = v_max;
+		solution->accDec.v_[4] = v_f;
 	}
 	else { // AccDec with peak
 		v_p = sqrt(dx * a + pow2(v_f) / 2.0);
 		
-		solution->accDec.t[2] = v_p / a; // Same acceleration from 0.0 to v_1
-		solution->accDec.t[3] = solution->accDec.t[2];
-		solution->accDec.t[4] = solution->accDec.t[3] + (v_p - v_f) / a;
-		solution->accDec.v[2] = v_p;
-		solution->accDec.v[3] = v_p;
-		solution->accDec.v[4] = v_f;
+		solution->accDec.t_[2] = v_p / a; // Same acceleration from 0.0 to v_1
+		solution->accDec.t_[3] = solution->accDec.t_[2];
+		solution->accDec.t_[4] = solution->accDec.t_[3] + (v_p - v_f) / a;
+		solution->accDec.v_[2] = v_p;
+		solution->accDec.v_[3] = v_p;
+		solution->accDec.v_[4] = v_f;
 	}
 	
 	solution->decAcc.dx 	= dx;
 	solution->decAcc.a 		= a;
-	//solution->decAcc.t[0] = 0.0
-	solution->decAcc.t[1] 	= solution->accDec.t[1]; // v_1 / a
-	//solution->decAcc.v[0] = 0.0;
-	solution->decAcc.v[1] 	= v_1;
+	//solution->decAcc.t_[0] = 0.0
+	solution->decAcc.t_[1] 	= solution->accDec.t_[1]; // v_1 / a
+	//solution->decAcc.v_[0] = 0.0;
+	solution->decAcc.v_[1] 	= v_1;
 	
-	if(solution->decAcc.move == PATH_DEC_ACC_SATURATED) {
-		solution->decAcc.t[2] = solution->decAcc.t[1] + (v_1 - v_min) / a;
-		solution->decAcc.t[3] = solution->decAcc.t[2] + (dx - ((2.0 * pow2(v_1) + pow2(v_f) - 2.0 * pow2(v_min)) / (2.0 * a))) / v_min;
-		solution->decAcc.t[4] = solution->decAcc.t[3] + (v_f - v_min) / a;
-		solution->decAcc.v[2] = v_min;
-		solution->decAcc.v[3] = v_min;
-		solution->decAcc.v[4] = v_f;
+	if(solution->decAcc.move == PATH_MOVE_DECACCSATURATED) {
+		solution->decAcc.t_[2] = solution->decAcc.t_[1] + (v_1 - v_min) / a;
+		solution->decAcc.t_[3] = solution->decAcc.t_[2] + (dx - ((2.0 * pow2(v_1) + pow2(v_f) - 2.0 * pow2(v_min)) / (2.0 * a))) / v_min;
+		solution->decAcc.t_[4] = solution->decAcc.t_[3] + (v_f - v_min) / a;
+		solution->decAcc.v_[2] = v_min;
+		solution->decAcc.v_[3] = v_min;
+		solution->decAcc.v_[4] = v_f;
 	}
 	else {
 		v_p = sqrt((2.0 * pow2(v_1) + pow2(v_f)) / 2.0 - dx * a);
 		
-		solution->decAcc.t[2] = solution->decAcc.t[1] + (v_1 - v_p) / a;
-		solution->decAcc.t[3] = solution->decAcc.t[2];
-		solution->decAcc.t[4] = solution->decAcc.t[3] + (v_f - v_p) / a;
-		solution->decAcc.v[2] = v_p;
-		solution->decAcc.v[3] = v_p;
-		solution->decAcc.v[4] = v_f;
+		solution->decAcc.t_[2] = solution->decAcc.t_[1] + (v_1 - v_p) / a;
+		solution->decAcc.t_[3] = solution->decAcc.t_[2];
+		solution->decAcc.t_[4] = solution->decAcc.t_[3] + (v_f - v_p) / a;
+		solution->decAcc.v_[2] = v_p;
+		solution->decAcc.v_[3] = v_p;
+		solution->decAcc.v_[4] = v_f;
 	}
 	
 	return PATH_ERROR_NONE;
