@@ -1,0 +1,54 @@
+# PathPlan Version History
+
+## 0.2.1 (2021-06-21)
+- Rename function with Path prefix
+	- GetAcc -> PathAcc
+	- GetTimeDur -> PathTime
+	- GetDist -> PathDist (TODO)
+	- GetVel -> PathVel (TODO)
+	- GetTimeDiff -> PathTimeDiff (TODO)
+	- GetAccInTimeDiffWithRise (Octave) -> PathAccRiseInTime
+		- GetAccInTimeDiff -> PathAccInTime (TODO)
+	- SecondOrderRoots -> PathRoots
+	- GetPoint -> PathPoint
+- Revise internal variable naming convention
+- Convert all input and output values from REALs to LREALs
+
+## PathPlan 0.2.0 (2021-03-31)
+- GetAcc
+- GetTimeDur
+	- GetTime has naming conflict with runtime
+- GetDist
+- GetVel
+- GetPoint
+- SecondOrderRoots
+
+## PathKin 0.1.2 (2020-06-09)
+- Update all functions with return codes
+
+## PathKin 0.1.1 (2020-05-18)
+- Support equal timepoints in Kin_GetVelProfPoint
+
+## PathKin 0.1.0 (2020-05-15)
+- Kin_GetAcc
+- Kin_GetAccInTimespanPlus
+- Kin_GetTimespan
+- Kin_GetVelProfPoint
+
+## 0.0.4 (2020-04-14)
+- GetMoveVelAccel
+- GetMoveVelAccelPlus
+
+## 0.0.3 (2020-04-08)
+- GetMinAccelinTimespanPlus
+
+## 0.0.2 (2020-04-06)
+- GetVelocityProfilePt
+- GetMoveAddAccel
+- GetMinAccelInTimespan
+- GetMoveTimespan
+- GetMoveInterVelocity
+
+## 0.0.1 (2020-03-31)
+- GetTrapezoidProfileLimits
+- GetTrapezoidProfile
