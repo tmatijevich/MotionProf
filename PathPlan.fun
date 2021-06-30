@@ -27,6 +27,18 @@ FUNCTION PathTime : DINT (*Minimum time to move with acceleration over a distanc
 	END_VAR
 END_FUNCTION
 
+FUNCTION PathTimeDiff : DINT (*Difference in durations between fastest and slowest possible profiles*)
+	VAR_INPUT
+		dx : LREAL; (*[Units] Distance*)
+		v_0 : LREAL; (*[Units/s] Initial velocity*)
+		v_f : LREAL; (*[Units/s] Final velocity*)
+		v_min : LREAL; (*[Units/s] Minimum velocity*)
+		v_max : LREAL; (*[Units/s] Maximum velocity*)
+		a : LREAL; (*[Units/s^2] Acceleration magnitude*)
+		solution : PathPlanInTimeSolutionType; (*Solution reference*)
+	END_VAR
+END_FUNCTION
+
 FUNCTION PathAccRiseInTime : DINT (*Minimum acceleration to achieve a move with rise in a window of time*)
 	VAR_INPUT
 		dt_tilde : LREAL; (*[s] Difference in time durations*)

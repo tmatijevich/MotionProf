@@ -8,6 +8,7 @@
     <File Description="Common header">PathPlanMain.h</File>
     <File Description="Minimum acceleration">PathAcc.c</File>
     <File Description="Minimum time duration">PathTime.c</File>
+    <File Description="Maximum time difference">PathTimeDiff.c</File>
     <File Description="Minimum acceleration in window of time">PathAccRiseInTime.c</File>
     <File Description="Quadratic equation">PathRoots.c</File>
     <File Description="Velocity profile point">PathPoint.c</File>
