@@ -19,9 +19,10 @@ TYPE
 		PATH_ERROR_MOVELIMIT := 13, (*Function inputs suggest infinite acceleration or acceleration beyond what is specified*)
 		PATH_ERROR_NOSOLUTION2ND := 20, (*2nd order polynomial has imaginary roots*)
 		PATH_ERROR_NOSOLUTION1ST := 21, (*1st order polynomianl has no roots*)
-		PATH_ERROR_POINTLIMIT := 30, (*Number of points exceeds range [2, PATH_POINTS_MAX_INDEX]*)
+		PATH_ERROR_POINTLIMIT := 30, (*Number of points exceeds range [2, PATH_POINTS_MAX_INDEX + 1]*)
 		PATH_ERROR_TIMESEQUENCE := 31, (*Timepoints array is not sequential*)
-		PATH_ERROR_TIMELIMIT := 32 (*The requested time extends beyond the timepoints array*)
+		PATH_ERROR_TIMELIMIT := 32, (*The requested time extends beyond the timepoints array*)
+		PATH_ERROR_JERKLIMIT := 33 (*Jerk factor exceeds acceptable range [1.0, 2.0]*)
 		);
 	PathPlanBaseSolutionType : 	STRUCT  (*Solution structure for base functions*)
 		t_ : ARRAY[0..3]OF LREAL; (*[s] Time point array, always starting with 0.0 seconds*)
@@ -50,5 +51,6 @@ TYPE
 		x : LREAL; (*[Units] Position*)
 		v : LREAL; (*[Units/s] Velocity*)
 		a : LREAL; (*[Units/s^2] Acceleration*)
+		j : LREAL; (*[Units/s^3] Jerk*)
 	END_STRUCT;
 END_TYPE

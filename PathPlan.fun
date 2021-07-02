@@ -71,6 +71,7 @@ FUNCTION PathPoint : DINT (*Linearly-interpolated position, velocity, and accele
 		v_ : ARRAY[0..PATH_POINTS_MAX_INDEX] OF LREAL; (*[Units/s] Array of velocity point values*)
 		n : USINT; (*Number of points*)
 		t : LREAL; (*[s] Input request time*)
+		k : LREAL; (*[1.0, 2.0] Peak acceleration gain (jerk factor). 1 - infinite jerk 2 - minimum jerk*)
 	END_VAR
 	VAR_IN_OUT
 		solution : PathPlanPointSolutionType; (*Solution reference*)
