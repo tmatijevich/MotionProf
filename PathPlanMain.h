@@ -1,16 +1,27 @@
 /*******************************************************************************
-File: PathPlanMain.h
-Author: Tyler Matijevich
-Date: 2021-03-23
+ * File:      PathPlanMain.h
+ * Author:    Tyler Matijevich
+ * Created:   2020-03-23
 *******************************************************************************/
 
-#ifndef __PATH_PLAN_MAIN_H__
-#define __PATH_PLAN_MAIN_H__
+#ifndef PATH_PLAN_MAIN_H
+#define PATH_PLAN_MAIN_H
 
+#ifdef __cplusplus
+extern "C" 
+{
+#endif
+
+#include <PathPlan.h>
+#include <string.h>
 #include <math.h>
 #include <stdbool.h>
 
-/* Create a helper function for squared computation */
-static double pow2(double x) {return pow(x, 2.0);} // Implicit type promotion
+/* Function prototypes */
+double pow2(double x);
 
+#ifdef __cplusplus
+};
 #endif
+
+#endif /* PATH_PLAN_MAIN_H */

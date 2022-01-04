@@ -1,17 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?AutomationStudio FileVersion="4.9"?>
-<Library Version="0.02.1" SubType="ANSIC" xmlns="http://br-automation.co.at/AS/Library">
+<Library Version="0.02.1" SubType="ANSIC" Description="Kinematic functions for one-dimensional motion planning" xmlns="http://br-automation.co.at/AS/Library">
   <Files>
     <File Description="Function list">PathPlan.fun</File>
     <File Description="Data types">PathPlan.typ</File>
     <File Description="Constants">PathPlan.var</File>
     <File Description="Common header">PathPlanMain.h</File>
     <File Description="Minimum acceleration">PathAcc.c</File>
-    <File Description="Minimum time duration">PathTime.c</File>
-    <File Description="Maximum time difference">PathTimeDiff.c</File>
-    <File Description="Minimum acceleration in window of time">PathAccRiseInTime.c</File>
-    <File Description="Quadratic equation">PathRoots.c</File>
-    <File Description="Velocity profile point">PathPoint.c</File>
+    <File Description="2nd order roots">PathRoots.c</File>
+    <File Description="Point interpolation">PathPoint.c</File>
     <File Description="Version description history">VersionHistory.txt</File>
   </Files>
 </Library>
