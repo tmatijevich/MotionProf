@@ -1,3 +1,8 @@
+(*********************************************************************************
+ * File: PathPlan.fun
+ * Author: Tyler Matijevich
+ * Created: 2020-04-06
+ *********************************************************************************)
 
 FUNCTION PathAcc : DINT (*Minimum acceleration to move in time over a distance*)
 	VAR_INPUT
@@ -27,8 +32,8 @@ END_FUNCTION
 FUNCTION PathPoint : DINT (*Position, velocity, and acceleration at a point in time along linear segments with parabolic blends*)
 	VAR_INPUT
 		x_0 : LREAL; (*[Units] Initial position*)
-		t_ : ARRAY[0..PATH_POINTS_INDEX] OF LREAL; (*[s] Time points*)
-		v_ : ARRAY[0..PATH_POINTS_INDEX] OF LREAL; (*[Units/s] Velocity points*)
+		t_ : ARRAY[0..PATH_POINT_INDEX] OF LREAL; (*[s] Time points*)
+		v_ : ARRAY[0..PATH_POINT_INDEX] OF LREAL; (*[Units/s] Velocity points*)
 		n : USINT; (*Number of points*)
 		t : LREAL; (*[s] Request time*)
 		k : LREAL; (*Jerk factor (peak acceleration gain) from 1.0 (infinite jerk) to 2.0 (minimum jerk)*)

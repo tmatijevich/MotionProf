@@ -2,13 +2,13 @@
 <?AutomationStudio FileVersion="4.9"?>
 <Library Version="0.02.1" SubType="ANSIC" Description="Kinematic functions for one-dimensional motion planning" xmlns="http://br-automation.co.at/AS/Library">
   <Files>
-    <File Description="Function list">PathPlan.fun</File>
+    <File Description="Function declarations">PathPlan.fun</File>
     <File Description="Data types">PathPlan.typ</File>
     <File Description="Constants">PathPlan.var</File>
     <File Description="Common header">PathPlanMain.h</File>
     <File Description="Minimum acceleration">PathAcc.c</File>
     <File Description="2nd order roots">PathRoots.c</File>
     <File Description="Point interpolation">PathPoint.c</File>
-    <File Description="Version description history">VersionHistory.txt</File>
+    <File Description="Version update history">VersionHistory.txt</File>
   </Files>
 </Library>

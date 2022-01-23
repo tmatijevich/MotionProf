@@ -1,3 +1,8 @@
+(*********************************************************************************
+ * File: PathPlan.var
+ * Author: Tyler Matijevich
+ * Created: 2020-04-06
+ *********************************************************************************)
 VAR CONSTANT
-	PATH_POINTS_INDEX : USINT := 19; (*Max index of velocity-time point arrays*)
+	PATH_POINT_INDEX : USINT := 19; (*Max index of velocity-time point arrays*)
 END_VAR
