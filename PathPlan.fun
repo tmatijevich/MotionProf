@@ -18,6 +18,55 @@ FUNCTION PathAcc : DINT (*Minimum acceleration to move in time over a distance*)
 	END_VAR
 END_FUNCTION
 
+FUNCTION PathTime : DINT (*Minimum time to move with acceleration over a distance*)
+	VAR_INPUT
+		dx : LREAL; (*[Units] Distance*)
+		v_0 : LREAL; (*[Units/s] Initial velocity*)
+		v_f : LREAL; (*[Units/s] Final velocity*)
+		v_min : LREAL; (*[Units/s] Minimum velocity*)
+		v_max : LREAL; (*[Units/s] Maximum velocity*)
+		a : LREAL; (*[Units/s^2] Acceleration magnitude*)
+		solution : PathPlanBaseSolutionType; (*Solution reference*)
+	END_VAR
+END_FUNCTION
+
+FUNCTION PathDist : DINT (*Maximum distance from move with acceleration in time*)
+	VAR_INPUT
+		dt : LREAL; (*[s] Time duration*)
+		v_0 : LREAL; (*[Units/s] Initial velocity*)
+		v_f : LREAL; (*[Units/s] Final velocity*)
+		v_min : LREAL; (*[Units/s] Minimum velocity*)
+		v_max : LREAL; (*[Units/s] Maximum velocity*)
+		a : LREAL; (*[Units/s^2] Acceleration magnitude*)
+		solution : PathPlanBaseSolutionType; (*Solution reference*)
+	END_VAR
+END_FUNCTION
+
+FUNCTION PathVel : DINT (*Minimum velocity to move with acceleration in time over a distance*)
+	VAR_INPUT
+		dt : LREAL; (*[s] Time duration*)
+		dx : LREAL; (*[Units] Distance*)
+		v_0 : LREAL; (*[Units/s] Initial velocity*)
+		v_f : LREAL; (*[Units/s] Final velocity*)
+		v_min : LREAL; (*[Units/s] Minimum velocity*)
+		v_max : LREAL; (*[Units/s] Maximum velocity*)
+		a : LREAL; (*[Units/s^2] Acceleration magnitude*)
+		solution : PathPlanBaseSolutionType; (*Solution reference*)
+	END_VAR
+END_FUNCTION
+
+FUNCTION PathTimeDiff : DINT (*Difference in time durations between fastest and slowest moves*)
+	VAR_INPUT
+		dx : LREAL; (*[Units] Distance*)
+		v_0 : LREAL; (*[Units/s] Initial velocity*)
+		v_f : LREAL; (*[Units/s] Final velocity*)
+		v_min : LREAL; (*[Units/s] Minimum velocity*)
+		v_max : LREAL; (*[Units/s] Maximum velocity*)
+		a : LREAL; (*[Units/s^2] Acceleration magnitude*)
+		solution : PathPlanInTimeSolutionType; (*Solution reference*)
+	END_VAR
+END_FUNCTION
+
 FUNCTION PathRoots : DINT (*Real roots of a second order polynomial*)
 	VAR_INPUT
 		p_2 : LREAL; (*2nd order coefficient*)

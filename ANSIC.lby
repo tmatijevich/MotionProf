@@ -7,6 +7,9 @@
     <File Description="Constants">PathPlan.var</File>
     <File Description="Common header">PathPlanMain.h</File>
     <File Description="Minimum acceleration">PathAcc.c</File>
+    <File Description="Minimum time">PathTime.c</File>
+    <File Description="Maximum distance">PathDist.c</File>
+    <File Description="Minimum velocity">PathVel.c</File>
     <File Description="2nd order roots">PathRoots.c</File>
     <File Description="Point interpolation">PathPoint.c</File>
     <File Description="Version update history">VersionHistory.txt</File>
