@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?AutomationStudio FileVersion="4.9"?>
-<Library Version="0.02.1" SubType="ANSIC" Description="Kinematic functions for one-dimensional motion planning" xmlns="http://br-automation.co.at/AS/Library">
+<Library Version="0.02.1" SubType="ANSIC" Description="1D kinematic path planning" xmlns="http://br-automation.co.at/AS/Library">
   <Files>
     <File Description="Function declarations">PathPlan.fun</File>
     <File Description="Data types">PathPlan.typ</File>
