@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?AutomationStudio FileVersion="4.9"?>
-<Library Version="0.02.1" SubType="ANSIC" Description="1D kinematic path planning" xmlns="http://br-automation.co.at/AS/Library">
-  <Files>
-    <File Description="Function declarations">PathPlan.fun</File>
-    <File Description="Data types">PathPlan.typ</File>
-    <File Description="Constants">PathPlan.var</File>
-  </Files>
+<Library Version="0.03.0" SubType="ANSIC" Description="1D kinematic path planning" xmlns="http://br-automation.co.at/AS/Library">
+  <Objects>
+    <Object Type="File" Description="Function declarations">PathPlan.fun</Object>
+    <Object Type="File" Description="Data types">PathPlan.typ</Object>
+    <Object Type="File" Description="Constants">PathPlan.var</Object>
+    <Object Type="Package" Description="Source code">Source</Object>
+  </Objects>
 </Library>
