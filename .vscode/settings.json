@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.var": "st",
+        "*.typ": "st",
+        "*.fun": "st"
+    }
+}

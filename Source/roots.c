@@ -1,13 +1,10 @@
 /*******************************************************************************
-* File: roots.c
-* Author: Tyler Matijevich
-* Date: 2020-05-13
+ * File: roots.c
+ * Author: Tyler Matijevich
+ * Date: 2020-05-13
 *******************************************************************************/
 
-#include "PathPlan.h"
-#include <string.h>
-#include <stdint.h>
-#include <math.h>
+#include "..\main.h"
 
 double pow2(double x) { return pow(x, 2.0); } 
 
@@ -52,5 +49,4 @@ int32_t PathPlanRoots(double p_2, double p_1, double p_0,
   }
   
   return 0;
-  
 }
