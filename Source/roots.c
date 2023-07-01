@@ -18,6 +18,7 @@ int32_t PathPlanRoots(double p_2, double p_1, double p_0,
   /* Check pointer */
   if(output == NULL)
     return -1;
+  memset(output, 0, sizeof(*output));
   
   /* Check divide by zero */
   if(p_2 != 0.0) {
