@@ -9,7 +9,7 @@
 #include <math.h>
 
 #ifdef OCTAVE_BUILD
-  #include "Octave\octave.h"
+  #include "../Octave/octave.h"
 #else
   #include "PathPlan.h"
 #endif

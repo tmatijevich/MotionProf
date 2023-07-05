@@ -5,7 +5,6 @@
     <Object Type="File" Description="Function declarations">PathPlan.fun</Object>
     <Object Type="File" Description="Data types">PathPlan.typ</Object>
     <Object Type="File" Description="Constants">PathPlan.var</Object>
-    <Object Type="File" Description="Common header">main.h</Object>
     <Object Type="Package" Description="Source code">Source</Object>
   </Objects>
 </Library>

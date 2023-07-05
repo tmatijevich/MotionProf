@@ -4,7 +4,7 @@
  * Date: 2020-04-10
 *******************************************************************************/
 
-#include "../main.h"
+#include "main.h"
 
 /* Minimum acceleration to move in time over a distance */
 int32_t PathPlanAcc(double dt, double dx, double v_0, double v_f, double v_min, 
