@@ -1,5 +1,5 @@
 /*******************************************************************************
-* File: octpathplanroots.cc
+* File: OctMotionProfRoots.cc
 * Author: Tyler Matijevich
 * Date: 2023-06-26
 *******************************************************************************/
@@ -7,9 +7,9 @@
 #include <octave/oct.h>
 #include "octave.h"
 
-DEFUN_DLD(octpathplanroots, args, nargout, "TODO: Help string") {
+DEFUN_DLD(OctMotionProfRoots, args, nargout, "TODO: Help string") {
   
-  octave_stdout << "Calling octpathplanroots\n";
+  octave_stdout << "Calling OctMotionProfRoots\n";
 
   bool valid_args = args.length() == 3;
   
@@ -19,9 +19,9 @@ DEFUN_DLD(octpathplanroots, args, nargout, "TODO: Help string") {
   }
   
   int32_t status;
-  PathPlanRootsOutputType output;
+  MotionProfRootsOutputType output;
   if(valid_args) {
-    status = PathPlanRoots(args(0).double_value(), args(1).double_value(), 
+    status = MotionProfRoots(args(0).double_value(), args(1).double_value(), 
                           args(2).double_value(), &output);
 
     octave_stdout << "Root 1: " << output.r_1 << ", Root 2: " << output.r_2 

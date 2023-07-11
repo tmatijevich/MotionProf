@@ -9,8 +9,8 @@
 double pow2(double x) { return pow(x, 2.0); } 
 
 /* Find real roots of second order polynomial (quadratic equation) */
-int32_t PathPlanRoots(double p_2, double p_1, double p_0, 
-                      PathPlanRootsOutputType *output) {
+int32_t MotionProfRoots(double p_2, double p_1, double p_0, 
+                      MotionProfRootsOutputType *output) {
   
   /* Local variables */
   double discriminant = pow2(p_1) - 4.0 * p_2 * p_0;

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * File: OctPathPlanAcc.cc
+ * File: OctMotionProfAcc.cc
  * Author: Tyler Matijevich
  * Date: 2023-07-02
 *******************************************************************************/
@@ -9,19 +9,19 @@
 
 bool CheckArguments(const octave_value_list& args, const int count);
 
-DEFUN_DLD(OctPathPlanAcc, args, nargout, "TODO: Help string") {
+DEFUN_DLD(OctMotionProfAcc, args, nargout, "TODO: Help string") {
 
   if(!CheckArguments(args, 6))
     print_usage();
 
   int32_t status;
-  PathPlanBaseOutputType output;
-  status = PathPlanAcc(args(0).double_value(), args(1).double_value(),
+  MotionProfBaseOutputType output;
+  status = MotionProfAcc(args(0).double_value(), args(1).double_value(),
                        args(2).double_value(), args(3).double_value(),
                        args(4).double_value(), args(5).double_value(),
                        &output);
 
-  printf("PathPlanAcc call: Acc %.3f, Vel %.3f, Move %2d, Status %+10d\n", output.a, 
+  printf("MotionProfAcc call: Acc %.3f, Vel %.3f, Move %2d, Status %+10d\n", output.a, 
          output.v_[1], output.move, status);
 
   octave_map oct_output;

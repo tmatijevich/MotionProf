@@ -7,12 +7,12 @@
 #include "main.h"
 
 /* Minimum acceleration to move in time over a distance */
-int32_t PathPlanAcc(double dt, double dx, double v_0, double v_f, double v_min, 
-                    double v_max, PathPlanBaseOutputType *output) {
+int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f, double v_min, 
+                    double v_max, MotionProfBaseOutputType *output) {
 
   /* Local variables */
   double dx_bar, dx_u, dx_l, c_x_u, c_t_u, c_x_l, c_t_l, p_2, p_1, p_0;
-  PathPlanRootsOutputType roots_output;
+  MotionProfRootsOutputType roots_output;
   int32_t roots_status;
 
   /* Check pointer */
@@ -47,10 +47,10 @@ int32_t PathPlanAcc(double dt, double dx, double v_0, double v_f, double v_min,
     that passes assumptions */
 
     if(dx < dx_u)
-      output->move = PATHPLAN_MOVE_ACC_DEC;
+      output->move = MOTIONPROF_MOVE_ACCDEC;
 
     else {
-      output->move = PATHPLAN_MOVE_ACC_DEC_SATURATED;
+      output->move = MOTIONPROF_MOVE_ACCDEC_SATURATED;
       output->a = (c_x_u - v_max * c_t_u) / (dx - v_max * dt);
       if(output->a > 0.0) {
         output->v_[1] = v_max;
@@ -75,10 +75,10 @@ int32_t PathPlanAcc(double dt, double dx, double v_0, double v_f, double v_min,
     that passes assumptions */
 
     if(dx > dx_l)
-      output->move = PATHPLAN_MOVE_DEC_ACC;
+      output->move = MOTIONPROF_MOVE_DECACC;
 
     else {
-      output->move = PATHPLAN_MOVE_DEC_ACC_SATURATED;
+      output->move = MOTIONPROF_MOVE_DECACC_SATURATED;
       output->a = (c_x_l - v_min * c_t_l) / (dx - v_min * dt);
       if(output->a > 0.0) {
         output->v_[1] = v_min;
@@ -95,17 +95,17 @@ int32_t PathPlanAcc(double dt, double dx, double v_0, double v_f, double v_min,
   }
 
   /* Find v_12 */
-  if(output->move == PATHPLAN_MOVE_ACC_DEC || output->move == PATHPLAN_MOVE_DEC_ACC) {
+  if(output->move == MOTIONPROF_MOVE_ACCDEC || output->move == MOTIONPROF_MOVE_DECACC) {
     p_2 = 2.0 * dt;
     p_1 = -4.0 * dx;
     p_0 = 2.0 * dx * (v_0 + v_f) - dt * (pow2(v_0) + pow2(v_f));
 
-    roots_status = PathPlanRoots(p_2, p_1, p_0, &roots_output);
+    roots_status = MotionProfRoots(p_2, p_1, p_0, &roots_output);
 
     if(roots_status)
       return -1;
 
-    if(output->move == PATHPLAN_MOVE_ACC_DEC) {
+    if(output->move == MOTIONPROF_MOVE_ACCDEC) {
       output->v_[1] = fmax(roots_output.r_1, roots_output.r_2);
       output->v_[2] = output->v_[1];
     }

@@ -11,7 +11,7 @@
 #ifdef OCTAVE_BUILD
   #include "../Octave/octave.h"
 #else
-  #include "PathPlan.h"
+  #include "MotionProf.h"
 #endif
 
 double pow2(double x);
