@@ -1,9 +1,5 @@
 
 TYPE
-	MotionProfRootsOutputType : 	STRUCT  (*Roots output structure*)
-		r_1 : LREAL; (*First root*)
-		r_2 : LREAL; (*Second root*)
-	END_STRUCT;
 	MotionProfMoveEnum : 
 		( (*Movement types*)
 		MOTIONPROF_MOVE_NONE := 0,

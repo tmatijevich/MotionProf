@@ -12,7 +12,7 @@ int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f, double v_min
 
   /* Local variables */
   double dx_bar, dx_u, dx_l, c_x_u, c_t_u, c_x_l, c_t_l, p_2, p_1, p_0;
-  MotionProfRootsOutputType roots_output;
+  SecondOrderRootsOutputType roots_output;
   int32_t roots_status;
 
   /* Check pointer */
@@ -100,7 +100,7 @@ int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f, double v_min
     p_1 = -4.0 * dx;
     p_0 = 2.0 * dx * (v_0 + v_f) - dt * (pow2(v_0) + pow2(v_f));
 
-    roots_status = MotionProfRoots(p_2, p_1, p_0, &roots_output);
+    roots_status = SecondOrderRoots(p_2, p_1, p_0, &roots_output);
 
     if(roots_status)
       return -1;

@@ -4,6 +4,6 @@
   <Objects>
     <Object Type="File" Description="Common header">main.h</Object>
     <Object Type="File" Description="Minimum acceleration">acc.c</Object>
-    <Object Type="File" Description="Second order roots">roots.c</Object>
+    <Object Type="File" Description="Second order roots">help.c</Object>
   </Objects>
 </Package>
