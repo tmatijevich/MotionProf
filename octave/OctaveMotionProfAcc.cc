@@ -1,15 +1,21 @@
 /*******************************************************************************
- * File: OctMotionProfAcc.cc
- * Author: Tyler Matijevich
- * Date: 2023-07-02
-*******************************************************************************/
+ * File: OctaveMotionProfAcc.cc
+ * Created: 2023-07-02
+ * 
+ * Contributors: 
+ * - Tyler Matijevich
+ * 
+ * License:
+ *  This file OctaveMotionProfAcc.cc is part of the MotionProf project released 
+ *  under the GNU General Public License v3.0 agreement.  For more information, *  please visit https://github.com/tmatijevich/MotionProf/blob/main/LICENSE.
+ ******************************************************************************/
 
 #include <octave/oct.h>
 #include "octave.h"
 
 bool CheckArguments(const octave_value_list& args, const int count);
 
-DEFUN_DLD(OctMotionProfAcc, args, nargout, "TODO: Help string") {
+DEFUN_DLD(OctaveMotionProfAcc, args, nargout, "TODO: Help string") {
 
   if(!CheckArguments(args, 6))
     print_usage();

@@ -1,8 +1,18 @@
 /*******************************************************************************
  * File: octave.h
- * Author: Tyler Matijevich
- * Date: 2023-06-26
-*******************************************************************************/
+ * Created: 2023-06-26
+ * 
+ * Contributors: 
+ * - Tyler Matijevich
+ * 
+ * License:
+ *  This file octave.h is part of the MotionProf project released under the
+ *  GNU General Public License v3.0 agreement.  For more information, please 
+ *  visit https://github.com/tmatijevich/MotionProf/blob/main/LICENSE.
+ ******************************************************************************/
+
+#ifndef MOTIONPROF_OCTAVE_H
+#define MOTIONPROF_OCTAVE_H
 
 #ifdef __cplusplus
 extern "C" 
@@ -21,11 +31,6 @@ typedef enum MotionProfMoveEnum {
   MOTIONPROF_MOVE_ACCACC = 11
 } MotionProfMoveEnum;
 
-typedef struct MotionProfRootsOutputType {
-  double r_1;
-  double r_2;
-} MotionProfRootsOutputType;
-
 typedef struct MotionProfBaseOutputType {
   double t_[4];
   double dx;
@@ -34,11 +39,12 @@ typedef struct MotionProfBaseOutputType {
   enum MotionProfMoveEnum move;
 } MotionProfBaseOutputType;
 
-int32_t MotionProfRoots(double p_2, double p_1, double p_0,
-                      MotionProfRootsOutputType *output);
-int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f, double v_min,
-                    double v_max, MotionProfBaseOutputType *output);
+int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f, 
+                      double v_min, double v_max, 
+                      MotionProfBaseOutputType *output);
 
 #ifdef __cplusplus
 };
 #endif
+
+#endif /* MOTIONPROF_OCTAVE_H */
