@@ -1,12 +1,21 @@
 /*******************************************************************************
- * File: roots.c
- * Author: Tyler Matijevich
- * Date: 2020-05-13
-*******************************************************************************/
+ * File: help.c
+ * Created: 2020-05-13
+ * 
+ * Contributors: 
+ * - Tyler Matijevich
+ * 
+ * License:
+ *  This file help.c is part of the MotionProf project released under the
+ *  GNU General Public License v3.0 agreement.  For more information, please 
+ *  visit https://github.com/tmatijevich/MotionProf/blob/main/LICENSE.
+ ******************************************************************************/
 
 #include "main.h"
 
-double pow2(double x) { return pow(x, 2.0); } 
+double pow2(double x) {
+  return pow(x, 2.0);
+}
 
 /* Find real roots of second order polynomial (quadratic equation) */
 int32_t SecondOrderRoots(double p_2, double p_1, double p_0, 
