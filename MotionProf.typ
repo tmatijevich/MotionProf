@@ -17,4 +17,10 @@ TYPE
 		a : LREAL; (*[units/s/s] Acceleration magnitude*)
 		move : MotionProfMoveEnum; (*Movement type*)
 	END_STRUCT;
+	MotionProfPointOutputType : 	STRUCT  (*Time series point output structure*)
+		x : LREAL; (*[units] Position*)
+		v : LREAL; (*[units/s] Velocity*)
+		a : LREAL; (*[units/s/s] Acceleration*)
+		j : LREAL; (*[units/s/s/s] Jerk*)
+	END_STRUCT;
 END_TYPE

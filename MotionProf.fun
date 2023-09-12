@@ -12,3 +12,17 @@ FUNCTION MotionProfAcc : DINT (*Minimum acceleration to move in time over a dist
 		output : MotionProfBaseOutputType; (*Output*)
 	END_VAR
 END_FUNCTION
+
+FUNCTION MotionProfPoint : DINT (*Velocity profile point interpolation*)
+	VAR_INPUT
+		x_0 : LREAL; (*[units] Initial position*)
+		t_ : ARRAY[0..MOTIONPROF_POINT_MAX] OF LREAL; (*[s] Time points*)
+		v_ : ARRAY[0..MOTIONPROF_POINT_MAX] OF LREAL; (*[units/s] Velocity points*)
+		n : USINT; (*Number of points*)
+		t : LREAL; (*[s] Time interpolation*)
+		k : LREAL; (*Jerk factor 1.0 infinite jerk 2.0 minimum jerk*)
+	END_VAR
+	VAR_IN_OUT
+		output : MotionProfPointOutputType; (*Output*)
+	END_VAR
+END_FUNCTION

@@ -1,0 +1,3 @@
+VAR CONSTANT
+	MOTIONPROF_POINT_MAX : USINT := 20; (*Maximum points in a velocity profile*)
+END_VAR
