@@ -113,7 +113,7 @@ int32_t MotionProfPoint(double x_0, double t_[], double v_[], uint8_t n,
       ua_[a + 0] = 0.0;
       ua_[a + 1] = direction * k * a_bar;
       ua_[a + 2] = ua_[a + 1];
-      uj_[a + 0] = a_bar * j;
+      uj_[a + 0] = direction * j;
       uj_[a + 1] = 0.0;
       uj_[a + 2] = -1.0 * uj_[a + 0];
     }
