@@ -21,7 +21,7 @@
 
 /* Header switch for build environments */
 #ifdef OCTAVE_BUILD
-  #include "../Octave/octave.h"
+  #include "../Octave/octave_motion_prof.h"
 #else
   #include "MotionProf.h"
 #endif

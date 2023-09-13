@@ -1,18 +1,18 @@
 /*******************************************************************************
- * File: octave.h
+ * File: octave_motion_prof.h
  * Created: 2023-06-26
  * 
  * Contributors: 
  * - Tyler Matijevich
  * 
  * License:
- *  This file octave.h is part of the MotionProf project released under the
- *  GNU General Public License v3.0 agreement.  For more information, please 
- *  visit https://github.com/tmatijevich/MotionProf/blob/main/LICENSE.
+ *  This file octave_motion_prof.h is part of the MotionProf project released 
+ *  under the GNU General Public License v3.0 agreement.  For more information, 
+ *  please visit https://github.com/tmatijevich/MotionProf/blob/main/LICENSE.
  ******************************************************************************/
 
-#ifndef MOTIONPROF_OCTAVE_H
-#define MOTIONPROF_OCTAVE_H
+#ifndef OCTAVE_MOTIONPROF_H
+#define OCTAVE_MOTIONPROF_H
 
 #ifdef __cplusplus
 extern "C" 
@@ -47,4 +47,4 @@ int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f,
 };
 #endif
 
-#endif /* MOTIONPROF_OCTAVE_H */
+#endif /* OCTAVE_MOTIONPROF_H */
