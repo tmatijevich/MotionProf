@@ -6,5 +6,7 @@ delete *.oct
 warning(w)
 printf("Build OctaveMotionProfAcc\n")
 mkoctfile OctaveMotionProfAcc.cc help.cc ../Source/acc.c ../Source/help.c -DOCTAVE_BUILD
+printf("Build OctaveMotionProfPoint\n")
+mkoctfile OctaveMotionProfPoint.cc help.cc ../Source/point.c ../Source/help.c -DOCTAVE_BUILD
 printf("Build attempt finished\n")
 toc

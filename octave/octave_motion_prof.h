@@ -21,6 +21,8 @@ extern "C"
 
 #include <stdint.h>
 
+#define MOTIONPROF_POINT_MAX 20U
+
 typedef enum MotionProfMoveEnum {
   MOTIONPROF_MOVE_NONE = 0,
   MOTIONPROF_MOVE_DECACC = 1,
@@ -39,9 +41,18 @@ typedef struct MotionProfBaseOutputType {
   enum MotionProfMoveEnum move;
 } MotionProfBaseOutputType;
 
+typedef struct MotionProfPointOutputType {
+  double x;
+  double v;
+  double a;
+  double j;
+} MotionProfPointOutputType;
+
 int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f, 
                       double v_min, double v_max, 
                       MotionProfBaseOutputType *output);
+int32_t MotionProfPoint(double x_0, double t_[], double v_[], uint8_t n, 
+                        double t, double k, MotionProfPointOutputType *output);
 
 #ifdef __cplusplus
 };
