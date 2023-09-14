@@ -1,3 +1,8 @@
 VAR CONSTANT
+	MOTIONPROF_ERROR_NULL_POINTER : DINT := -5; (*Invalid point to output structure*)
+	MOTIONPROF_ERROR_INPUT_VELOCITY : DINT := -1; (*Invalid input velocity limits or endpoints*)
+	MOTIONPROF_ERROR_INPUT_MOVE : DINT := -2; (*The input distance or acceleration is impossible given the velocity limits*)
+	MOTIONPROF_ERROR_INPUT_POSITIVE : DINT := -3; (*Input(s) are non-positive*)
+	MOTIONPROF_ERROR_NO_SOLUTION : DINT := -4; (*No plausible motion profile could be found*)
 	MOTIONPROF_POINT_MAX : USINT := 20; (*Maximum points in a velocity profile*)
 END_VAR

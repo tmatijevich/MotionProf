@@ -26,7 +26,7 @@ int32_t SecondOrderRoots(double p_2, double p_1, double p_0,
   
   /* Check pointer */
   if(output == NULL)
-    return -1;
+    return MOTIONPROF_ERROR_NULL_POINTER;
   memset(output, 0, sizeof(*output));
   
   /* Check divide by zero */
@@ -38,7 +38,7 @@ int32_t SecondOrderRoots(double p_2, double p_1, double p_0,
     }
     /* Two imaginary roots */
     else if(discriminant < 0.0)
-      return -1;
+      return MOTIONPROF_ERROR_NO_SOLUTION;
     /* Root multiple */
     else {
       output->r_1 = -p_1 / (2.0 * p_2);
@@ -55,7 +55,7 @@ int32_t SecondOrderRoots(double p_2, double p_1, double p_0,
     }
     /* No roots */
     else
-      return -1;
+      return MOTIONPROF_ERROR_NO_SOLUTION;
   }
   
   return 0;

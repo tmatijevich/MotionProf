@@ -25,22 +25,22 @@ int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f,
 
   /* Check pointer and reset output */
   if (output == NULL)
-    return -1;
+    return MOTIONPROF_ERROR_NULL_POINTER;
   memset(output, 0, sizeof(*output));
 
   /* Check inputs against assumptions */
   if (v_min < 0.0 || v_max <= v_min)
-    return -1;
+    return MOTIONPROF_ERROR_INPUT_VELOCITY;
 
   if (v_0 < v_min || v_max < v_0 || v_f < v_min || v_max < v_f)
-    return -1;
+    return MOTIONPROF_ERROR_INPUT_VELOCITY;
 
   if (dt <= 0.0 || dx <= 0.0)
-    return -1;
+    return MOTIONPROF_ERROR_INPUT_POSITIVE;
 
   /* Plausible distance */
   if (dx <= v_min * dt || v_max * dt <= dx)
-    return -1;
+    return MOTIONPROF_ERROR_INPUT_MOVE;
 
   /* Nominal distance */
   dx_bar = 0.5 * dt * (v_0 + v_f);
@@ -112,7 +112,7 @@ int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f,
     roots_status = SecondOrderRoots(p_2, p_1, p_0, &roots_output);
 
     if (roots_status)
-      return -1;
+      return roots_status;
 
     if (output->move == MOTIONPROF_MOVE_ACCDEC) {
       output->v_[1] = fmax(roots_output.r_1, roots_output.r_2);
