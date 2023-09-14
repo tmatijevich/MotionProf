@@ -7,5 +7,6 @@
     <Object Type="File" Description="Minimum time">time.c</Object>
     <Object Type="File" Description="Profile point">point.c</Object>
     <Object Type="File" Description="Second order roots">help.c</Object>
+    <Object Type="File" Description="Maximum distance">dist.c</Object>
   </Objects>
 </Package>

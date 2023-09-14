@@ -27,6 +27,20 @@ FUNCTION MotionProfTime : DINT (*Minimum time duration to move with acceleration
 	END_VAR
 END_FUNCTION
 
+FUNCTION MotionProfDist : DINT (*Maximum distance from move with acceleration in time*)
+	VAR_INPUT
+		dt : LREAL; (*[s] Time duration*)
+		v_0 : LREAL; (*[units/s] Initial velocity*)
+		v_f : LREAL; (*[units/s] Final velocity*)
+		v_min : LREAL; (*[units/s] Minimum velocity*)
+		v_max : LREAL; (*[units/s] Maximum velocity*)
+		a : LREAL; (*[units/s/s] Acceleration magnitude*)
+	END_VAR
+	VAR_IN_OUT
+		output : MotionProfBaseOutputType; (*Output*)
+	END_VAR
+END_FUNCTION
+
 FUNCTION MotionProfPoint : DINT (*Velocity profile point interpolation*)
 	VAR_INPUT
 		x_0 : LREAL; (*[units] Initial position*)
