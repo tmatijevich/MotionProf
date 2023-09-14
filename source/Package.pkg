@@ -5,8 +5,9 @@
     <Object Type="File" Description="Common header">main.h</Object>
     <Object Type="File" Description="Minimum acceleration">acc.c</Object>
     <Object Type="File" Description="Minimum time">time.c</Object>
+    <Object Type="File" Description="Maximum distance">dist.c</Object>
+    <Object Type="File" Description="Minimum velocity">vel.c</Object>
     <Object Type="File" Description="Profile point">point.c</Object>
     <Object Type="File" Description="Second order roots">help.c</Object>
-    <Object Type="File" Description="Maximum distance">dist.c</Object>
   </Objects>
 </Package>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?AutomationStudio FileVersion="4.9"?>
-<Library Version="1.00.0" SubType="ANSIC" Description="Motion profile derivation and generation" xmlns="http://br-automation.co.at/AS/Library">
+<Library Version="1.00.0" SubType="ANSIC" Description="Optimal motion profile derivation and generation" xmlns="http://br-automation.co.at/AS/Library">
   <Objects>
     <Object Type="File" Description="Function declarations">MotionProf.fun</Object>
     <Object Type="File" Description="Data types">MotionProf.typ</Object>
