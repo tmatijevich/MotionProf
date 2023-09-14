@@ -23,12 +23,12 @@ int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f,
   SecondOrderRootsOutputType roots_output;
   int32_t roots_status;
 
-  /* Check pointer */
+  /* Check pointer and reset output */
   if (output == NULL)
     return -1;
   memset(output, 0, sizeof(*output));
 
-  /* Check assumptions */
+  /* Check inputs against assumptions */
   if (v_min < 0.0 || v_max <= v_min)
     return -1;
 
@@ -38,6 +38,7 @@ int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f,
   if (dt <= 0.0 || dx <= 0.0)
     return -1;
 
+  /* Plausible distance */
   if (dx <= v_min * dt || v_max * dt <= dx)
     return -1;
 

@@ -31,7 +31,7 @@ int32_t MotionProfPoint(double x_0, double t_[], double v_[], uint8_t n,
     return -1;
   memset(output, 0, sizeof(*output));
 
-  /* Check assumptions */
+  /* Check inputs against assumptions */
   /* Two or more points in velocity profile 2 <= n <= 21 */
   if (n < 2 || MOTIONPROF_POINT_MAX + 1 < n)
     return -1;
