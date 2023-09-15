@@ -145,7 +145,7 @@ int32_t MotionProfPoint(double x_0, double t_[], double v_[], uint8_t n,
   output->j = uj_[u];
   output->a = ua_[u] + uj_[u] * (t - ut_[u]);
   output->v = uv_[u] + ua_[u] * (t - ut_[u]) + 0.5 * uj_[u] * pow2(t - ut_[u]);
-  output->x = ux_[u] + uv_[u] * (t - ut_[u]) + 0.5 * ua_[u] * pow2(t - ut_[u]) + (1.0 / 6.0) * pow(t - ut_[u], 3.0);
+  output->x = ux_[u] + uv_[u] * (t - ut_[u]) + 0.5 * ua_[u] * pow2(t - ut_[u]) + (1.0 / 6.0) * uj_[u] * pow(t - ut_[u], 3.0);
   
   return 0;
 }
