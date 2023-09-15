@@ -27,3 +27,15 @@ MotionProfPoint | Velocity profile point interpolation
 This library includes wrappers to build all source functions in the Octave environment.  
 [GNU Octave](https://octave.org/) is a free scientific programming language largely compatible with MATLAB.  
 This library utilizes Octave for plotting and testing.
+
+Launch Octave then run the make script to build.
+
+```
+> make
+```
+
+For example, plot the minimum time function.
+
+```
+> PlotMotionProfTime(0.25, 0.0, 0.5, 0.0, 2.0, 10.0, 1.2);
+```
