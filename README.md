@@ -1,4 +1,4 @@
-# MotionProf [![Made for B&R](https://github.com/hilch/BandR-badges/blob/main/Made-For-BrAutomation.svg)](https://www.br-automation.com)
+# MotionProf [![Made for B&R](https://raw.githubusercontent.com/hilch/BandR-badges/dfd5e264d7d2dd369fd37449605673f779db437d/Made-For-BrAutomation.svg)](https://www.br-automation.com)
 
 MotionProf is an Automation Studio library with functions to derive and generate optimal motion profiles.
 
