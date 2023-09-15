@@ -2,6 +2,8 @@
 
 MotionProf is an Automation Studio library with functions to derive and generate optimal motion profiles.
 
+![2023-09-15_16 30 09](https://github.com/tmatijevich/MotionProf/assets/33841634/e68a4a9c-4481-4d25-912a-1510f0f2ae5e)
+
 # Functions
 
 Function | Parameters | Description
