@@ -6,13 +6,21 @@ MotionProf is an Automation Studio library with functions to derive and generate
 
 # Functions
 
-Function | Parameters | Description
----|---|---
-MotionProfAcc | `a = MotionProfAcc(dt, dx, v_0, v_f, v_min, v_max)` | Minimum acceleration to move in time over a distance
-MotionProfTime | `dt = MotionProfTime(dx, v_0, v_f, v_min, v_max, a)` | Minimum time duration to move with acceleration over a distance
-MotionProfDist | `dx = MotionProfDist(dt, v_0, v_f, v_min, v_max, a)` | Maximum distance from move with acceleration in time
-MotionProfVel | `v_12 = MotionProfVel(dt, dx, v_0, v_f, v_min, v_max, a)` | Minimum velocity to move with acceleration in time over a distance
-MotionProfPoint | `[x, v, a, j] = MotionProfPoint(x_0, t_[], v_[], n, t, k)` | Velocity profile point interpolation
+Function | Parameters
+---|---
+MotionProfAcc | `a = MotionProfAcc(dt, dx, v_0, v_f, v_min, v_max)`
+MotionProfTime | `dt = MotionProfTime(dx, v_0, v_f, v_min, v_max, a)`
+MotionProfDist | `dx = MotionProfDist(dt, v_0, v_f, v_min, v_max, a)`
+MotionProfVel | `v_12 = MotionProfVel(dt, dx, v_0, v_f, v_min, v_max, a)`
+MotionProfPoint | `[x, v, a, j] = MotionProfPoint(x_0, t_[], v_[], n, t, k)`
+
+Function | Description
+---|---
+MotionProfAcc | Minimum acceleration to move in time over a distance
+MotionProfTime | Minimum time duration to move with acceleration over a distance
+MotionProfDist | Maximum distance from move with acceleration in time
+MotionProfVel | Minimum velocity to move with acceleration in time over a distance
+MotionProfPoint | Velocity profile point interpolation
 
 # Octave
 
