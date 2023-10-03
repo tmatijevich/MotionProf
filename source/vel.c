@@ -69,7 +69,7 @@ int32_t MotionProfVel(double dt, double dx, double v_0, double v_f,
   dx_01_bar = v_0 * (dt - dt_bar) + dx_bar;
   dx_23_bar = dx_bar + (dt - dt_bar) * v_f;
   dir_01 = (dx > dx_01_bar) - (dx < dx_01_bar);
-  dir_23 = (dx > dx_23_bar) - (dx < dx_23_bar);
+  dir_23 = (dx < dx_23_bar) - (dx > dx_23_bar);
 
   /* Solve three cases */
   if (dir_01 == dir_23) {
