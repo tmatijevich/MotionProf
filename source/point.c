@@ -13,6 +13,9 @@
 
 #include "main.h"
 
+/* 21 points */
+/* 20 segments between points */
+/* 3 sub-points per segment plus an endpoint */
 #define SUBSEGMENT_MAX 3 * MOTIONPROF_POINT_MAX + 1
 
 /* Velocity profile point interpolation */

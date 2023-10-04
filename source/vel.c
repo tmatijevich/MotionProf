@@ -13,6 +13,7 @@
 
 #include "main.h"
 
+/* Minimum velocity to move with acceleration in time over a distance */
 int32_t MotionProfVel(double dt, double dx, double v_0, double v_f,
                       double v_min, double v_max, double a,
                       MotionProfBaseOutputType *output) {
