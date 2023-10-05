@@ -56,6 +56,20 @@ FUNCTION MotionProfVel : DINT (*Minimum velocity to move with acceleration in ti
 	END_VAR
 END_FUNCTION
 
+FUNCTION MotionProfTimeDiff : DINT (*Maximum difference in time duration between fastest and slowest profiles*)
+	VAR_INPUT
+		dx : LREAL; (*[units] Distance*)
+		v_0 : LREAL; (*[units/s] Initial velocity*)
+		v_f : LREAL; (*[units/s] Final velocity*)
+		v_min : LREAL; (*[units/s] Minimum velocity*)
+		v_max : LREAL; (*[units/s] Maximum velocity*)
+		a : LREAL; (*[units/s/s] Acceleration magnitude*)
+	END_VAR
+	VAR_IN_OUT
+		output : MotionProfTimeDiffOutputType; (*Output*)
+	END_VAR
+END_FUNCTION
+
 FUNCTION MotionProfPoint : DINT (*Velocity profile point interpolation*)
 	VAR_INPUT
 		x_0 : LREAL; (*[units] Initial position*)
