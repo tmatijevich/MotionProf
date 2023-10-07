@@ -12,7 +12,9 @@
 
 function [] = PlotMotionProfile(profile, k, title)
 
-    t_plot = 0.0:0.001:profile.t_(end);
+    t_ = profile.t_(1:profile.n);
+    v_ = profile.v_(1:profile.n);
+    t_plot = 0.0:0.001:t_(end);
     t_plot = transpose(t_plot);
     x_plot = zeros(size(t_plot));
     v_plot = zeros(size(t_plot));
@@ -20,8 +22,8 @@ function [] = PlotMotionProfile(profile, k, title)
     j_plot = zeros(size(t_plot));
 
     for i = 1:length(t_plot)
-        point_output = OctaveMotionProfPoint(0.0, profile.t_, profile.v_, 
-                                            length(profile.t_), t_plot(i), k);
+        point_output = OctaveMotionProfPoint(0.0, t_, v_, profile.n, 
+                                            t_plot(i), k);
         if point_output.status == 0
             x_plot(i) = point_output.x;
             v_plot(i) = point_output.v;

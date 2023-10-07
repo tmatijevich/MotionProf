@@ -6,5 +6,4 @@ VAR CONSTANT
 	MOTIONPROF_ERROR_NO_SOLUTION : DINT := -4; (*No plausible motion profile could be found*)
 	MOTIONPROF_POINT_MAX : USINT := 20; (*Maximum points in a velocity profile*)
 	MOTIONPROF_PROFILE_MAX : USINT := 5; (*Maximum points in a profile*)
-	MOTIONPROF_PROFILE_INDEX : USINT := MOTIONPROF_PROFILE_MAX - 1; (*Maximum index in a profile*)
 END_VAR

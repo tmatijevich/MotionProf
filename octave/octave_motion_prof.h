@@ -38,6 +38,15 @@ typedef enum MotionProfMoveEnum {
   MOTIONPROF_MOVE_ACCACC = 11
 } MotionProfMoveEnum;
 
+typedef struct MotionProfProfileType {
+  unsigned char NumberOfPoints;
+  double TimePoints[5];
+  double Distance;
+  double VelocityPoints[5];
+  double Acceleration;
+  enum MotionProfMoveEnum MoveType;
+} MotionProfProfileType;
+
 typedef struct MotionProfBaseOutputType {
   double t_[4];
   double dx;
@@ -61,7 +70,7 @@ typedef struct MotionProfTimeDiffOutputType {
 
 int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f, 
                       double v_min, double v_max, 
-                      MotionProfBaseOutputType *output);
+                      MotionProfProfileType *output);
 int32_t MotionProfTime(double dx, double v_0, double v_f, 
                       double v_min, double v_max, double a, 
                       MotionProfBaseOutputType *output);

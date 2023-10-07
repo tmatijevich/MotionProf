@@ -14,32 +14,34 @@
 
 DEFUN_DLD(OctaveMotionProfAcc, args, nargout, "TODO: Help string") {
 
+  /* Local variables */
+  int32_t status;
+  MotionProfProfileType output;
+  Matrix t_(4, 1), v_(4, 1);
+  octave_map octave_output;
+  octave_value_list return_values(nargout);
+  
   if (!CheckArguments(args, 6))
     print_usage();
 
-  int32_t status;
-  MotionProfBaseOutputType output;
   status = MotionProfAcc(args(0).double_value(), args(1).double_value(),
                         args(2).double_value(), args(3).double_value(),
                         args(4).double_value(), args(5).double_value(),
                         &output);
 
   printf("MotionProfAcc call: Acc %.3f, Vel %.3f, Move %2d, Status %+10d\n", 
-        output.a, output.v_[1], output.move, status);
+        output.Acceleration, output.VelocityPoints[1], output.MoveType, status);
 
-  octave_map octave_output;
-  octave_output.setfield("status", octave_value(status));
-  octave_output.setfield("a", octave_value(output.a));
-  octave_output.setfield("dx", octave_value(output.dx));
-  Matrix t_(4, 1), v_(4, 1);
-  for (int i = 0; i < 4; i++) {
-    t_(i) = output.t_[i];
-    v_(i) = output.v_[i];
+  for (int i = 0; i < output.NumberOfPoints; i++) {
+    t_(i) = output.TimePoints[i];
+    v_(i) = output.VelocityPoints[i];
   }
+  octave_output.setfield("status", octave_value(status));
+  octave_output.setfield("n", octave_value(output.NumberOfPoints));
   octave_output.setfield("t_", octave_value(t_));
+  octave_output.setfield("dx", octave_value(output.Distance));
   octave_output.setfield("v_", octave_value(v_));
-
-  octave_value_list return_values(nargout);
+  octave_output.setfield("a", octave_value(output.Acceleration));
 
   for (int i = 0; i < nargout; i++)
     return_values(i) = octave_value(Matrix());
@@ -48,5 +50,4 @@ DEFUN_DLD(OctaveMotionProfAcc, args, nargout, "TODO: Help string") {
     return_values(0) = octave_output;
 
   return return_values;
-
 }

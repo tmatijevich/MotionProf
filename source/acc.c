@@ -100,8 +100,7 @@ int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f,
   }
 
   /* Find v_12 */
-  if (move == MOTIONPROF_MOVE_ACCDEC || 
-      move == MOTIONPROF_MOVE_DECACC) {
+  if (move == MOTIONPROF_MOVE_ACCDEC || move == MOTIONPROF_MOVE_DECACC) {
     p_2 = 2.0 * dt;
     p_1 = -4.0 * dx;
     p_0 = 2.0 * dx * (v_0 + v_f) - dt * (pow2(v_0) + pow2(v_f));
@@ -140,7 +139,7 @@ int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f,
   output->NumberOfPoints = n;
   output->Distance = dx;
   output->Acceleration = a;
-  output->Move = move;
+  output->MoveType = move;
 
   return 0;
 }

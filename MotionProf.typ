@@ -12,11 +12,11 @@ TYPE
 		);
 	MotionProfProfileType : 	STRUCT  (*Profile structure*)
 		NumberOfPoints : USINT; (*Number of points in profile*)
-		TimePoints : ARRAY[0..MOTIONPROF_PROFILE_INDEX]OF LREAL; (*[s] Time points*)
+		TimePoints : ARRAY[0..4]OF LREAL; (*[s] Time points*)
 		Distance : LREAL; (*[units] Distance*)
-		VelocityPoints : ARRAY[0..MOTIONPROF_PROFILE_INDEX]OF LREAL; (*[units/s] Velocity points*)
+		VelocityPoints : ARRAY[0..4]OF LREAL; (*[units/s] Velocity points*)
 		Acceleration : LREAL; (*[units/s/s] Acceleration magnitude*)
-		Move : MotionProfMoveEnum; (*Movement type*)
+		MoveType : MotionProfMoveEnum; (*Movement type*)
 	END_STRUCT;
 	MotionProfBaseOutputType : 	STRUCT  (*Base output structure*)
 		t_ : ARRAY[0..3]OF LREAL; (*[s] Time points*)
