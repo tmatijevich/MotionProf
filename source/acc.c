@@ -16,12 +16,13 @@
 /* Minimum acceleration to move in time over a distance */
 int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f, 
                       double v_min, double v_max, 
-                      MotionProfBaseOutputType *output) {
+                      MotionProfProfileType *output) {
 
   /* Local variables */
   double dx_bar, dx_u, dx_l, c_x_u, c_t_u, c_x_l, c_t_l, p_2, p_1, p_0;
   SecondOrderRootsOutputType roots_output;
-  int32_t roots_status;
+  int32_t roots_status, move, n;
+  double t_1, t_2, v_12, a;
 
   /* Check pointer and reset output */
   if (output == NULL)
@@ -56,21 +57,19 @@ int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f,
     that passes assumptions */
 
     if (dx < dx_u)
-      output->move = MOTIONPROF_MOVE_ACCDEC;
+      move = MOTIONPROF_MOVE_ACCDEC;
 
     else {
-      output->move = MOTIONPROF_MOVE_ACCDEC_SATURATED;
-      output->a = (c_x_u - v_max * c_t_u) / (dx - v_max * dt);
-      if (output->a > 0.0) {
-        output->v_[1] = v_max;
-        output->v_[2] = v_max;
-        output->t_[1] = (v_max - v_0) / output->a;
-        output->t_[2] = dt - (v_max - v_f) / output->a;
+      move = MOTIONPROF_MOVE_ACCDEC_SATURATED;
+      a = (c_x_u - v_max * c_t_u) / (dx - v_max * dt);
+      if (a > 0.0) {
+        n = 4;
+        v_12 = v_max;
+        t_1 = (v_max - v_0) / a;
+        t_2 = dt - (v_max - v_f) / a;
       }
-      else {
-        output->v_[1] = v_0;
-        output->v_[2] = v_0;
-      }
+      else 
+        n = 2;
     }
   }
   else {
@@ -84,27 +83,25 @@ int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f,
     that passes assumptions */
 
     if (dx > dx_l)
-      output->move = MOTIONPROF_MOVE_DECACC;
+      move = MOTIONPROF_MOVE_DECACC;
 
     else {
-      output->move = MOTIONPROF_MOVE_DECACC_SATURATED;
-      output->a = (c_x_l - v_min * c_t_l) / (dx - v_min * dt);
-      if (output->a > 0.0) {
-        output->v_[1] = v_min;
-        output->v_[2] = v_min;
-        output->t_[1] = (v_0 - v_min) / output->a;
-        output->t_[2] = dt - (v_f - v_min) / output->a;
+      move = MOTIONPROF_MOVE_DECACC_SATURATED;
+      a = (c_x_l - v_min * c_t_l) / (dx - v_min * dt);
+      if (a > 0.0) {
+        n = 4;
+        v_12 = v_min;
+        t_1 = (v_0 - v_min) / a;
+        t_2 = dt - (v_f - v_min) / a;
       }
-      else {
-        output->v_[1] = v_0;
-        output->v_[2] = v_0;
-      }
+      else 
+        n = 2;
     }
   }
 
   /* Find v_12 */
-  if (output->move == MOTIONPROF_MOVE_ACCDEC || 
-      output->move == MOTIONPROF_MOVE_DECACC) {
+  if (move == MOTIONPROF_MOVE_ACCDEC || 
+      move == MOTIONPROF_MOVE_DECACC) {
     p_2 = 2.0 * dt;
     p_1 = -4.0 * dx;
     p_0 = 2.0 * dx * (v_0 + v_f) - dt * (pow2(v_0) + pow2(v_f));
@@ -114,26 +111,36 @@ int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f,
     if (roots_status)
       return roots_status;
 
-    if (output->move == MOTIONPROF_MOVE_ACCDEC) {
-      output->v_[1] = fmax(roots_output.r_1, roots_output.r_2);
-      output->v_[2] = output->v_[1];
-    }
-    else {
-      output->v_[1] = fmin(roots_output.r_1, roots_output.r_2);
-      output->v_[2] = output->v_[1];
-    }
+    if (move == MOTIONPROF_MOVE_ACCDEC) 
+      v_12 = fmax(roots_output.r_1, roots_output.r_2);
+    else 
+      v_12 = fmin(roots_output.r_1, roots_output.r_2);
 
-    output->a = fabs(2.0 * output->v_[1] - v_0 - v_f) / dt;
-    if (output->a > 0.0) {
-      output->t_[1] = fabs(output->v_[1] - v_0) / output->a;
-      output->t_[2] = output->t_[1];
+    a = fabs(2.0 * v_12 - v_0 - v_f) / dt;
+    if (a > 0.0) {
+      n = 3;
+      t_1 = fabs(v_12 - v_0) / a;
     }
+    else 
+      n = 2;
   }
 
-  output->t_[3] = dt;
-  output->dx = dx;
-  output->v_[0] = v_0;
-  output->v_[3] = v_f;
+  switch(n) {
+    case 4:
+      output->TimePoints[2] = t_2;
+      output->VelocityPoints[2] = v_12;
+    case 3:
+      output->TimePoints[1] = t_1;
+      output->VelocityPoints[1] = v_12;
+    default:
+      output->TimePoints[n - 1] = dt;
+      output->VelocityPoints[0] = v_0;
+      output->VelocityPoints[n - 1] = v_f;
+  }
+  output->NumberOfPoints = n;
+  output->Distance = dx;
+  output->Acceleration = a;
+  output->Move = move;
 
   return 0;
 }

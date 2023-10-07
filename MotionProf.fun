@@ -1,15 +1,15 @@
 
 FUNCTION MotionProfAcc : DINT (*Minimum acceleration to move in time over a distance*)
 	VAR_INPUT
-		dt : LREAL; (*[s] Time duration*)
-		dx : LREAL; (*[units] Distance*)
-		v_0 : LREAL; (*[units/s] Initial velocity*)
-		v_f : LREAL; (*[units/s] Final velocity*)
-		v_min : LREAL; (*[units/s] Minimum velocity*)
-		v_max : LREAL; (*[units/s] Maximum velocity*)
+		Duration : LREAL; (*[s] Time duration*)
+		Distance : LREAL; (*[units] Distance*)
+		InitialVelocity : LREAL; (*[units/s] Initial velocity*)
+		FinalVelocity : LREAL; (*[units/s] Final velocity*)
+		MinimumVelocity : LREAL; (*[units/s] Minimum velocity*)
+		MaximumVelocity : LREAL; (*[units/s] Maximum velocity*)
 	END_VAR
 	VAR_IN_OUT
-		output : MotionProfBaseOutputType; (*Output*)
+		Profile : MotionProfProfileType; (*Profile output*)
 	END_VAR
 END_FUNCTION
 
