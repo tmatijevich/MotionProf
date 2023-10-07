@@ -32,6 +32,11 @@ int32_t MotionProfTimeDiff(double dx, double v_0, double v_f, double v_min,
   if (time_status)
     return time_status;
 
+  /* Additional check on minimum velocity */
+  /* The time difference could be infinite if the minimum velocity is zero */
+  if (v_min <= 0.0)
+    return MOTIONPROF_ERROR_INPUT_VELOCITY;
+
   /* Derive time-maximizing profile */
   /* Minimum distance saturation limit */
   dx_l = (pow2(v_0) + pow2(v_f) - 2.0 * pow2(v_min)) / (2.0 * a);

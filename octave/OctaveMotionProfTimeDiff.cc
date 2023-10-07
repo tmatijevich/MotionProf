@@ -51,8 +51,8 @@ DEFUN_DLD(OctaveMotionProfTimeDiff, args, nargout, "TODO: Help string") {
   octave_dec_acc.setfield("v_", octave_value(v_));
   octave_dec_acc.setfield("a", octave_value(output.DecAcc.a));
   octave_output.setfield("status", octave_value(status));
-  octave_output.setfield("AccDec", (Cell)octave_acc_dec);
-  octave_output.setfield("DecAcc", (Cell)octave_dec_acc);
+  octave_output.setfield("acc_dec", (Cell)octave_acc_dec);
+  octave_output.setfield("dec_acc", (Cell)octave_dec_acc);
 
   for (int i = 0; i < nargout; i++)
     return_values(i) = octave_value(Matrix());
