@@ -5,14 +5,16 @@ w = warning("off", "all");
 delete *.oct
 warning(w)
 printf("Build OctaveMotionProfAcc\n")
-mkoctfile OctaveMotionProfAcc.cc help.cc ../Source/acc.c ../Source/help.c -DOCTAVE_BUILD
+mkoctfile OctaveMotionProfAcc.cc help.cc ../source/acc.c ../source/help.c -DOCTAVE_BUILD
 printf("Build OctaveMotionProfTime\n")
-mkoctfile OctaveMotionProfTime.cc help.cc ../Source/time.c ../Source/help.c -DOCTAVE_BUILD
+mkoctfile OctaveMotionProfTime.cc help.cc ../source/time.c ../source/help.c -DOCTAVE_BUILD
 printf("Build OctaveMotionProfDist\n")
-mkoctfile OctaveMotionProfDist.cc help.cc ../Source/dist.c ../Source/help.c -DOCTAVE_BUILD
+mkoctfile OctaveMotionProfDist.cc help.cc ../source/dist.c ../source/help.c -DOCTAVE_BUILD
 printf("Build OctaveMotionProfVel\n")
-mkoctfile OctaveMotionProfVel.cc help.cc ../Source/vel.c ../Source/help.c -DOCTAVE_BUILD
+mkoctfile OctaveMotionProfVel.cc help.cc ../source/vel.c ../source/help.c -DOCTAVE_BUILD
+printf("Build OctaveMotionProfTimeDiff\n")
+mkoctfile OctaveMotionProfTimeDiff.cc help.cc ../source/time_diff.c ../source/time.c ../source/help.c -DOCTAVE_BUILD
 printf("Build OctaveMotionProfPoint\n")
-mkoctfile OctaveMotionProfPoint.cc help.cc ../Source/point.c ../Source/help.c -DOCTAVE_BUILD
+mkoctfile OctaveMotionProfPoint.cc help.cc ../source/point.c ../source/help.c -DOCTAVE_BUILD
 printf("Build attempt finished\n")
 toc

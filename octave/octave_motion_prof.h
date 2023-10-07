@@ -53,6 +53,12 @@ typedef struct MotionProfPointOutputType {
   double j;
 } MotionProfPointOutputType;
 
+typedef struct MotionProfTimeDiffOutputType {
+  double dt_tilde;
+  struct MotionProfBaseOutputType AccDec;
+  struct MotionProfBaseOutputType DecAcc;
+} MotionProfTimeDiffOutputType;
+
 int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f, 
                       double v_min, double v_max, 
                       MotionProfBaseOutputType *output);
@@ -65,6 +71,9 @@ int32_t MotionProfDist(double dt, double v_0, double v_f,
 int32_t MotionProfVel(double dt, double dx, double v_0, double v_f,
                       double v_min, double v_max, double a,
                       MotionProfBaseOutputType *output);
+int32_t MotionProfTimeDiff(double dx, double v_0, double v_f, double v_min,
+                          double v_max, double a, 
+                          MotionProfTimeDiffOutputType *output);
 int32_t MotionProfPoint(double x_0, double t_[], double v_[], uint8_t n, 
                         double t, double k, MotionProfPointOutputType *output);
 
