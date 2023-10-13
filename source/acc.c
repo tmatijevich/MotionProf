@@ -23,6 +23,8 @@ int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f,
   SecondOrderRootsOutputType roots_output;
   int32_t roots_status, move, n;
   double t_1, t_2, v_12, a;
+  uint8_t equal_to_dx_bar, equal_to_v_max, equal_to_v_min, invalid_move, 
+          flag_roots = false;
 
   /* Check pointer and reset output */
   if (output == NULL)
@@ -39,68 +41,95 @@ int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f,
   if (dt <= 0.0 || dx <= 0.0)
     return MOTIONPROF_ERROR_INPUT_POSITIVE;
 
-  /* Plausible distance */
-  if (dx <= v_min * dt || v_max * dt <= dx)
-    return MOTIONPROF_ERROR_INPUT_MOVE;
-
   /* Nominal distance */
   dx_bar = 0.5 * dt * (v_0 + v_f);
+  equal_to_dx_bar = dx == dx_bar;
 
-  if (dx >= dx_bar) {
+  /* Plausible distance */
+  invalid_move = dx < v_min * dt || v_max * dt < dx;
+  
+  equal_to_v_min = v_0 == v_min && v_f == v_min;
+  invalid_move |= dx == v_min * dt && (!equal_to_dx_bar || !equal_to_v_min);
+  
+  equal_to_v_max = v_0 == v_max && v_f == v_max;
+  invalid_move |= dx == v_max * dt && (!equal_to_dx_bar || !equal_to_v_max);
+
+  if (invalid_move)
+    return MOTIONPROF_ERROR_INPUT_MOVE;
+
+  if (dx > dx_bar) {
     /* Acc/Dec */
     c_x_u = pow2(v_max) - 0.5 * pow2(v_0) - 0.5 * pow2(v_f);
     c_t_u = 2.0 * v_max - v_0 - v_f;
 
-    /* Maximum distance saturation limit */
+    /* Distance at upper saturation limit */
     dx_u = (c_x_u * dt) / c_t_u;
-    /* NOTE: There is no dx >= dx_bar when v_0 = v_f = v_max 
-    that passes assumptions */
 
-    if (dx < dx_u)
-      move = MOTIONPROF_MOVE_ACCDEC;
-
-    else {
+    if (dx > dx_u) {
       move = MOTIONPROF_MOVE_ACCDEC_SATURATED;
-      a = (c_x_u - v_max * c_t_u) / (dx - v_max * dt);
-      if (a > 0.0) {
-        n = 4;
-        v_12 = v_max;
-        t_1 = (v_max - v_0) / a;
-        t_2 = dt - (v_max - v_f) / a;
-      }
-      else 
-        n = 2;
+      n = 4;
+      a = (v_max * c_t_u - c_x_u) / (v_max * dt - dx);
+      /*   v_max * dt > dx > dx_u */
+      /*        v_max * dt > (c_x_u * dt) / c_t_u */
+      /* ==> v_max * c_t_u > c_x_u */
+      /* Both numerator and denominator are positive */
+      v_12 = v_max;
+      t_1 = (v_max - v_0) / a;
+      t_2 = dt - (v_max - v_f) / a;
     }
+    else if (dx == dx_u) {
+      move = MOTIONPROF_MOVE_ACCDEC;
+      n = 3;
+      a = 2.0 * v_max - v_0 - v_f / dt;
+      v_12 = v_max;
+      t_1 = (v_max - v_0) / a;
+    }
+    else {
+      move = MOTIONPROF_MOVE_ACCDEC;
+      flag_roots = true;
+    }
+  }
+  else if (equal_to_dx_bar) {
+    if (v_f > v_0) move = MOTIONPROF_MOVE_ACC;
+    else if (v_f == v_0) move = MOTIONPROF_MOVE_NONE;
+    else move = MOTIONPROF_MOVE_DEC;
+    n = 2;
+    a = fabs(v_f - v_0) / dt;
   }
   else {
     /* Dec/Acc */
     c_x_l = 0.5 * pow2(v_0) + 0.5 * pow2(v_f) - pow2(v_min);
     c_t_l = v_0 + v_f - 2.0 * v_min;
 
-    /* Minimum distance saturation limit */
+    /* Distance at lower saturation limit */
     dx_l = (c_x_l * dt) / c_t_l;
-    /* NOTE: There is no dx < dx_bar when v_0 = v_f = v_max 
-    that passes assumptions */
 
-    if (dx > dx_l)
+    if (dx > dx_l) {
       move = MOTIONPROF_MOVE_DECACC;
-
+      flag_roots = true;
+    }
+    else if (dx == dx_l) {
+      move = MOTIONPROF_MOVE_DECACC;
+      n = 3;
+      a = (v_0 + v_f - 2.0 * v_min) / dt;
+      v_12 = v_min;
+      t_1 = (v_0 - v_min) / a;
+    }
     else {
       move = MOTIONPROF_MOVE_DECACC_SATURATED;
+      n = 4;
       a = (c_x_l - v_min * c_t_l) / (dx - v_min * dt);
-      if (a > 0.0) {
-        n = 4;
-        v_12 = v_min;
-        t_1 = (v_0 - v_min) / a;
-        t_2 = dt - (v_f - v_min) / a;
-      }
-      else 
-        n = 2;
+      /*   v_min * dt < dx < dx_l */
+      /*        v_min * dt < (c_x_l * dt) / c_t_l */
+      /* ==> v_min * c_t_l < c_x_l*/
+      v_12 = v_min;
+      t_1 = (v_0 - v_min) / a;
+      t_2 = dt - (v_f - v_min) / a;
     }
   }
 
   /* Find v_12 */
-  if (move == MOTIONPROF_MOVE_ACCDEC || move == MOTIONPROF_MOVE_DECACC) {
+  if (flag_roots) {
     p_2 = 2.0 * dt;
     p_1 = -4.0 * dx;
     p_0 = 2.0 * dx * (v_0 + v_f) - dt * (pow2(v_0) + pow2(v_f));
@@ -116,12 +145,8 @@ int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f,
       v_12 = fmin(roots_output.r_1, roots_output.r_2);
 
     a = fabs(2.0 * v_12 - v_0 - v_f) / dt;
-    if (a > 0.0) {
-      n = 3;
-      t_1 = fabs(v_12 - v_0) / a;
-    }
-    else 
-      n = 2;
+    n = 3;
+    t_1 = fabs(v_12 - v_0) / a;
   }
 
   switch(n) {

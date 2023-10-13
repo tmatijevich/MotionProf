@@ -18,6 +18,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <math.h>
+#include <stdbool.h>
 
 /* Header switch for build environments */
 #ifdef OCTAVE_BUILD
