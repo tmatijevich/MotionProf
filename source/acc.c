@@ -80,7 +80,7 @@ int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f,
     else if (dx == dx_u) {
       move = MOTIONPROF_MOVE_ACCDEC;
       n = 3;
-      a = 2.0 * v_max - v_0 - v_f / dt;
+      a = (2.0 * v_max - v_0 - v_f) / dt;
       v_12 = v_max;
       t_1 = (v_max - v_0) / a;
     }
