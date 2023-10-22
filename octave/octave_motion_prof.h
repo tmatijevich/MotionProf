@@ -30,12 +30,15 @@ extern "C"
 
 typedef enum MotionProfMoveEnum {
   MOTIONPROF_MOVE_NONE = 0,
-  MOTIONPROF_MOVE_DECACC = 1,
-  MOTIONPROF_MOVE_DECACC_SATURATED = 2,
-  MOTIONPROF_MOVE_ACCDEC = 3,
-  MOTIONPROF_MOVE_ACCDEC_SATURATED = 4,
-  MOTIONPROF_MOVE_DECDEC = 10,
-  MOTIONPROF_MOVE_ACCACC = 11
+  MOTIONPROF_MOVE_ZERO = 1,
+  MOTIONPROF_MOVE_DEC = 2,
+  MOTIONPROF_MOVE_ACC = 3,
+  MOTIONPROF_MOVE_DECACC = 10,
+  MOTIONPROF_MOVE_DECACC_SATURATED = 11,
+  MOTIONPROF_MOVE_ACCDEC = 12,
+  MOTIONPROF_MOVE_ACCDEC_SATURATED = 13,
+  MOTIONPROF_MOVE_DECDEC = 20,
+  MOTIONPROF_MOVE_ACCACC = 21
 } MotionProfMoveEnum;
 
 typedef struct MotionProfProfileType {
@@ -73,7 +76,7 @@ int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f,
                       MotionProfProfileType *output);
 int32_t MotionProfTime(double dx, double v_0, double v_f, 
                       double v_min, double v_max, double a, 
-                      MotionProfBaseOutputType *output);
+                      MotionProfProfileType *output);
 int32_t MotionProfDist(double dt, double v_0, double v_f,
                       double v_min, double v_max, double a,
                       MotionProfBaseOutputType *output);

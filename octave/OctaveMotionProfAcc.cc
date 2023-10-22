@@ -29,8 +29,8 @@ DEFUN_DLD(OctaveMotionProfAcc, args, nargout, "TODO: Help string") {
                         args(4).double_value(), args(5).double_value(),
                         &output);
 
-  printf("MotionProfAcc call: Acc %.3f, Vel %.3f, Move %2d, Status %+10d\n", 
-        output.Acceleration, output.VelocityPoints[1], output.MoveType, status);
+  printf("MotionProfAcc call: Acc %.3f, Move %2d, Status %+10d\n", 
+        output.Acceleration, output.MoveType, status);
 
   for (int i = 0; i < output.NumberOfPoints; i++) {
     t_(i) = output.TimePoints[i];
@@ -42,6 +42,7 @@ DEFUN_DLD(OctaveMotionProfAcc, args, nargout, "TODO: Help string") {
   octave_output.setfield("dx", octave_value(output.Distance));
   octave_output.setfield("v_", octave_value(v_));
   octave_output.setfield("a", octave_value(output.Acceleration));
+  octave_output.setfield("move", octave_value(output.MoveType));
 
   for (int i = 0; i < nargout; i++)
     return_values(i) = octave_value(Matrix());
