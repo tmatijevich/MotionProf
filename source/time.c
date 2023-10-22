@@ -41,12 +41,13 @@ int32_t MotionProfTime(double dx, double v_0, double v_f,
   dx_bar = fabs(pow2(v_0) - pow2(v_f)) / (2.0 * a);
 
   /* Plausible distance */
+  /* Profile distance cannot subceed accelerating from v_0 to v_f */
   if (dx < dx_bar)
     return MOTIONPROF_ERROR_INPUT_MOVE;
 
-  /* There is not time advantage to using a DecAcc profile over an AccDec 
-  profile */
-  /* Maximum distance saturation limit */
+  /* There is no minimum duration advantage to 
+     using a dec/acc profile over an acc/dec profile */
+  /* Distance at upper saturation limit */
   dx_u = (2.0 * pow2(v_max) - pow2(v_0) - pow2(v_f)) / (2.0 * a);
 
   if (dx == dx_bar) {
