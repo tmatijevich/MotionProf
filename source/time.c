@@ -16,10 +16,11 @@
 /* Minimum time duration to move with acceleration over a distance */
 int32_t MotionProfTime(double dx, double v_0, double v_f, 
                       double v_min, double v_max, double a, 
-                      MotionProfBaseOutputType *output) {
+                      MotionProfProfileType *output) {
 
   /* Local variables */
-  double dx_u, t_12, v_12;
+  double dx_bar, dx_u, t_12, v_12;
+  int32_t move, n;
 
   /* Check pointer and reset output */
   if (output == NULL)
@@ -36,8 +37,11 @@ int32_t MotionProfTime(double dx, double v_0, double v_f,
   if (dx <= 0.0 || a <= 0.0)
     return MOTIONPROF_ERROR_INPUT_POSITIVE;
 
+  /* Nominal distance */
+  dx_bar = fabs(pow2(v_0) - pow2(v_f)) / (2.0 * a);
+
   /* Plausible distance */
-  if (dx < fabs(pow2(v_0) - pow2(v_f)) / (2.0 * a))
+  if (dx < dx_bar)
     return MOTIONPROF_ERROR_INPUT_MOVE;
 
   /* There is not time advantage to using a DecAcc profile over an AccDec 
@@ -45,33 +49,50 @@ int32_t MotionProfTime(double dx, double v_0, double v_f,
   /* Maximum distance saturation limit */
   dx_u = (2.0 * pow2(v_max) - pow2(v_0) - pow2(v_f)) / (2.0 * a);
 
-  if (dx < dx_u) {
-    output->move = MOTIONPROF_MOVE_ACCDEC;
-
-    v_12 = sqrt(dx * a + (pow2(v_0) + pow2(v_f)) / 2.0);
-
-    output->t_[1] = (v_12 - v_0) / a;
-    output->t_[2] = output->t_[1];
-    output->t_[3] = output->t_[2] + (v_12 - v_f) / a;
-    output->v_[1] = v_12;
-    output->v_[2] = v_12;
+  if (dx == dx_bar) {
+    if (v_0 < v_f) move = MOTIONPROF_MOVE_ACC;
+    else if (v_0 == v_f) move = MOTIONPROF_MOVE_ZERO;
+    else move = MOTIONPROF_MOVE_DEC;
+    n = 2;
+    v_12 = v_0;
   }
-  else {
-    output->move = MOTIONPROF_MOVE_ACCDEC_SATURATED;
-
+  
+  else if (dx > dx_u) {
+    move = MOTIONPROF_MOVE_ACCDEC_SATURATED;
+    n = 4;
     t_12 = (dx - dx_u) / v_max;
-
-    output->t_[1] = (v_max - v_0) / a;
-    output->t_[2] = output->t_[1] + t_12;
-    output->t_[3] = output->t_[2] + (v_max - v_f) / a;
-    output->v_[1] = v_max;
-    output->v_[2] = v_max;
+    v_12 = v_max;
   }
 
-  output->dx = dx;
-  output->v_[0] = v_0;
-  output->v_[3] = v_f;
-  output->a = a;
+  else if (dx == dx_u) {
+    move = MOTIONPROF_MOVE_ACCDEC;
+    n = 3;
+    v_12 = v_max;
+  }
+
+  else {
+    move = MOTIONPROF_MOVE_ACCDEC;
+    n = 3;
+    v_12 = sqrt(dx * a + (pow2(v_0) + pow2(v_f)) / 2.0);
+  }
+
+  switch(n) {
+    case 4:
+      output->TimePoints[2] = (v_12 - v_0) / a + t_12;
+      output->VelocityPoints[2] = v_12;
+    case 3:
+      output->TimePoints[1] = (v_12 - v_0) / a;
+      output->VelocityPoints[1] = v_12;
+    default:
+      output->TimePoints[n - 1] = output->TimePoints[n - 2] + 
+                                  fabs(v_12 - v_f) / a;
+      output->VelocityPoints[0] = v_0;
+      output->VelocityPoints[n - 1] = v_f;
+  }
+  output->NumberOfPoints = n;
+  output->Distance = dx;
+  output->Acceleration = a;
+  output->MoveType = move;
   
   return 0;
 }
