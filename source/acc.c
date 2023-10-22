@@ -91,7 +91,7 @@ int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f,
   }
   else if (equal_to_dx_bar) {
     if (v_f > v_0) move = MOTIONPROF_MOVE_ACC;
-    else if (v_f == v_0) move = MOTIONPROF_MOVE_NONE;
+    else if (v_f == v_0) move = MOTIONPROF_MOVE_ZERO;
     else move = MOTIONPROF_MOVE_DEC;
     n = 2;
     a = fabs(v_f - v_0) / dt;

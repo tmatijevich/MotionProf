@@ -3,8 +3,9 @@ TYPE
 	MotionProfMoveEnum : 
 		( (*Movement types*)
 		MOTIONPROF_MOVE_NONE := 0, (*Undefined profile*)
-		MOTIONPROF_MOVE_DEC := 1, (*Decelerate then accelerate profile*)
-		MOTIONPROF_MOVE_ACC := 2, (*Decelerate then accelerate profile*)
+		MOTIONPROF_MOVE_ZERO := 1, (*Zero acceleration profile*)
+		MOTIONPROF_MOVE_DEC := 2, (*Decelerate then accelerate profile*)
+		MOTIONPROF_MOVE_ACC := 3, (*Decelerate then accelerate profile*)
 		MOTIONPROF_MOVE_DECACC := 10, (*Decelerate then accelerate profile*)
 		MOTIONPROF_MOVE_DECACC_SATURATED := 11, (*Decelerate, saturate at min velocity, accelerate profile*)
 		MOTIONPROF_MOVE_ACCDEC := 12, (*Accelerate then decelerate profile*)
