@@ -20,7 +20,7 @@
 
 /* Velocity profile point interpolation */
 int32_t MotionProfPoint(double x_0, double t_[], double v_[], uint8_t n, 
-                        double t, double k, MotionProfPointOutputType *output) {
+                        double t, double k, MotionProfPointType *output) {
   
   /* Local variables */
   int8_t i, a, b, direction, m, u;
@@ -122,11 +122,24 @@ int32_t MotionProfPoint(double x_0, double t_[], double v_[], uint8_t n,
     }
 
     /* Interpolate subsegments */
-    uv_[a+1] = uv_[a+0] + ua_[a+0] * (ut_[a+1] - ut_[a+0]) + 0.5 * uj_[a+0] * pow2(ut_[a+1] - ut_[a+0]);
-    uv_[a+2] = uv_[a+1] + ua_[a+1] * (ut_[a+2] - ut_[a+1]) + 0.5 * uj_[a+1] * pow2(ut_[a+2] - ut_[a+1]);
-    ux_[a+1] = ux_[a+0] + uv_[a+0] * (ut_[a+1] - ut_[a+0]) + 0.5 * ua_[a+0] * pow2(ut_[a+1] - ut_[a+0]) + (1.0/6.0) * uj_[a+0] * pow(ut_[a+1] - ut_[a+0], 3.0);
-    ux_[a+2] = ux_[a+1] + uv_[a+1] * (ut_[a+2] - ut_[a+1]) + 0.5 * ua_[a+1] * pow2(ut_[a+2] - ut_[a+1]) + (1.0/6.0) * uj_[a+1] * pow(ut_[a+2] - ut_[a+1], 3.0);
-    ux_[a+3] = ux_[a+2] + uv_[a+2] * (ut_[a+3] - ut_[a+2]) + 0.5 * ua_[a+2] * pow2(ut_[a+3] - ut_[a+2]) + (1.0/6.0) * uj_[a+2] * pow(ut_[a+3] - ut_[a+2], 3.0);
+    uv_[a+1] = uv_[a+0] + 
+              ua_[a+0] * (ut_[a+1] - ut_[a+0]) + 
+              0.5 * uj_[a+0] * pow2(ut_[a+1] - ut_[a+0]);
+    uv_[a+2] = uv_[a+1] + 
+              ua_[a+1] * (ut_[a+2] - ut_[a+1]) + 
+              0.5 * uj_[a+1] * pow2(ut_[a+2] - ut_[a+1]);
+    ux_[a+1] = ux_[a+0] + 
+              uv_[a+0] * (ut_[a+1] - ut_[a+0]) + 
+              0.5 * ua_[a+0] * pow2(ut_[a+1] - ut_[a+0]) + 
+              (1.0/6.0) * uj_[a+0] * pow(ut_[a+1] - ut_[a+0], 3.0);
+    ux_[a+2] = ux_[a+1] + 
+              uv_[a+1] * (ut_[a+2] - ut_[a+1]) + 
+              0.5 * ua_[a+1] * pow2(ut_[a+2] - ut_[a+1]) + 
+              (1.0/6.0) * uj_[a+1] * pow(ut_[a+2] - ut_[a+1], 3.0);
+    ux_[a+3] = ux_[a+2] + 
+              uv_[a+2] * (ut_[a+3] - ut_[a+2]) + 
+              0.5 * ua_[a+2] * pow2(ut_[a+3] - ut_[a+2]) + 
+              (1.0/6.0) * uj_[a+2] * pow(ut_[a+3] - ut_[a+2], 3.0);
   }
 
   /* Derive the number of subsegments */
@@ -145,10 +158,16 @@ int32_t MotionProfPoint(double x_0, double t_[], double v_[], uint8_t n,
   }
 
   /* Interpolate and set output */
-  output->j = uj_[u];
-  output->a = ua_[u] + uj_[u] * (t - ut_[u]);
-  output->v = uv_[u] + ua_[u] * (t - ut_[u]) + 0.5 * uj_[u] * pow2(t - ut_[u]);
-  output->x = ux_[u] + uv_[u] * (t - ut_[u]) + 0.5 * ua_[u] * pow2(t - ut_[u]) + (1.0 / 6.0) * uj_[u] * pow(t - ut_[u], 3.0);
+  output->Jerk = uj_[u];
+  output->Acceleration = ua_[u] + 
+                        uj_[u] * (t - ut_[u]);
+  output->Velocity = uv_[u] + 
+                    ua_[u] * (t - ut_[u]) + 
+                    0.5 * uj_[u] * pow2(t - ut_[u]);
+  output->Position = ux_[u] + 
+                    uv_[u] * (t - ut_[u]) + 
+                    0.5 * ua_[u] * pow2(t - ut_[u]) + 
+                    (1.0 / 6.0) * uj_[u] * pow(t - ut_[u], 3.0);
   
   return 0;
 }
