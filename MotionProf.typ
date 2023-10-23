@@ -21,22 +21,15 @@ TYPE
 		Acceleration : LREAL; (*[units/s/s] Acceleration magnitude*)
 		MoveType : MotionProfMoveEnum; (*Movement type*)
 	END_STRUCT;
-	MotionProfBaseOutputType : 	STRUCT  (*Base output structure*)
-		t_ : ARRAY[0..3]OF LREAL; (*[s] Time points*)
-		dx : LREAL; (*[units] Distance*)
-		v_ : ARRAY[0..3]OF LREAL; (*[units/s] Velocity points*)
-		a : LREAL; (*[units/s/s] Acceleration magnitude*)
-		move : MotionProfMoveEnum; (*Movement type*)
-	END_STRUCT;
 	MotionProfPointOutputType : 	STRUCT  (*Time series point output structure*)
 		x : LREAL; (*[units] Position*)
 		v : LREAL; (*[units/s] Velocity*)
 		a : LREAL; (*[units/s/s] Acceleration*)
 		j : LREAL; (*[units/s/s/s] Jerk*)
 	END_STRUCT;
-	MotionProfTimeDiffOutputType : 	STRUCT  (*Time duration difference output structure*)
-		dt_tilde : LREAL; (*Difference in time durations*)
-		AccDec : MotionProfBaseOutputType; (*AccDec profile*)
-		DecAcc : MotionProfBaseOutputType; (*DecAcc profile*)
+	MotionProfTimeDiffType : 	STRUCT  (*Time duration difference output structure*)
+		TimeDifference : LREAL; (*Difference in time durations*)
+		AccDec : MotionProfProfileType; (*AccDec profile*)
+		DecAcc : MotionProfProfileType; (*DecAcc profile*)
 	END_STRUCT;
 END_TYPE

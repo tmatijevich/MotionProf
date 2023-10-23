@@ -19,7 +19,7 @@ int32_t MotionProfTime(double dx, double v_0, double v_f,
                       MotionProfProfileType *output) {
 
   /* Local variables */
-  double dx_bar, dx_u, t_12, v_12;
+  double dx_bar, dx_u, dt_12, v_12;
   int32_t move, n;
 
   /* Check pointer and reset output */
@@ -61,7 +61,7 @@ int32_t MotionProfTime(double dx, double v_0, double v_f,
   else if (dx > dx_u) {
     move = MOTIONPROF_MOVE_ACCDEC_SATURATED;
     n = 4;
-    t_12 = (dx - dx_u) / v_max;
+    dt_12 = (dx - dx_u) / v_max;
     v_12 = v_max;
   }
 
@@ -79,7 +79,7 @@ int32_t MotionProfTime(double dx, double v_0, double v_f,
 
   switch(n) {
     case 4:
-      output->TimePoints[2] = (v_12 - v_0) / a + t_12;
+      output->TimePoints[2] = (v_12 - v_0) / a + dt_12;
       output->VelocityPoints[2] = v_12;
     case 3:
       output->TimePoints[1] = (v_12 - v_0) / a;

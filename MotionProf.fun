@@ -58,15 +58,15 @@ END_FUNCTION
 
 FUNCTION MotionProfTimeDiff : DINT (*Maximum difference in time duration between fastest and slowest profiles*)
 	VAR_INPUT
-		dx : LREAL; (*[units] Distance*)
-		v_0 : LREAL; (*[units/s] Initial velocity*)
-		v_f : LREAL; (*[units/s] Final velocity*)
-		v_min : LREAL; (*[units/s] Minimum velocity*)
-		v_max : LREAL; (*[units/s] Maximum velocity*)
-		a : LREAL; (*[units/s/s] Acceleration magnitude*)
+		Distance : LREAL; (*[units] Distance*)
+		InitialVelocity : LREAL; (*[units/s] Initial velocity*)
+		FinalVelocity : LREAL; (*[units/s] Final velocity*)
+		MinimumVelocity : LREAL; (*[units/s] Minimum velocity*)
+		MaximumVelocity : LREAL; (*[units/s] Maximum velocity*)
+		Acceleration : LREAL; (*[units/s/s] Acceleration magnitude*)
 	END_VAR
 	VAR_IN_OUT
-		output : MotionProfTimeDiffOutputType; (*Output*)
+		Output : MotionProfTimeDiffType; (*Output*)
 	END_VAR
 END_FUNCTION
 

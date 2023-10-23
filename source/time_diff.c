@@ -16,11 +16,11 @@
 /* Maximum difference in time duration between fastest and slowest profiles */
 int32_t MotionProfTimeDiff(double dx, double v_0, double v_f, double v_min,
                           double v_max, double a, 
-                          MotionProfTimeDiffOutputType *output) {
+                          MotionProfTimeDiffType *output) {
 
   /* Local variables */
-  int32_t time_status;
-  double dx_l, dt_12;
+  int32_t time_status, move, n;
+  double dx_bar, dx_l, dt_12, v_12;
 
   /* Check pointer and reset output */
   if (output == NULL)
@@ -38,37 +38,57 @@ int32_t MotionProfTimeDiff(double dx, double v_0, double v_f, double v_min,
     return MOTIONPROF_ERROR_INPUT_VELOCITY;
 
   /* Derive time-maximizing profile */
-  /* Minimum distance saturation limit */
+  /* Nominal distance */
+  dx_bar = fabs(pow2(v_0) - pow2(v_f)) / (2.0 * a);
+
+  /* Distance and lower saturation limit */
   dx_l = (pow2(v_0) + pow2(v_f) - 2.0 * pow2(v_min)) / (2.0 * a);
 
-  if (dx < dx_l) {
-    output->DecAcc.move = MOTIONPROF_MOVE_DECACC;
-    output->DecAcc.v_[1] = sqrt((pow2(v_0) + pow2(v_f)) / 2.0 - dx * a);
-    output->DecAcc.v_[2] = output->DecAcc.v_[1];
-    output->DecAcc.t_[1] = (v_0 - output->DecAcc.v_[1]) / a;
-    output->DecAcc.t_[2] = output->DecAcc.t_[1];
-    output->DecAcc.t_[3] = output->DecAcc.t_[2] + 
-                          (v_f - output->DecAcc.v_[1]) / a;
+  if (dx == dx_bar) {
+    if (v_0 < v_f) move = MOTIONPROF_MOVE_ACC;
+    else if (v_0 == v_f) move = MOTIONPROF_MOVE_ZERO;
+    else move = MOTIONPROF_MOVE_DEC;
+    n = 2;
+    v_12 = v_0;
+  }
+  else if (dx < dx_l) {
+    move = MOTIONPROF_MOVE_DECACC;
+    n = 3;
+    v_12 = sqrt((pow2(v_0) + pow2(v_f)) / 2.0 - dx * a);
+  }
+  else if (dx == dx_l) {
+    move = MOTIONPROF_MOVE_DECACC;
+    n = 3;
+    v_12 = v_min;
   }
   else {
-    output->DecAcc.move = MOTIONPROF_MOVE_DECACC_SATURATED;
+    move = MOTIONPROF_MOVE_DECACC_SATURATED;
+    n = 4;
     dt_12 = (dx - dx_l) / v_min;
-    output->DecAcc.v_[1] = v_min;
-    output->DecAcc.v_[2] = v_min;
-    output->DecAcc.t_[1] = (v_0 - v_min) / a;
-    output->DecAcc.t_[2] = output->DecAcc.t_[1] + dt_12;
-    output->DecAcc.t_[3] = output->DecAcc.t_[2] + (v_f - v_min) / a;
+    v_12 = v_min;
   }
 
-  output->AccDec.dx = dx;
-  output->AccDec.v_[0] = v_0;
-  output->AccDec.v_[3] = v_f;
-  output->AccDec.a = a;
-  output->DecAcc.dx = dx;
-  output->DecAcc.v_[0] = v_0;
-  output->DecAcc.v_[3] = v_f;
-  output->DecAcc.a = a;
-  output->dt_tilde = output->DecAcc.t_[3] - output->AccDec.t_[3];
+  switch (n) {
+    case 4:
+      output->DecAcc.TimePoints[2] = (v_0 - v_12) / a + dt_12;
+      output->DecAcc.VelocityPoints[2] = v_12;
+    case 3:
+      output->DecAcc.TimePoints[1] = (v_0 - v_12) / a;
+      output->DecAcc.VelocityPoints[1] = v_12;
+    default:
+      output->DecAcc.TimePoints[n - 1] = output->DecAcc.TimePoints[n - 2] + 
+                                        fabs(v_f - v_12) / a;
+      output->DecAcc.VelocityPoints[0] = v_0;
+      output->DecAcc.VelocityPoints[n - 1] = v_f;
+  }
+
+  output->DecAcc.NumberOfPoints = n;
+  output->DecAcc.Distance = dx;
+  output->DecAcc.Acceleration = a;
+  output->DecAcc.MoveType = move;
+  output->TimeDifference = 
+        output->DecAcc.TimePoints[output->DecAcc.NumberOfPoints - 1] - 
+        output->AccDec.TimePoints[output->AccDec.NumberOfPoints - 1];
 
   return 0;
 }
