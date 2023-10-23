@@ -18,7 +18,7 @@ DEFUN_DLD(OctaveMotionProfTimeDiff, args, nargout, "TODO: Help string") {
 
   /* Local variables */
   int32_t status;
-  MotionProfTimeDiffOutputType output;
+  MotionProfTimeDiffType output;
   Matrix t_(4, 1), v_(4, 1);
   octave_map octave_acc_dec, octave_dec_acc, octave_output;
   octave_value_list return_values(nargout);
@@ -32,27 +32,35 @@ DEFUN_DLD(OctaveMotionProfTimeDiff, args, nargout, "TODO: Help string") {
                               &output);
 
   printf("MotionProfTimeDiff call: Time Diff %.3f, Status %+10d\n",
-          output.dt_tilde, status);
+          output.TimeDifference, status);
 
-  octave_acc_dec.setfield("dx", octave_value(output.AccDec.dx));
-  for (int i = 0; i <= 3; i++) {
-    t_(i) = output.AccDec.t_[i];
-    v_(i) = output.AccDec.v_[i];
+  octave_acc_dec.setfield("dx", octave_value(output.AccDec.Distance));
+  for (int i = 0; i <= output.AccDec.NumberOfPoints; i++) {
+    t_(i) = output.AccDec.TimePoints[i];
+    v_(i) = output.AccDec.VelocityPoints[i];
   }
+  octave_acc_dec.setfield("n", octave_value(output.AccDec.NumberOfPoints));
   octave_acc_dec.setfield("t_", octave_value(t_));
+  octave_acc_dec.setfield("dx", octave_value(output.AccDec.Distance));
   octave_acc_dec.setfield("v_", octave_value(v_));
-  octave_acc_dec.setfield("a", octave_value(output.AccDec.a));
-  octave_dec_acc.setfield("dx", octave_value(output.DecAcc.dx));
-  for (int i = 0; i <= 3; i++) {
-    t_(i) = output.DecAcc.t_[i];
-    v_(i) = output.DecAcc.v_[i];
+  octave_acc_dec.setfield("a", octave_value(output.AccDec.Acceleration));
+  octave_acc_dec.setfield("move", octave_value(output.AccDec.MoveType));
+
+  octave_dec_acc.setfield("dx", octave_value(output.DecAcc.Distance));
+  for (int i = 0; i <= output.DecAcc.NumberOfPoints; i++) {
+    t_(i) = output.DecAcc.TimePoints[i];
+    v_(i) = output.DecAcc.VelocityPoints[i];
   }
+  octave_dec_acc.setfield("n", octave_value(output.DecAcc.NumberOfPoints));
   octave_dec_acc.setfield("t_", octave_value(t_));
+  octave_dec_acc.setfield("dx", octave_value(output.DecAcc.Distance));
   octave_dec_acc.setfield("v_", octave_value(v_));
-  octave_dec_acc.setfield("a", octave_value(output.DecAcc.a));
+  octave_dec_acc.setfield("a", octave_value(output.DecAcc.Acceleration));
+  octave_dec_acc.setfield("move", octave_value(output.DecAcc.MoveType));
+
   octave_output.setfield("status", octave_value(status));
-  octave_output.setfield("acc_dec", (Cell)octave_acc_dec);
-  octave_output.setfield("dec_acc", (Cell)octave_dec_acc);
+  octave_output.setfield("accdec", (Cell)octave_acc_dec);
+  octave_output.setfield("decacc", (Cell)octave_dec_acc);
 
   for (int i = 0; i < nargout; i++)
     return_values(i) = octave_value(Matrix());

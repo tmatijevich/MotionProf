@@ -1,4 +1,4 @@
-function [] = PlotMotionProfVel(dt, dx, v_0, v_f, v_min, v_max, a, k)
+function [output] = PlotMotionProfVel(dt, dx, v_0, v_f, v_min, v_max, a, k)
 
     output = OctaveMotionProfVel(dt, dx, v_0, v_f, v_min, v_max, a);
 

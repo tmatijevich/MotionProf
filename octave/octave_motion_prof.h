@@ -50,26 +50,18 @@ typedef struct MotionProfProfileType {
   enum MotionProfMoveEnum MoveType;
 } MotionProfProfileType;
 
-typedef struct MotionProfBaseOutputType {
-  double t_[4];
-  double dx;
-  double v_[4];
-  double a;
-  enum MotionProfMoveEnum move;
-} MotionProfBaseOutputType;
+typedef struct MotionProfPointType {
+  double Position;
+  double Velocity;
+  double Acceleration;
+  double Jerk;
+} MotionProfPointType;
 
-typedef struct MotionProfPointOutputType {
-  double x;
-  double v;
-  double a;
-  double j;
-} MotionProfPointOutputType;
-
-typedef struct MotionProfTimeDiffOutputType {
-  double dt_tilde;
-  struct MotionProfBaseOutputType AccDec;
-  struct MotionProfBaseOutputType DecAcc;
-} MotionProfTimeDiffOutputType;
+typedef struct MotionProfTimeDiffType {
+  double TimeDifference;
+  struct MotionProfProfileType AccDec;
+  struct MotionProfProfileType DecAcc;
+} MotionProfTimeDiffType;
 
 int32_t MotionProfAcc(double dt, double dx, double v_0, double v_f, 
                       double v_min, double v_max, 
@@ -79,15 +71,15 @@ int32_t MotionProfTime(double dx, double v_0, double v_f,
                       MotionProfProfileType *output);
 int32_t MotionProfDist(double dt, double v_0, double v_f,
                       double v_min, double v_max, double a,
-                      MotionProfBaseOutputType *output);
+                      MotionProfProfileType *output);
 int32_t MotionProfVel(double dt, double dx, double v_0, double v_f,
                       double v_min, double v_max, double a,
-                      MotionProfBaseOutputType *output);
+                      MotionProfProfileType *output);
 int32_t MotionProfTimeDiff(double dx, double v_0, double v_f, double v_min,
                           double v_max, double a, 
-                          MotionProfTimeDiffOutputType *output);
+                          MotionProfTimeDiffType *output);
 int32_t MotionProfPoint(double x_0, double t_[], double v_[], uint8_t n, 
-                        double t, double k, MotionProfPointOutputType *output);
+                        double t, double k, MotionProfPointType *output);
 
 #ifdef __cplusplus
 };

@@ -18,7 +18,7 @@ DEFUN_DLD(OctaveMotionProfPoint, args, nargout, "TODO: Help string") {
 
   /* Local variables */
   Matrix t_, v_;
-  MotionProfPointOutputType output;
+  MotionProfPointType output;
   int32_t status;
   octave_map octave_output;
   octave_value_list return_values(nargout);
@@ -45,10 +45,10 @@ DEFUN_DLD(OctaveMotionProfPoint, args, nargout, "TODO: Help string") {
                           &output);
 
   octave_output.setfield("status", octave_value(status));
-  octave_output.setfield("x", octave_value(output.x));
-  octave_output.setfield("v", octave_value(output.v));
-  octave_output.setfield("a", octave_value(output.a));
-  octave_output.setfield("j", octave_value(output.j));
+  octave_output.setfield("x", octave_value(output.Position));
+  octave_output.setfield("v", octave_value(output.Velocity));
+  octave_output.setfield("a", octave_value(output.Acceleration));
+  octave_output.setfield("j", octave_value(output.Jerk));
 
   for (int i = 0; i < nargout; i++)
     return_values(i) = octave_value(Matrix());
