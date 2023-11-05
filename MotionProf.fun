@@ -70,6 +70,20 @@ FUNCTION MotionProfTimeDiff : DINT (*Maximum difference in time duration between
 	END_VAR
 END_FUNCTION
 
+FUNCTION MotionProfAccTimeDiff : DINT (*Minimum acceleration to achieve moves throughout a time difference*)
+	VAR_INPUT
+		TimeDifference : LREAL; (*[s] Difference in time durations*)
+		Distance : LREAL; (*[units] Distance*)
+		InitialVelocity : LREAL; (*[units/s] Initial velocity*)
+		FinalVelocity : LREAL; (*[units/s] Final velocity*)
+		MinimumVelocity : LREAL; (*[units/s] Minimum velocity*)
+		MaximumVelocity : LREAL; (*[units/s] Maximum velocity*)
+	END_VAR
+	VAR_IN_OUT
+		Output : MotionProfTimeDiffType; (*Output*)
+	END_VAR
+END_FUNCTION
+
 FUNCTION MotionProfPoint : DINT (*Velocity profile point interpolation*)
 	VAR_INPUT
 		InitialPosition : LREAL; (*[units] Initial position*)

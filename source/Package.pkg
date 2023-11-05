@@ -8,6 +8,7 @@
     <Object Type="File" Description="Maximum distance">dist.c</Object>
     <Object Type="File" Description="Minimum velocity">vel.c</Object>
     <Object Type="File" Description="Maximum time difference">time_diff.c</Object>
+    <Object Type="File" Description="Minimum acceleration for time difference">acc_time_diff.c</Object>
     <Object Type="File" Description="Profile point">point.c</Object>
     <Object Type="File" Description="Second order roots">help.c</Object>
   </Objects>

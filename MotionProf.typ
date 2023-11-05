@@ -28,7 +28,7 @@ TYPE
 		Jerk : LREAL; (*[units/s/s/s] Jerk*)
 	END_STRUCT;
 	MotionProfTimeDiffType : 	STRUCT  (*Time duration difference output structure*)
-		TimeDifference : LREAL; (*Difference in time durations*)
+		TimeDifference : LREAL; (*[s] Difference in time durations*)
 		AccDec : MotionProfProfileType; (*AccDec profile*)
 		DecAcc : MotionProfProfileType; (*DecAcc profile*)
 	END_STRUCT;
