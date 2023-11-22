@@ -26,6 +26,24 @@ int32_t MotionProfAccTimeDiff(double dt_tilde, double dx,
   SecondOrderRootsOutputType roots_output;
   int32_t flag_roots = false, roots_status, move_ad, move_da, n_ad, n_da;
 
+  /* Check pointer and reset output */
+  if (output == NULL)
+    return MOTIONPROF_ERROR_NULL_POINTER;
+  memset(output, 0, sizeof(*output));
+
+  /* Check inputs against assumptions */
+  if (v_min < 0.0 || v_max <= v_min)
+    return MOTIONPROF_ERROR_INPUT_VELOCITY;
+
+  if (v_0 < v_min || v_max < v_0 || v_f < v_min || v_max < v_f)
+    return MOTIONPROF_ERROR_INPUT_VELOCITY;
+
+  if (dt_tilde <= 0.0 || dx <= 0.0)
+    return MOTIONPROF_ERROR_INPUT_POSITIVE;
+
+  if (dt_tilde >= dx / v_min - dx / v_max)
+    return MOTIONPROF_ERROR_INPUT_MOVE;
+
   /* Derive nominal values and constants */
   /* AccDec */
   c_t_u = 2.0 * v_max - v_0 - v_f;
@@ -136,9 +154,9 @@ int32_t MotionProfAccTimeDiff(double dt_tilde, double dx,
 
   /* AccDec */
   v_12 = sqrt(dx * a + (pow2(v_0) + pow2(v_f)) / 2.0);
-  dt_12 = (dx - c_x_u / a) / v_max;
   switch (n_ad) {
     case 4:
+      dt_12 = (dx - c_x_u / a) / v_max;
       v_12 = v_max;
       output->AccDec.TimePoints[2] = (v_12 - v_0) / a + dt_12;
       output->AccDec.VelocityPoints[2] = v_12;
@@ -157,6 +175,33 @@ int32_t MotionProfAccTimeDiff(double dt_tilde, double dx,
   output->AccDec.Distance = dx;
   output->AccDec.Acceleration = a;
   output->AccDec.MoveType = move_ad;
+
+  /* DecAcc */
+  v_12 = sqrt((pow2(v_0) + pow2(v_f)) / 2.0 - dx * a);
+  switch (n_da) {
+    case 4:
+      dt_12 = (dx - c_x_l / a) / v_min;
+      v_12 = v_min;
+      output->DecAcc.TimePoints[2] = (v_0 - v_12) / a + dt_12;
+      output->DecAcc.VelocityPoints[2] = v_12;
+
+    case 3:
+      output->DecAcc.TimePoints[1] = (v_0 - v_12) / a;
+      output->DecAcc.VelocityPoints[1] = v_12;
+
+    default:
+      output->DecAcc.TimePoints[n_da - 1] = output->DecAcc.TimePoints[n_da - 2]
+                                          + (v_f - v_12) / a;
+      output->DecAcc.VelocityPoints[0] = v_0;  
+      output->DecAcc.VelocityPoints[n_da - 1] = v_f;
+  }
+  output->DecAcc.NumberOfPoints = n_da;
+  output->DecAcc.Distance = dx;
+  output->DecAcc.Acceleration = a;
+  output->DecAcc.MoveType = move_da;
+
+  output->TimeDifference = output->DecAcc.TimePoints[n_da - 1] - 
+                          output->AccDec.TimePoints[n_ad - 1];
 
   return 0;
 }
