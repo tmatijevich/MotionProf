@@ -32,7 +32,7 @@ int32_t MotionProfAccTimeDiff(double dt_tilde, double dx,
   memset(output, 0, sizeof(*output));
 
   /* Check inputs against assumptions */
-  if (v_min < 0.0 || v_max <= v_min)
+  if (v_min <= 0.0 || v_max <= v_min)
     return MOTIONPROF_ERROR_INPUT_VELOCITY;
 
   if (v_0 < v_min || v_max < v_0 || v_f < v_min || v_max < v_f)
