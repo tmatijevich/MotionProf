@@ -14,6 +14,8 @@ printf("Build OctaveMotionProfVel\n")
 mkoctfile OctaveMotionProfVel.cc help.cc ../source/vel.c ../source/help.c -DOCTAVE_BUILD
 printf("Build OctaveMotionProfTimeDiff\n")
 mkoctfile OctaveMotionProfTimeDiff.cc help.cc ../source/time_diff.c ../source/time.c ../source/help.c -DOCTAVE_BUILD
+printf("Build OctaveMotionProfAccTimeDiff\n")
+mkoctfile OctaveMotionProfAccTimeDiff.cc help.cc ../source/acc_time_diff.c ../source/help.c -DOCTAVE_BUILD
 printf("Build OctaveMotionProfPoint\n")
 mkoctfile OctaveMotionProfPoint.cc help.cc ../source/point.c ../source/help.c -DOCTAVE_BUILD
 printf("Build attempt finished\n")

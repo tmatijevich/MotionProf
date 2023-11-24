@@ -78,6 +78,9 @@ int32_t MotionProfVel(double dt, double dx, double v_0, double v_f,
 int32_t MotionProfTimeDiff(double dx, double v_0, double v_f, double v_min,
                           double v_max, double a, 
                           MotionProfTimeDiffType *output);
+int32_t MotionProfAccTimeDiff(double dt_tilde, double dx, 
+                          double v_0, double v_f, double v_min, double v_max, 
+                          MotionProfTimeDiffType *output);
 int32_t MotionProfPoint(double x_0, double t_[], double v_[], uint8_t n, 
                         double t, double k, MotionProfPointType *output);
 

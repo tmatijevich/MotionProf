@@ -1,20 +1,9 @@
-/*******************************************************************************
- * File: OctaveMotionProfTimeDiff.cc
- * Created: 2023-10-06
- * 
- * Contributors: 
- * - Tyler Matijevich
- * 
- * License:
- *  This file OctaveMotionProfTimeDiff.cc is part of the MotionProf project 
- *  released under the GNU General Public License v3.0 agreement. 
- *  For more information, please visit 
- *  https://github.com/tmatijevich/MotionProf/blob/main/LICENSE.
- ******************************************************************************/
 
 #include "octave_main.h"
 
-DEFUN_DLD(OctaveMotionProfTimeDiff, args, nargout, "TODO: Help string") {
+DEFUN_DLD(OctaveMotionProfAccTimeDiff, args, nargout, 
+  "Minimum acceleration to achieve moves throughout a time difference"
+  "a = MotionProfAccTimeDiff(dt_tilde, dx, v_0, v_f, v_min, v_max)") {
 
   /* Local variables */
   int32_t status;
@@ -26,13 +15,13 @@ DEFUN_DLD(OctaveMotionProfTimeDiff, args, nargout, "TODO: Help string") {
   if (!CheckArguments(args, 6))
     print_usage();
 
-  status = MotionProfTimeDiff(args(0).double_value(), args(1).double_value(),
+  status = MotionProfAccTimeDiff(args(0).double_value(), args(1).double_value(),
                               args(2).double_value(), args(3).double_value(),
                               args(4).double_value(), args(5).double_value(),
                               &output);
 
-  printf("MotionProfTimeDiff call: Time Diff %.3f, Status %+10d\n",
-          output.TimeDifference, status);
+  printf("MotionProfAccTimeDiff call: Acc %.3f, Status %+10d\n",
+          output.AccDec.Acceleration, status);
 
   for (int i = 0; i <= output.AccDec.NumberOfPoints; i++) {
     t_(i) = output.AccDec.TimePoints[i];
