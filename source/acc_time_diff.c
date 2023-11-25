@@ -128,18 +128,21 @@ int32_t MotionProfAccTimeDiff(double dt_tilde, double dx,
     p_1 = 4.0 * dx - 2.0 * c_2 * c_3;
     p_0 = pow2(c_2) - 4.0 * c_1;
   }
-  else if (a_u > a_l) {
-    move_ad = MOTIONPROF_MOVE_ACCDEC_SATURATED;
-    move_da = MOTIONPROF_MOVE_DECACC;
-    n_ad = 4;
-    n_da = 3;
-    a = a_l;
-  }
-  else {
+  /* This requires a higher-order solve
+     a larger acceleration magnitude is used sub-optimally
+     resulting in a larger time difference */
+  else if (dt_u_tilde > dt_l_tilde) {
     move_ad = MOTIONPROF_MOVE_ACCDEC;
     move_da = MOTIONPROF_MOVE_DECACC_SATURATED;
     n_ad = 3;
     n_da = 4;
+    a = a_l;
+  }
+  else {
+    move_ad = MOTIONPROF_MOVE_ACCDEC_SATURATED;
+    move_da = MOTIONPROF_MOVE_DECACC;
+    n_ad = 4;
+    n_da = 3;
     a = a_u;
   }
 
