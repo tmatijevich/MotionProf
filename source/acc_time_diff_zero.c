@@ -150,17 +150,17 @@ int32_t MotionProfAccTimeDiffZero(double dt_tilde, double dx,
     case 4:
       dt_23 = (dx - c_x_u / a) / v_max;
       v_23 = v_max;
-      output->AccDec.TimePoints[2] = (v_23 - v_1) / a + dt_23;
+      output->AccDec.TimePoints[2] = v_23 / a + dt_23;
       output->AccDec.VelocityPoints[2] = v_23;
 
     case 3:
-      output->AccDec.TimePoints[1] = (v_23 - v_1) / a;
+      output->AccDec.TimePoints[1] = v_23 / a;
       output->AccDec.VelocityPoints[1] = v_23;
 
     default:
       output->AccDec.TimePoints[n_ad - 1] = output->AccDec.TimePoints[n_ad - 2]
                                           + (v_23 - v_f) / a;
-      output->AccDec.VelocityPoints[0] = v_1;  
+      output->AccDec.VelocityPoints[0] = 0.0;  
       output->AccDec.VelocityPoints[n_ad - 1] = v_f;
   }
   output->AccDec.NumberOfPoints = n_ad;
@@ -180,6 +180,10 @@ int32_t MotionProfAccTimeDiffZero(double dt_tilde, double dx,
     case 4:
       output->DecAcc.TimePoints[2] = (2.0 * v_1 - v_23) / a;
       output->DecAcc.VelocityPoints[2] = v_23;
+
+    case 3:
+      output->DecAcc.TimePoints[1] = v_1 / a;
+      output->DecAcc.VelocityPoints[1] = v_1;
 
     default:
       output->DecAcc.TimePoints[n_da - 1] = output->DecAcc.TimePoints[n_da - 2]
