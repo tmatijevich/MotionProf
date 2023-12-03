@@ -1,41 +1,63 @@
 # MotionProf [![Made for B&R](https://raw.githubusercontent.com/hilch/BandR-badges/dfd5e264d7d2dd369fd37449605673f779db437d/Made-For-BrAutomation.svg)](https://www.br-automation.com)
 
-MotionProf is an Automation Studio library with functions to derive and generate optimal motion profiles.
+MotionProf is an [Automation Studio](https://www.br-automation.com/en-us/products/software/automation-software/automation-studio/) library with functions to derive and generate optimal motion profiles.
 
 ![2023-09-15_16 30 09](https://github.com/tmatijevich/MotionProf/assets/33841634/b59d07e6-3757-4a67-861b-89c0b5200d83)
 
-# Functions
+**NOTE**: This is not an official library and is supported by the community.  MotionProf is provided as-is under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0.html) agreement.  Source code, documentation, and issues are managed through [GitHub](https://github.com/tmatijevich/MotionProf).
 
-Function | Parameters
----|---
-MotionProfAcc | `a = MotionProfAcc(dt, dx, v_0, v_f, v_min, v_max)`
-MotionProfTime | `dt = MotionProfTime(dx, v_0, v_f, v_min, v_max, a)`
-MotionProfDist | `dx = MotionProfDist(dt, v_0, v_f, v_min, v_max, a)`
-MotionProfVel | `v_12 = MotionProfVel(dt, dx, v_0, v_f, v_min, v_max, a)`
-MotionProfPoint | `[x, v, a, j] = MotionProfPoint(x_0, t_[], v_[], n, t, k)`
+## Functions
 
 Function | Description
 ---|---
-MotionProfAcc | Minimum acceleration to move in time over a distance
-MotionProfTime | Minimum time duration to move with acceleration over a distance
-MotionProfDist | Maximum distance from move with acceleration in time
-MotionProfVel | Minimum velocity to move with acceleration in time over a distance
-MotionProfPoint | Velocity profile point interpolation
+[MotionProfAcc](https://github.com/tmatijevich/MotionProf/blob/main/MotionProf.fun#L2) | Minimum acceleration to move in time over a distance
+[MotionProfTime](https://github.com/tmatijevich/MotionProf/blob/main/MotionProf.fun#L16) | Minimum time duration to move with acceleration over a distance
+[MotionProfDist](https://github.com/tmatijevich/MotionProf/blob/main/MotionProf.fun#L30) | Maximum distance from move with acceleration in time
+[MotionProfVel](https://github.com/tmatijevich/MotionProf/blob/main/MotionProf.fun#L44) | Minimum velocity to move with acceleration in time over a distance
+[MotionProfTimeDiff](https://github.com/tmatijevich/MotionProf/blob/main/MotionProf.fun#L59) | Maximum difference in time duration between fastest and slowest profiles
+[MotionProfAccTimeDiff](https://github.com/tmatijevich/MotionProf/blob/main/MotionProf.fun#L73) | Minimum acceleration to achieve moves throughout a time difference
+[MotionProfAccTimeDiff](https://github.com/tmatijevich/MotionProf/blob/main/MotionProf.fun#L87) | Minimum acceleration to achieve moves throughout a time difference starting at standstill
+[MotionProfPoint](https://github.com/tmatijevich/MotionProf/blob/main/MotionProf.fun#L101) | Velocity profile point interpolation
 
-# Octave
+## Install
 
-This library includes wrappers to build all source functions in the Octave environment.  
-[GNU Octave](https://octave.org/) is a free scientific programming language largely compatible with MATLAB.  
-This library utilizes Octave for plotting and testing.
+1. Download and extract the archive.
+2. Import the MotionProf library to your Automation Studio project.
+    1. Logical View
+    2. Toolbox
+    3. **Existing Library**
 
-Launch Octave then run the make script to build.
+## Build
 
+Clone the repository.
+
+```bash
+git clone https://github.com/tmatijevich/MotionProf.git
 ```
-> make
+
+Or, add as **submodule** to an existing Automation Studio project repository.
+
+```bash
+cd <project_root>
+git submodule add https://github.com/tmatijevich/MotionProf.git ./Logical/Libraries/MotionProf
 ```
 
-For example, plot the minimum time function.
+### Octave
 
+Several MotionProf functions can be cross-compiled in [GNU Octave](https://octave.org/), a free scientific programming language largely compatible with MATLAB.  Octave is utilized for plotting and testing MotionProf functions.
+
+Launch Octave and run the build script.
+
+```matlab
+make
 ```
-> PlotMotionProfTime(0.25, 0.0, 0.5, 0.0, 2.0, 10.0, 1.2);
+
+Use this example to plot the minimum time function.
+
+```matlab
+PlotMotionProfTime(0.25, 0.0, 0.5, 0.0, 2.0, 10.0, 1.2);
 ```
+
+## Authors
+
+- [tmatijevich](https://github.com/tmatijevich)
